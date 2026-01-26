@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  wechatId      String    // Required
+  phoneNumber   String    // Required
+  role          String    @default("user") // "user" | "admin"
+  balance       Float     @default(0.0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  wallet        Wallet?
+  orders        Order[]
+  transactions  Transaction[]
+}
+
+model Wallet {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  address         String   @unique
+  derivationIndex Int      @unique
+  createdAt       DateTime @default(now())
+
+  user            User     @relation(fields: [userId], references: [id])
+}
+
+enum ProductType {
+  VIRTUAL
+  ATTRACTION
+  THEATER
+  CONCIERGE
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  titleZh     String?
+  titleRu     String?
+  descriptionZh String?
+  descriptionRu String?
+  
+  price       Float
+  image       String?  // Product image URL
+  stock       Int      @default(0)
+  content     String?  // The virtual good content (e.g. code/link), hidden until purchase
+  
+  type            ProductType @default(VIRTUAL)
+  location        String?     // General location or Theater Name
+  venue           String?     // Specific hall/room
+  city            String?     // City filter
+  cityZh          String?
+  cityRu          String?
+
+  googleMapLink   String?
+  yandexMapLink   String?
+
+  availableSlots  Json?       // For Attraction date/time configuration
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orders      Order[]
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  status    String   @default("pending") // "pending" | "paid" | "completed"
+  price     Float    // Snapshot of price at purchase
+  deliveryContent String? // Manual link/content sent by admin
+  
+  // Type-specific user inputs
+  bookingDate     DateTime?   // For Tickets (Attraction/Theater)
+  targetLink      String?     // For Concierge service
+  additionalInfo  String?     // Generic notes
+  
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  userId    String
+  txHash    String   @unique
+  amount    Float
+  asset     String   // "USDT" | "USDC"
+  status    String   @default("completed")
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+
