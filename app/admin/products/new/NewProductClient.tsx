@@ -8,18 +8,7 @@ import { useLanguage } from "@/lib/i18n/LanguageContext"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { Check, ChevronsUpDown } from "lucide-react"
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-} from "@/components/ui/command"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
+
 
 type CityData = {
     en: string
@@ -219,46 +208,51 @@ export default function NewProductClient({ existingCities }: { existingCities: C
                             <label className="text-sm font-medium">Description (EN)</label>
                             <textarea name="description" value={formData.description} onChange={handleChange} required className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm" placeholder="Description" />
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2 relative">
                             <label className="text-sm font-medium flex justify-between">
                                 City (EN)
-                                {existingCities.length > 0 && (
-                                    <Popover open={openCity} onOpenChange={setOpenCity}>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                role="combobox"
-                                                aria-expanded={openCity}
-                                                size="sm"
-                                                className="h-6 text-xs"
-                                            >
-                                                Select Existing
-                                                <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0 opacity-50" />
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-[200px] p-0">
-                                            <Command>
-                                                <CommandInput placeholder="Search city..." />
-                                                <CommandEmpty>No city found.</CommandEmpty>
-                                                <CommandGroup>
-                                                    {existingCities.map((city) => (
-                                                        <CommandItem
-                                                            key={city.en}
-                                                            onSelect={() => handleCitySelect(city)}
-                                                        >
-                                                            <Check
-                                                                className={`mr-2 h-4 w-4 ${formData.city === city.en ? "opacity-100" : "opacity-0"
-                                                                    }`}
-                                                            />
-                                                            {city.en}
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
-                                )}
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-6 text-xs"
+                                    onClick={() => setOpenCity(!openCity)}
+                                >
+                                    {openCity ? "Close List" : "Select Existing"}
+                                    <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0 opacity-50" />
+                                </Button>
                             </label>
+
+                            {/* Autocomplete Dropdown */}
+                            {openCity && (
+                                <div className="absolute z-50 mt-1 w-[200px] bg-background border rounded-md shadow-lg p-2 space-y-2">
+                                    <Input
+                                        placeholder="Search city..."
+                                        className="h-8 text-xs"
+                                        autoFocus
+                                        onChange={(e) => {
+                                            // Simple client-side filter could go here if list is long, 
+                                            // but for now relying on native scrolling or just showing all.
+                                        }}
+                                    />
+                                    <div className="max-h-[200px] overflow-y-auto space-y-1">
+                                        {existingCities.map((city) => (
+                                            <div
+                                                key={city.en}
+                                                className={`text-sm px-2 py-1.5 rounded-sm cursor-pointer hover:bg-accent hover:text-accent-foreground flex items-center ${formData.city === city.en ? "bg-accent/50" : ""}`}
+                                                onClick={() => handleCitySelect(city)}
+                                            >
+                                                <Check
+                                                    className={`mr-2 h-3 w-3 ${formData.city === city.en ? "opacity-100" : "opacity-0"}`}
+                                                />
+                                                {city.en}
+                                            </div>
+                                        ))}
+                                        {existingCities.length === 0 && <div className="text-xs text-muted-foreground p-2 text-center">No cities found</div>}
+                                    </div>
+                                </div>
+                            )}
+
                             <Input name="city" value={formData.city} onChange={handleChange} placeholder="e.g. Moscow" />
                         </div>
                     </TabsContent>
