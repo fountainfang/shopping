@@ -6,10 +6,30 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLanguage } from "@/lib/i18n/LanguageContext"
+import { Check, ChevronsUpDown } from "lucide-react"
 
-export default function EditProductClient({ product }: { product: any }) {
+type CityData = {
+    en: string
+    zh: string
+    ru: string
+}
+
+export default function EditProductClient({ product, existingCities }: { product: any, existingCities: CityData[] }) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
+
+    // City Autocomplete State
+    const [openCity, setOpenCity] = useState(false)
+
+    const handleCitySelect = (cityData: CityData) => {
+        setFormData(prev => ({
+            ...prev,
+            city: cityData.en,
+            cityZh: cityData.zh || prev.cityZh,
+            cityRu: cityData.ru || prev.cityRu
+        }))
+        setOpenCity(false)
+    }
 
     // Valid types
     const [type, setType] = useState(product.type || "VIRTUAL")
@@ -172,8 +192,51 @@ export default function EditProductClient({ product }: { product: any }) {
                                 placeholder="Description"
                             />
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">City (EN)</label>
+                        <div className="space-y-2 relative">
+                            <label className="text-sm font-medium flex justify-between">
+                                City (EN)
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-6 text-xs"
+                                    onClick={() => setOpenCity(!openCity)}
+                                >
+                                    {openCity ? "Close List" : "Select Existing"}
+                                    <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0 opacity-50" />
+                                </Button>
+                            </label>
+
+                            {/* Autocomplete Dropdown */}
+                            {openCity && (
+                                <div className="absolute z-50 mt-1 w-[200px] bg-background border rounded-md shadow-lg p-2 space-y-2">
+                                    <Input
+                                        placeholder="Search city..."
+                                        className="h-8 text-xs"
+                                        autoFocus
+                                        onChange={(e) => {
+                                            // Simple client-side filter could go here if list is long, 
+                                            // but for now relying on native scrolling or just showing all.
+                                        }}
+                                    />
+                                    <div className="max-h-[200px] overflow-y-auto space-y-1">
+                                        {existingCities.map((city) => (
+                                            <div
+                                                key={city.en}
+                                                className={`text-sm px-2 py-1.5 rounded-sm cursor-pointer hover:bg-accent hover:text-accent-foreground flex items-center ${formData.city === city.en ? "bg-accent/50" : ""}`}
+                                                onClick={() => handleCitySelect(city)}
+                                            >
+                                                <Check
+                                                    className={`mr-2 h-3 w-3 ${formData.city === city.en ? "opacity-100" : "opacity-0"}`}
+                                                />
+                                                {city.en}
+                                            </div>
+                                        ))}
+                                        {existingCities.length === 0 && <div className="text-xs text-muted-foreground p-2 text-center">No cities found</div>}
+                                    </div>
+                                </div>
+                            )}
+
                             <Input name="city" value={formData.city} onChange={handleChange} placeholder="e.g. Moscow" />
                         </div>
                     </TabsContent>

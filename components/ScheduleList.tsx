@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/lib/i18n/LanguageContext"
 import { Calendar } from "lucide-react"
+import { formatPrice } from "@/lib/utils"
 
 export function ScheduleList({ products }: { products: any[] }) {
     const { dict, language } = useLanguage()
@@ -168,7 +169,7 @@ export function ScheduleList({ products }: { products: any[] }) {
                                 {item.venue || item.location}
                             </div>
                             <div className="col-span-6 md:col-span-2 flex flex-col items-end gap-2">
-                                <span className="font-bold text-white">${item.price}</span>
+                                <span className="font-bold text-white">{formatPrice(item.price, language)}</span>
                                 <Link href={buyUrl} className="w-full md:w-auto">
                                     <Button size="sm" className="w-full bg-teal-600 hover:bg-teal-500 text-white border-none py-1 h-8">
                                         {dict.home.buyNow}

@@ -10,9 +10,10 @@ import { useLanguage } from "@/lib/i18n/LanguageContext"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 
 import { useSearchParams } from "next/navigation"
+import { formatPrice } from "@/lib/utils"
 
 export default function ClientBuyPage({ product, session, userBalance }: { product: any, session: any, userBalance: number }) {
-    const { dict } = useLanguage()
+    const { dict, language } = useLanguage()
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -117,7 +118,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-slate-400">{dict.buy.priceLabel}</span>
-                                <span className="font-bold text-xl text-white">${product.price.toFixed(2)}</span>
+                                <span className="font-bold text-xl text-white">{formatPrice(product.price, language)}</span>
                             </div>
                         </div>
 
@@ -252,7 +253,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                             <div className={`p-4 rounded-lg border ${canAfford ? 'bg-green-900/20 border-green-800/50 text-green-400' : 'bg-red-900/20 border-red-800/50 text-red-400'}`}>
                                 <div className="flex justify-between items-center">
                                     <span>{dict.buy.balanceLabel}</span>
-                                    <span className="font-bold">${userBalance.toFixed(2)}</span>
+                                    <span className="font-bold">{formatPrice(userBalance, language)}</span>
                                 </div>
                                 {!canAfford && (
                                     <p className="text-xs mt-2 font-medium">{dict.buy.insufficientBalance}</p>
