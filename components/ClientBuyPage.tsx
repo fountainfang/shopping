@@ -123,6 +123,16 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                             </div>
                         </div>
 
+                        {/* Description */}
+                        {(product.description || product.descriptionZh || product.descriptionRu) && (
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/5 text-sm text-muted-foreground">
+                                <span className="font-semibold text-white block mb-1">{dict.activity.description}:</span>
+                                {language === 'zh' ? (product.descriptionZh || product.description) :
+                                    language === 'ru' ? (product.descriptionRu || product.description) :
+                                        product.description}
+                            </div>
+                        )}
+
                         {/* Dynamic Inputs based on Type */}
                         {product.type === 'ATTRACTION' && (
                             <div className="space-y-4">
@@ -212,6 +222,16 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                         <div className="text-sm text-muted-foreground mt-2 flex gap-2 items-center">
                                             <Info className="w-4 h-4" />
                                             <span>Venue: {product.venue || 'Main Hall'}</span>
+                                            {product.city && (
+                                                <>
+                                                    <span className="w-1 h-1 rounded-full bg-muted-foreground/50" />
+                                                    <span>
+                                                        {language === 'zh' ? (product.cityZh || product.city) :
+                                                            language === 'ru' ? (product.cityRu || product.city) :
+                                                                product.city}
+                                                    </span>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 ) : (
@@ -231,6 +251,16 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                         <div className="text-xs text-muted-foreground mt-1 flex gap-1">
                                             <Info className="w-3 h-3" />
                                             <span>Venue: {product.venue || 'Main Hall'}</span>
+                                            {product.city && (
+                                                <>
+                                                    <span className="w-1 h-1 rounded-full bg-muted-foreground/50" />
+                                                    <span>
+                                                        {language === 'zh' ? (product.cityZh || product.city) :
+                                                            language === 'ru' ? (product.cityRu || product.city) :
+                                                                product.city}
+                                                    </span>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 )}

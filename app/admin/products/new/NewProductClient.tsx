@@ -47,7 +47,44 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
         googleMapLink: "",
         yandexMapLink: "",
         attractionId: ""
+
     })
+
+    // Existing products for auto-fill
+    const [existingProducts, setExistingProducts] = useState<any[]>([])
+
+    // Fetch existing products when attraction changes
+    const fetchExistingProducts = async (attrId: string) => {
+        if (!attrId) {
+            setExistingProducts([])
+            return
+        }
+        try {
+            const res = await fetch(`/api/products?attractionId=${attrId}`)
+            if (res.ok) {
+                const data = await res.json()
+                setExistingProducts(data)
+            }
+        } catch (e) {
+            console.error("Failed to fetch existing products", e)
+        }
+    }
+
+    const handleTemplateSelect = (productId: string) => {
+        const p = existingProducts.find(prod => prod.id === productId)
+        if (p) {
+            setFormData(prev => ({
+                ...prev,
+                title: p.title,
+                titleZh: p.titleZh || "",
+                titleRu: p.titleRu || "",
+                description: p.description,
+                descriptionZh: p.descriptionZh || "",
+                descriptionRu: p.descriptionRu || "",
+                // We don't overwrite price/stock as those might differ per specific ticket/date
+            }))
+        }
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target
@@ -63,7 +100,12 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                     attractionId: value,
                     location: attr.name
                 }))
+                // Fetch existing products for this attraction
+                fetchExistingProducts(value)
             }
+        } else if (name === 'attractionId') {
+            // Cleared
+            setExistingProducts([])
         }
     }
 
@@ -120,7 +162,7 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
     ]
 
     function generateSlots() {
-        if (formData.type !== 'ATTRACTION') return;
+        if (formData.type !== 'ATTRACTION' && formData.type !== 'THEATER') return;
 
         const slots: string[] = []
         let current = new Date(startDate)
@@ -166,7 +208,7 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
             image,
         }
 
-        if (formData.type === "ATTRACTION" && generatedSlots) {
+        if ((formData.type === "ATTRACTION" || formData.type === "THEATER") && generatedSlots) {
             submitData.availableSlots = generatedSlots.split('\n').map(s => s.trim()).filter(Boolean);
         }
 
@@ -217,10 +259,31 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                                 {attractions?.map(a => (
                                     <option key={a.id} value={a.id}>{a.name} ({a.city})</option>
                                 ))}
+
                             </select>
                         </div>
                     </div>
                 </div>
+
+                {/* Template Selection */}
+                {
+                    existingProducts.length > 0 && (
+                        <div className="p-4 bg-secondary/10 border border-secondary/20 rounded-md">
+                            <label className="text-sm font-medium mb-2 block">Copy info from existing product</label>
+                            <select
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                onChange={(e) => handleTemplateSelect(e.target.value)}
+                                defaultValue=""
+                            >
+                                <option value="" disabled>-- Select to auto-fill details --</option>
+                                {existingProducts.map(p => (
+                                    <option key={p.id} value={p.id}>{p.title}</option>
+                                ))}
+                            </select>
+                            <p className="text-xs text-muted-foreground mt-1">Selecting a product will auto-fill titles and descriptions.</p>
+                        </div>
+                    )
+                }
 
                 {/* Multilingual Tabs */}
                 <Tabs defaultValue="en" className="w-full">
@@ -240,53 +303,7 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                             <label className="text-sm font-medium">Description (EN)</label>
                             <textarea name="description" value={formData.description} onChange={handleChange} required className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm" placeholder="Description" />
                         </div>
-                        <div className="space-y-2 relative">
-                            <label className="text-sm font-medium flex justify-between">
-                                City (EN)
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-6 text-xs"
-                                    onClick={() => setOpenCity(!openCity)}
-                                >
-                                    {openCity ? "Close List" : "Select Existing"}
-                                    <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0 opacity-50" />
-                                </Button>
-                            </label>
 
-                            {/* Autocomplete Dropdown */}
-                            {openCity && (
-                                <div className="absolute z-50 mt-1 w-[200px] bg-background border rounded-md shadow-lg p-2 space-y-2">
-                                    <Input
-                                        placeholder="Search city..."
-                                        className="h-8 text-xs"
-                                        autoFocus
-                                        onChange={(e) => {
-                                            // Simple client-side filter could go here if list is long, 
-                                            // but for now relying on native scrolling or just showing all.
-                                        }}
-                                    />
-                                    <div className="max-h-[200px] overflow-y-auto space-y-1">
-                                        {existingCities.map((city) => (
-                                            <div
-                                                key={city.en}
-                                                className={`text-sm px-2 py-1.5 rounded-sm cursor-pointer hover:bg-accent hover:text-accent-foreground flex items-center ${formData.city === city.en ? "bg-accent/50" : ""}`}
-                                                onClick={() => handleCitySelect(city)}
-                                            >
-                                                <Check
-                                                    className={`mr-2 h-3 w-3 ${formData.city === city.en ? "opacity-100" : "opacity-0"}`}
-                                                />
-                                                {city.en}
-                                            </div>
-                                        ))}
-                                        {existingCities.length === 0 && <div className="text-xs text-muted-foreground p-2 text-center">No cities found</div>}
-                                    </div>
-                                </div>
-                            )}
-
-                            <Input name="city" value={formData.city} onChange={handleChange} placeholder="e.g. Moscow" />
-                        </div>
                     </TabsContent>
 
                     {/* Chinese */}
@@ -299,10 +316,7 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                             <label className="text-sm font-medium">介绍 (中文)</label>
                             <textarea name="descriptionZh" value={formData.descriptionZh} onChange={handleChange} className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm" placeholder="产品详情" />
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">城市 (中文)</label>
-                            <Input name="cityZh" value={formData.cityZh} onChange={handleChange} placeholder="例如: 莫斯科" />
-                        </div>
+
                     </TabsContent>
 
                     {/* Russian */}
@@ -315,89 +329,79 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                             <label className="text-sm font-medium">Описание (RU)</label>
                             <textarea name="descriptionRu" value={formData.descriptionRu} onChange={handleChange} className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm" placeholder="Описание товара" />
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Город (RU)</label>
-                            <Input name="cityRu" value={formData.cityRu} onChange={handleChange} placeholder="Например: Москва" />
-                        </div>
+
                     </TabsContent>
                 </Tabs>
 
                 {/* Attraction Time Slots UI */}
-                {formData.type === 'ATTRACTION' && (
-                    <div className="p-4 border border-teal-500/30 rounded-lg bg-teal-500/5 space-y-4">
-                        <h3 className="font-semibold text-teal-400">Time Slot Configuration</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="text-xs font-medium">Start Date</label>
-                                <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                {
+                    (formData.type === 'ATTRACTION' || formData.type === 'THEATER') && (
+                        <div className="p-4 border border-teal-500/30 rounded-lg bg-teal-500/5 space-y-4">
+                            <h3 className="font-semibold text-teal-400">Time Slot Configuration (Attraction / Theater)</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-xs font-medium">Start Date</label>
+                                    <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-medium">End Date</label>
+                                    <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-medium">Start Time</label>
+                                    <Input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-medium">End Time</label>
+                                    <Input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} />
+                                </div>
                             </div>
-                            <div>
-                                <label className="text-xs font-medium">End Date</label>
-                                <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-                            </div>
-                            <div>
-                                <label className="text-xs font-medium">Start Time</label>
-                                <Input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
-                            </div>
-                            <div>
-                                <label className="text-xs font-medium">End Time</label>
-                                <Input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} />
-                            </div>
-                        </div>
 
-                        {/* Days Selection */}
-                        <div>
-                            <label className="text-xs font-medium mb-2 block">Operating Days</label>
-                            <div className="flex gap-2 flex-wrap">
-                                {daysMap.map(day => (
-                                    <button
-                                        key={day.id}
-                                        type="button"
-                                        onClick={() => setSelectedDays(prev => ({ ...prev, [day.id]: !prev[day.id as 0 | 1 | 2 | 3 | 4 | 5 | 6] }))}
-                                        className={`px-3 py-1 rounded text-xs border transition-colors ${selectedDays[day.id as 0 | 1 | 2 | 3 | 4 | 5 | 6]
-                                            ? 'bg-teal-500/20 border-teal-500 text-teal-400'
-                                            : 'bg-background border-input text-muted-foreground'
-                                            }`}
-                                    >
-                                        {day.label}
-                                    </button>
-                                ))}
+                            {/* Days Selection */}
+                            <div>
+                                <label className="text-xs font-medium mb-2 block">Operating Days</label>
+                                <div className="flex gap-2 flex-wrap">
+                                    {daysMap.map(day => (
+                                        <button
+                                            key={day.id}
+                                            type="button"
+                                            onClick={() => setSelectedDays(prev => ({ ...prev, [day.id]: !prev[day.id as 0 | 1 | 2 | 3 | 4 | 5 | 6] }))}
+                                            className={`px-3 py-1 rounded text-xs border transition-colors ${selectedDays[day.id as 0 | 1 | 2 | 3 | 4 | 5 | 6]
+                                                ? 'bg-teal-500/20 border-teal-500 text-teal-400'
+                                                : 'bg-background border-input text-muted-foreground'
+                                                }`}
+                                        >
+                                            {day.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="text-xs font-medium">Interval (minutes)</label>
+                                <Input type="number" value={interval} onChange={e => setInterval(parseInt(e.target.value))} />
+                            </div>
+                            <Button type="button" onClick={generateSlots} variant="secondary" className="w-full">
+                                Generate Slots
+                            </Button>
+                            <div>
+                                <label className="text-xs font-medium">Generated Slots (JSON/Array preview)</label>
+                                <textarea
+                                    className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-xs font-mono"
+                                    value={generatedSlots}
+                                    onChange={e => setGeneratedSlots(e.target.value)}
+                                    placeholder="YYYY-MM-DD HH:MM per line..."
+                                />
+                                <p className="text-[10px] text-muted-foreground mt-1">
+                                    {generatedSlots ? `${generatedSlots.split('\n').filter(Boolean).length} slots generated` : "No slots generated"}
+                                </p>
                             </div>
                         </div>
-
-                        <div>
-                            <label className="text-xs font-medium">Interval (minutes)</label>
-                            <Input type="number" value={interval} onChange={e => setInterval(parseInt(e.target.value))} />
-                        </div>
-                        <Button type="button" onClick={generateSlots} variant="secondary" className="w-full">
-                            Generate Slots
-                        </Button>
-                        <div>
-                            <label className="text-xs font-medium">Generated Slots (JSON/Array preview)</label>
-                            <textarea
-                                className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-xs font-mono"
-                                value={generatedSlots}
-                                onChange={e => setGeneratedSlots(e.target.value)}
-                                placeholder="YYYY-MM-DD HH:MM per line..."
-                            />
-                            <p className="text-[10px] text-muted-foreground mt-1">
-                                {generatedSlots ? `${generatedSlots.split('\n').filter(Boolean).length} slots generated` : "No slots generated"}
-                            </p>
-                        </div>
-                    </div>
-                )}
+                    )
+                }
 
                 {/* Maps */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Google Maps Link</label>
-                        <Input name="googleMapLink" value={formData.googleMapLink} onChange={handleChange} placeholder="https://maps.google.com/..." />
-                    </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Yandex Maps Link</label>
-                        <Input name="yandexMapLink" value={formData.yandexMapLink} onChange={handleChange} placeholder="https://yandex.ru/maps/..." />
-                    </div>
-                </div>
+
 
                 {/* Price & Stock */}
                 <div className="grid grid-cols-2 gap-4">
@@ -422,7 +426,7 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                     <Button type="button" variant="ghost" onClick={() => router.back()}>{dict.admin.cancel}</Button>
                     <Button type="submit" disabled={loading}>{loading ? dict.admin.saving : dict.admin.createProduct}</Button>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }

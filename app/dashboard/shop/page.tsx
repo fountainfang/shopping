@@ -1,13 +1,13 @@
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import ClientHome from "@/components/ClientHome"
-import { getGroupedVenues } from "@/lib/products"
+import { getGroupedAttractions } from "@/lib/products"
 
 export default async function ShopPage() {
     const session = await getServerSession(authOptions)
 
     // Use shared logic to group products
-    const serializedGroups = await getGroupedVenues()
+    const serializedGroups = await getGroupedAttractions()
 
     return (
         <div className="max-w-7xl mx-auto">

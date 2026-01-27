@@ -3,6 +3,52 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export async function GET(req: Request) {
+    const { searchParams } = new URL(req.url);
+    const attractionId = searchParams.get('attractionId');
+
+    try {
+        const whereClause: any = {};
+        if (attractionId) {
+            whereClause.attractionId = attractionId;
+        } else {
+            // Optional: prevent returning EVERYTHING if not needed, or limit it.
+            // For now, if no ID, return empty or limit 50?
+            // The user specifically wants to filter by attraction.
+            // Let's restrict to having attractionId if that's the main use case, 
+            // or just return all if we want general search later.
+            // Let's return empty if no filter to save bandwidth for now as this is specific.
+            return NextResponse.json([]);
+        }
+
+        const products = await prisma.product.findMany({
+            where: whereClause,
+            select: {
+                id: true,
+                title: true,
+                titleZh: true,
+                titleRu: true,
+                description: true,
+                descriptionZh: true,
+                descriptionRu: true,
+                price: true,
+                type: true,
+                location: true,
+                venue: true,
+                city: true,
+                cityZh: true,
+                cityRu: true
+            },
+            take: 50
+        });
+
+        return NextResponse.json(products);
+    } catch (error) {
+        console.error("Fetch Products Error:", error);
+        return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
+    }
+}
+
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
     console.log("Admin Create Product: Session Check:", JSON.stringify(session, null, 2));

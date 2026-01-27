@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { walletService } from "@/lib/wallet";
 import bcrypt from "bcryptjs";
+import { ethers } from "ethers";
+import { encrypt } from "@/lib/crypto";
 
 export async function POST(req: Request) {
     try {
@@ -13,8 +14,6 @@ export async function POST(req: Request) {
                 { status: 400 }
             );
         }
-
-        // 1. (Verification Step Removed)
 
         const existingUser = await prisma.user.findUnique({
             where: { email },
@@ -29,18 +28,17 @@ export async function POST(req: Request) {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Transaction to ensure User creation and Wallet creation happen atomically
-        // (Note: Prisma doesn't support nested create with index calculation easily in one go efficiently without reading first,
-        // so we might need a count. But simple auto-increment logic for derivation index is safer locally.)
+        // 1. Generate Random Wallet
+        const wallet = ethers.Wallet.createRandom();
+        const mnemonic = wallet.mnemonic?.phrase;
+        const address = wallet.address;
 
-        // We need to find the next available derivation index.
-        // This is simple: Count total wallets.
-        // RACE CONDITION WARNING: In high concurrency, this might conflict. 
-        // For this MVP, we will rely on database atomicity or just simple count + 1.
-        // Better: Transaction.
+        if (!mnemonic) {
+            throw new Error("Failed to generate wallet mnemonic");
+        }
 
-        // In a real high-scale app, we might reserve an index first or use a sequence.
-        // For now, let's just use Prisma transaction.
+        // 2. Encrypt Mnemonic
+        const { encryptedData, iv } = encrypt(mnemonic);
 
         const result = await prisma.$transaction(async (tx) => {
             // Create User
@@ -53,33 +51,13 @@ export async function POST(req: Request) {
                 },
             });
 
-
-
-            // Get next index (User ID-based or global counter?)
-
-            // Get next index (User ID-based or global counter?)
-            // Use global counter for HD derivation security/simplicity.
-            // But we can also just use the auto-increment ID if we had one.
-            // Since we use CUIDs, we don't have a numeric ID.
-            // Let's count existing wallets.
-            const count = await tx.wallet.count();
-            const derivationIndex = count;
-
-            // Derive Address
-            let address = "";
-            try {
-                address = walletService.deriveAddress(derivationIndex);
-            } catch (e) {
-                console.warn("Wallet derivation failed (likely missing Mnemonic), using mock address.", e);
-                address = "0xMockAddress_" + derivationIndex;
-            }
-
-            // Create Wallet
+            // Create Wallet with Encrypted Mnemonic
             await tx.wallet.create({
                 data: {
                     userId: user.id,
                     address: address,
-                    derivationIndex: derivationIndex,
+                    encryptedMnemonic: encryptedData,
+                    iv: iv
                 },
             });
 
@@ -89,6 +67,7 @@ export async function POST(req: Request) {
         return NextResponse.json({
             message: "User created successfully",
             userId: result.id,
+            walletAddress: address
         });
     } catch (error) {
         console.error("Registration error:", error);

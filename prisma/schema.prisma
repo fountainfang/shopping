@@ -24,11 +24,13 @@ model User {
   transactions  Transaction[]
 }
 
+
 model Wallet {
   id              String   @id @default(cuid())
   userId          String   @unique
   address         String   @unique
-  derivationIndex Int      @unique
+  encryptedMnemonic String // Encrypted 12-word mnemonic
+  iv              String   // Initialization Vector for encryption
   createdAt       DateTime @default(now())
 
   user            User     @relation(fields: [userId], references: [id])
