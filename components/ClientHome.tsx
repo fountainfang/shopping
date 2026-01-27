@@ -7,16 +7,34 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { motion } from "framer-motion"
 import { Landmark, Ticket, Tent, Anchor, TrainFront, Music2, Star, Sparkles } from "lucide-react"
 
+// Updated Interface matching lib/products.ts
 interface VenueInfo { name: string, nameZh?: string, nameRu?: string }
+interface AttractionInfo {
+    id: string;
+    name: string;
+    nameZh?: string; // These are optional now in the interface but lib/products returns them
+    nameRu?: string;
+    image?: string;
+    description?: string;
+}
+
+interface CityGroup {
+    id: string;
+    name: string;
+    nameZh?: string;
+    nameRu?: string;
+    venues: VenueInfo[];
+    attractions?: AttractionInfo[];
+}
 
 interface DirectoryProps {
     session: any
-    dynamicGroups: Record<string, VenueInfo[]>
+    dynamicGroups: CityGroup[]
     variant?: "landing" | "dashboard"
 }
 
 // Unified Card Component using Glassmorphism
-function ServiceCard({ title, href, icon: Icon }: { title: string, href: string, icon: any }) {
+function ServiceCard({ title, href, icon: Icon, image }: { title: string, href: string, icon: any, image?: string }) {
     return (
         <Link href={href} className="group relative block w-full sm:min-w-[280px] max-w-[340px]">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -25,23 +43,35 @@ function ServiceCard({ title, href, icon: Icon }: { title: string, href: string,
                 whileTap={{ scale: 0.98 }}
                 className="glass-card relative h-full overflow-hidden p-6 sm:p-8 flex flex-col justify-between min-h-[160px]"
             >
-                {/* Background Icon Decoration */}
-                <div className="absolute -right-6 -top-6 text-white/5 transform rotate-12 group-hover:rotate-0 transition-transform duration-700">
-                    <Icon className="w-32 h-32" />
-                </div>
+                {image && (
+                    <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
+                        <img src={image} alt={title} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    </div>
+                )}
+
+                {/* Background Icon Decoration (Fallback or overlay) */}
+                {!image && (
+                    <div className="absolute -right-6 -top-6 text-white/5 transform rotate-12 group-hover:rotate-0 transition-transform duration-700">
+                        <Icon className="w-32 h-32" />
+                    </div>
+                )}
 
                 <div className="relative z-10">
-                    <div className="mb-4 inline-flex p-3 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow-inner backdrop-blur-md">
-                        <Icon className="w-6 h-6 text-primary-foreground" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white group-hover:text-primary-foreground transition-colors leading-tight">
+                    {!image && (
+                        <div className="mb-4 inline-flex p-3 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow-inner backdrop-blur-md">
+                            <Icon className="w-6 h-6 text-primary-foreground" />
+                        </div>
+                    )}
+
+                    <h3 className="text-xl font-bold text-white group-hover:text-primary-foreground transition-colors leading-tight drop-shadow-md">
                         {title}
                     </h3>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center opacity-70 group-hover:opacity-100 transition-opacity">
+                <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center opacity-70 group-hover:opacity-100 transition-opacity relative z-10">
                     <span className="text-xs font-medium tracking-wider uppercase text-muted-foreground group-hover:text-white/80">
-                        V-Ticket
+                        View Tickets
                     </span>
                     <Sparkles className="w-4 h-4 text-accent/80" />
                 </div>
@@ -52,8 +82,6 @@ function ServiceCard({ title, href, icon: Icon }: { title: string, href: string,
 
 export default function ClientHome({ session, dynamicGroups, variant = "landing" }: DirectoryProps) {
     const { dict, language } = useLanguage()
-
-    const cities = Object.keys(dynamicGroups).sort()
 
     const Content = (
         <main className={`relative z-10 flex-grow space-y-20 ${variant === 'landing' ? 'container mx-auto px-4 md:px-8 py-16' : ''}`}>
@@ -80,17 +108,26 @@ export default function ClientHome({ session, dynamicGroups, variant = "landing"
             )}
 
             {/* Dynamic Cities */}
-            {cities.length === 0 ? (
+            {dynamicGroups.length === 0 ? (
                 <div className="text-center py-20 border border-dashed border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm">
                     <p className="text-xl text-muted-foreground">No destinations available yet.</p>
                     <p className="text-sm text-muted-foreground/60 mt-2">Check back soon for new tickets!</p>
                 </div>
             ) : (
-                cities.map((city, idx) => {
-                    const venues = dynamicGroups[city]
+                dynamicGroups.map((group, idx) => {
+                    // Resolve City Name
+                    const cityDisplayName = (language === 'zh' ? group.nameZh : language === 'ru' ? group.nameRu : group.name) || group.name
+
+                    // Combine Attractions and Venues (Legacy) if needed, but prefer Attractions
+                    // If we have attractions, use them. If not, maybe fallback to venues?
+                    // For now, let's just use attractions.
+                    const items = group.attractions || []
+
+                    if (items.length === 0) return null; // Skip empty cities
+
                     return (
                         <motion.section
-                            key={city}
+                            key={group.id}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -99,24 +136,23 @@ export default function ClientHome({ session, dynamicGroups, variant = "landing"
                             <div className="flex items-center gap-4 mb-8">
                                 <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                                 <h2 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70">
-                                    {city === 'Moscow' ? dict.home.cities?.moscow || city :
-                                        city === 'Saint Petersburg' ? dict.home.cities?.spb || city :
-                                            city}
+                                    {cityDisplayName}
                                 </h2>
                                 <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center sm:place-items-stretch">
-                                {venues.map(venueObj => {
-                                    const displayName = (language === 'zh' ? venueObj.nameZh : language === 'ru' ? venueObj.nameRu : venueObj.name) || venueObj.name
-                                    const isTheater = venueObj.name.toLowerCase().includes('theater') || venueObj.name.toLowerCase().includes('theatre') || venueObj.name.toLowerCase().includes('show')
+                                {items.map(attraction => {
+                                    const displayName = (language === 'zh' ? attraction.nameZh : language === 'ru' ? attraction.nameRu : attraction.name) || attraction.name
+                                    const isTheater = attraction.name.toLowerCase().includes('theater') || attraction.name.toLowerCase().includes('theatre')
 
                                     return (
                                         <ServiceCard
-                                            key={venueObj.name}
+                                            key={attraction.id}
                                             title={displayName}
-                                            href={`/products?city=${encodeURIComponent(city)}&venue=${encodeURIComponent(venueObj.name)}&title=${encodeURIComponent(venueObj.name)}`}
+                                            href={`/attractions/${attraction.id}`}
                                             icon={isTheater ? Ticket : Landmark}
+                                            image={attraction.image}
                                         />
                                     )
                                 })}

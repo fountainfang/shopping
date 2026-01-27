@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import ClientHome from "@/components/ClientHome"
-import { getGroupedVenues } from "@/lib/products"
+import { getGroupedAttractions } from "@/lib/products"
 
 // Force dynamic rendering validation
 export const dynamic = 'force-dynamic'
@@ -10,8 +10,8 @@ export default async function Home() {
   const session = await getServerSession(authOptions)
 
   try {
-    // Fetch grouped venues
-    const serializedGroups = await getGroupedVenues()
+    // Fetch grouped attractions
+    const serializedGroups = await getGroupedAttractions()
 
     return <ClientHome session={session} dynamicGroups={serializedGroups} />
 

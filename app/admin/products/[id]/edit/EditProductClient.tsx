@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLanguage } from "@/lib/i18n/LanguageContext"
 import { Check, ChevronsUpDown } from "lucide-react"
@@ -14,22 +15,14 @@ type CityData = {
     ru: string
 }
 
-export default function EditProductClient({ product, existingCities }: { product: any, existingCities: CityData[] }) {
+type AttractionSimple = { id: string, name: string, city: string }
+
+export default function EditProductClient({ product, existingCities, attractions = [] }: { product: any, existingCities: CityData[], attractions?: AttractionSimple[] }) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
 
     // City Autocomplete State
     const [openCity, setOpenCity] = useState(false)
-
-    const handleCitySelect = (cityData: CityData) => {
-        setFormData(prev => ({
-            ...prev,
-            city: cityData.en,
-            cityZh: cityData.zh || prev.cityZh,
-            cityRu: cityData.ru || prev.cityRu
-        }))
-        setOpenCity(false)
-    }
 
     // Valid types
     const [type, setType] = useState(product.type || "VIRTUAL")
@@ -52,7 +45,35 @@ export default function EditProductClient({ product, existingCities }: { product
         venue: product.venue || "",
         googleMapLink: product.googleMapLink || "",
         yandexMapLink: product.yandexMapLink || "",
+        attractionId: product.attractionId || ""
     })
+
+    const handleCitySelect = (cityData: CityData) => {
+        setFormData(prev => ({
+            ...prev,
+            city: cityData.en,
+            cityZh: cityData.zh || prev.cityZh,
+            cityRu: cityData.ru || prev.cityRu
+        }))
+        setOpenCity(false)
+    }
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
+
+        if (name === 'attractionId' && value) {
+            const attr = attractions?.find(a => a.id === value)
+            if (attr) {
+                setFormData(prev => ({
+                    ...prev,
+                    city: attr.city,
+                    attractionId: value,
+                    location: attr.name
+                }))
+            }
+        }
+    }
 
     // Slot Generator State
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0])
@@ -62,11 +83,6 @@ export default function EditProductClient({ product, existingCities }: { product
     const [endTime, setEndTime] = useState("17:00")
     const [interval, setInterval] = useState(60)
     const [generatedSlots, setGeneratedSlots] = useState(Array.isArray(product.availableSlots) ? product.availableSlots.join('\n') : "")
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
-    }
 
     function generateSlots() {
         if (!startDate || !endDate || !startTime || !endTime || !interval) return;
@@ -154,17 +170,34 @@ export default function EditProductClient({ product, existingCities }: { product
 
                 <div className="space-y-2">
                     <label className="text-sm font-medium">Product Type</label>
-                    <select
-                        name="type"
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        <option value="VIRTUAL">Virtual Product (Standard)</option>
-                        <option value="ATTRACTION">Attraction Ticket (景点门票)</option>
-                        <option value="THEATER">Theater Ticket (剧院门票)</option>
-                        <option value="CONCIERGE">Concierge Service (代买服务)</option>
-                    </select>
+                    <div className="grid grid-cols-2 gap-4">
+                        <select
+                            name="type"
+                            value={type}
+                            onChange={(e) => setType(e.target.value)}
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            <option value="VIRTUAL">Virtual Product (Standard)</option>
+                            <option value="ATTRACTION">Attraction Ticket (景点门票)</option>
+                            <option value="THEATER">Theater Ticket (剧院门票)</option>
+                            <option value="CONCIERGE">Concierge Service (代买服务)</option>
+                        </select>
+
+                        {/* Attraction Selection */}
+                        <div className="space-y-1">
+                            <select
+                                name="attractionId"
+                                value={formData.attractionId}
+                                onChange={handleChange}
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground"
+                            >
+                                <option value="">-- No Attraction (Independent) --</option>
+                                {attractions?.map(a => (
+                                    <option key={a.id} value={a.id}>{a.name} ({a.city})</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Multilingual Tabs */}
@@ -183,12 +216,11 @@ export default function EditProductClient({ product, existingCities }: { product
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Description (EN)</label>
-                            <textarea
+                            <Textarea
                                 name="description"
                                 value={formData.description}
                                 onChange={handleChange}
                                 required
-                                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                 placeholder="Description"
                             />
                         </div>
@@ -249,11 +281,10 @@ export default function EditProductClient({ product, existingCities }: { product
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-medium">介绍 (中文)</label>
-                            <textarea
+                            <Textarea
                                 name="descriptionZh"
                                 value={formData.descriptionZh}
                                 onChange={handleChange}
-                                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                 placeholder="产品详情"
                             />
                         </div>
@@ -271,11 +302,10 @@ export default function EditProductClient({ product, existingCities }: { product
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Описание (RU)</label>
-                            <textarea
+                            <Textarea
                                 name="descriptionRu"
                                 value={formData.descriptionRu}
                                 onChange={handleChange}
-                                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                 placeholder="Описание товара"
                             />
                         </div>
@@ -354,11 +384,11 @@ export default function EditProductClient({ product, existingCities }: { product
 
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Generated Slots (Editable)</label>
-                            <textarea
+                            <Textarea
                                 name="availableSlots"
                                 value={generatedSlots}
                                 onChange={(e) => setGeneratedSlots(e.target.value)}
-                                className="flex min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono"
+                                className="font-mono min-h-[150px]"
                                 placeholder="Generated slots will appear here..."
                             />
                             <p className="text-xs text-muted-foreground">Verify and remove any specific dates if closed.</p>

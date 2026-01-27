@@ -1,0 +1,177 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { ArrowLeft, Save } from "lucide-react"
+
+export default function EditAttractionPage({ params }: { params: { id: string } }) {
+    const router = useRouter()
+    const [loading, setLoading] = useState(true)
+    const [saving, setSaving] = useState(false)
+    const [formData, setFormData] = useState({
+        name: "",
+        nameZh: "",
+        nameRu: "",
+        description: "",
+        descriptionZh: "",
+        descriptionRu: "",
+        city: "",
+        cityZh: "",
+        cityRu: "",
+        image: "",
+        googleMapLink: "",
+        yandexMapLink: ""
+    })
+
+    useEffect(() => {
+        fetch(`/api/attractions/${params.id}`)
+            .then(res => res.json())
+            .then(data => {
+                setFormData({
+                    name: data.name || "",
+                    nameZh: data.nameZh || "",
+                    nameRu: data.nameRu || "",
+                    description: data.description || "",
+                    descriptionZh: data.descriptionZh || "",
+                    descriptionRu: data.descriptionRu || "",
+                    city: data.city || "",
+                    cityZh: data.cityZh || "",
+                    cityRu: data.cityRu || "",
+                    image: data.image || "",
+                    googleMapLink: data.googleMapLink || "",
+                    yandexMapLink: data.yandexMapLink || ""
+                })
+                setLoading(false)
+            })
+            .catch(err => {
+                console.error(err)
+                setLoading(false)
+            })
+    }, [params.id])
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault()
+        setSaving(true)
+
+        try {
+            const res = await fetch(`/api/attractions/${params.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+
+            if (!res.ok) throw new Error("Failed to update")
+
+            router.push("/admin/attractions")
+        } catch (err) {
+            console.error(err)
+            alert("Error updating attraction")
+            setSaving(false)
+        }
+    }
+
+    if (loading) return <div>Loading...</div>
+
+    return (
+        <div className="max-w-4xl mx-auto space-y-6">
+            <div className="flex items-center gap-4">
+                <Link href="/admin/attractions">
+                    <Button variant="ghost" size="icon">
+                        <ArrowLeft className="w-5 h-5" />
+                    </Button>
+                </Link>
+                <h1 className="text-2xl font-bold">Edit Attraction</h1>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-8 bg-card p-6 rounded-lg border">
+
+                {/* General Info */}
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold border-b pb-2">General Info</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Name (English)</label>
+                            <Input name="name" required value={formData.name} onChange={handleChange} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Name (Chinese)</label>
+                            <Input name="nameZh" value={formData.nameZh} onChange={handleChange} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Name (Russian)</label>
+                            <Input name="nameRu" value={formData.nameRu} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Location Info */}
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold border-b pb-2">Location</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">City (English)</label>
+                            <Input name="city" required value={formData.city} onChange={handleChange} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">City (Chinese)</label>
+                            <Input name="cityZh" value={formData.cityZh} onChange={handleChange} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">City (Russian)</label>
+                            <Input name="cityRu" value={formData.cityRu} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Descriptions */}
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold border-b pb-2">Descriptions</h3>
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Description (English)</label>
+                            <Textarea name="description" rows={3} value={formData.description} onChange={handleChange} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Description (Chinese)</label>
+                            <Textarea name="descriptionZh" rows={3} value={formData.descriptionZh} onChange={handleChange} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Description (Russian)</label>
+                            <Textarea name="descriptionRu" rows={3} value={formData.descriptionRu} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Map Links */}
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold border-b pb-2">Links</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Google Map Link</label>
+                            <Input name="googleMapLink" value={formData.googleMapLink} onChange={handleChange} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Yandex Map Link</label>
+                            <Input name="yandexMapLink" value={formData.yandexMapLink} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="pt-4 flex justify-end">
+                    <Button type="submit" size="lg" disabled={saving} className="w-full md:w-auto">
+                        <Save className="w-4 h-4 mr-2" />
+                        {saving ? "Saving..." : "Save Changes"}
+                    </Button>
+                </div>
+            </form>
+        </div>
+    )
+}

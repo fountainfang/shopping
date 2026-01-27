@@ -14,6 +14,12 @@ export default async function NewProductPage() {
         }
     })
 
+    // Fetch Attractions for dropdown
+    const attractions = await prisma.attraction.findMany({
+        select: { id: true, name: true, city: true },
+        orderBy: { name: 'asc' }
+    })
+
     // Deduplicate logic
     const cityMap = new Map<string, { en: string, zh: string, ru: string }>();
 
@@ -30,5 +36,5 @@ export default async function NewProductPage() {
 
     const existingCities = Array.from(cityMap.values()).sort((a, b) => a.en.localeCompare(b.en));
 
-    return <NewProductClient existingCities={existingCities} />
+    return <NewProductClient existingCities={existingCities} attractions={attractions} />
 }

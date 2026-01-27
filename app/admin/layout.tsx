@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Package, Users, Wallet, LogOut, ShoppingCart } from "lucide-react"
+import { LayoutDashboard, Package, Users, Wallet, LogOut, ShoppingCart, Landmark } from "lucide-react"
 
 export default async function AdminLayout({
     children,
@@ -30,6 +30,10 @@ export default async function AdminLayout({
                     <Link href="/admin/products" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
                         <Package className="w-5 h-5" />
                         Products
+                    </Link>
+                    <Link href="/admin/attractions" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+                        <Landmark className="w-5 h-5" />
+                        Attractions
                     </Link>
                     <Link href="/admin/orders" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
                         <ShoppingCart className="w-5 h-5" />

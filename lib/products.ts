@@ -1,9 +1,67 @@
 import { prisma } from "@/lib/prisma"
 
 export type VenueInfo = { name: string, nameZh?: string, nameRu?: string }
-export type SerializedGroups = Record<string, VenueInfo[]>
 
-export async function getGroupedVenues(): Promise<SerializedGroups> {
+export type AttractionInfo = {
+    id: string;
+    name: string;
+    nameZh?: string;
+    nameRu?: string;
+    image?: string;
+    description?: string;
+}
+
+export type CityGroup = {
+    id: string;
+    name: string;
+    nameZh?: string;
+    nameRu?: string;
+    venues: VenueInfo[];
+    attractions?: AttractionInfo[];
+}
+
+export async function getGroupedAttractions(): Promise<CityGroup[]> {
+    // @ts-ignore - Prisma client update might lag in IDE
+    const attractions = await prisma.attraction.findMany({
+        orderBy: { name: 'asc' }
+    })
+
+    const cityMap = new Map<string, CityGroup>()
+
+    // @ts-ignore
+    attractions.forEach((attr: any) => {
+        const cityKey = attr.city || "Other"
+
+        if (!cityMap.has(cityKey)) {
+            cityMap.set(cityKey, {
+                id: cityKey,
+                name: cityKey,
+                nameZh: attr.cityZh || cityKey,
+                nameRu: attr.cityRu || cityKey,
+                venues: [],
+                attractions: []
+            })
+        }
+
+        const cityGroup = cityMap.get(cityKey)!
+        // Improve city localization if current attr has it and group doesn't
+        if (cityGroup.name === cityKey && attr.cityZh) cityGroup.nameZh = attr.cityZh;
+        if (cityGroup.name === cityKey && attr.cityRu) cityGroup.nameRu = attr.cityRu;
+
+        cityGroup.attractions?.push({
+            id: attr.id,
+            name: attr.name,
+            nameZh: attr.nameZh || undefined,
+            nameRu: attr.nameRu || undefined,
+            image: attr.image || undefined,
+            description: attr.description || undefined
+        })
+    })
+
+    return Array.from(cityMap.values()).sort((a, b) => a.name.localeCompare(b.name))
+}
+
+export async function getGroupedVenues(): Promise<CityGroup[]> {
     // Fetch all products to build the directory dynamically
     const products = await prisma.product.findMany({
         select: {
@@ -20,20 +78,33 @@ export async function getGroupedVenues(): Promise<SerializedGroups> {
         }
     })
 
-    // Group by City
-    const cityGroups: Record<string, Map<string, VenueInfo>> = {}
+    // Intermediate Map to hold City Data + Venues
+    const cityMap = new Map<string, {
+        name: string,
+        nameZh?: string,
+        nameRu?: string,
+        venues: Map<string, VenueInfo>
+    }>()
 
     products.forEach(p => {
         const rawCity = p.city || "Other"
-        const cityKey = rawCity
 
-        if (!cityGroups[cityKey]) {
-            cityGroups[cityKey] = new Map()
+        if (!cityMap.has(rawCity)) {
+            cityMap.set(rawCity, {
+                name: rawCity,
+                nameZh: p.cityZh || undefined,
+                nameRu: p.cityRu || undefined,
+                venues: new Map()
+            })
         }
 
-        // Determine Venue/Location Name for Grouping
-        // Priority: Location (Main Venue like "Bolshoi Theatre") > Venue (Specific Hall) > Title
+        const cityEntry = cityMap.get(rawCity)!
 
+        // If we found a product with better localized city names, update the group
+        if (!cityEntry.nameZh && p.cityZh) cityEntry.nameZh = p.cityZh
+        if (!cityEntry.nameRu && p.cityRu) cityEntry.nameRu = p.cityRu
+
+        // Determine Venue/Location Name for Grouping
         let name = "General"
         let nameZh = undefined
         let nameRu = undefined
@@ -46,41 +117,26 @@ export async function getGroupedVenues(): Promise<SerializedGroups> {
             name = p.title
         }
 
-        // Use the product's own localized titles if available, assuming the product represents the venue well enough
-        // or if the admin has entered data consistent with the location name.
-        // For general grouping, we just need the NAME. The localized names might be tricky if "location" is just a string.
-        // Ideally, 'location' refers to the Venue Name. 
-        // We will try to use the *first encountered* translations for this location KEY.
-
-        // Since we don't have a separate Venue table, we rely on the product's localization fields 
-        // IF the product title seems to match the location name, OR we just take the first product's locale fields as a "best guess" for the venue name's translation?
-        // Actually, `titleZh` is the PRODUCT title, not the VENUE title.
-        // But in many cases "Bolshoi Theatre Ticket" might have titleZh "莫斯科大剧院票".
-        // The previous code relied on hardcoded dictionary for "Bolshoi Theatre" -> "莫斯科大剧院".
-        // WITHOUT that dictionary, we can only use what's in the DB.
-        // If the DB `location` is just "Bolshoi Theatre", we don't know the Chinese for it unless we have it stored.
-        // Use-case: The user mostly wants to use DB content. 
-        // We will fallback to English only if no translation found, OR assume `titleZh` contains useful info? 
-        // Best approach: WE JUST USE THE ENGLISH NAME for keying. 
-        // AND we expose `nameZh` / `nameRu` IF explicitly added to a Venue Table later. 
-        // But for now, we will leave them undefined if we can't be sure, OR use the `product.titleZh` if `product.title == name`.
-
+        // Capture venue localization from product title if capable
         if (name === p.title) {
             nameZh = p.titleZh || undefined
             nameRu = p.titleRu || undefined
         }
 
-        // Deduplicate by English name
-        if (!cityGroups[cityKey].has(name)) {
-            cityGroups[cityKey].set(name, { name, nameZh, nameRu })
+        // Deduplicate venues
+        if (!cityEntry.venues.has(name)) {
+            cityEntry.venues.set(name, { name, nameZh, nameRu })
         }
     })
 
-    // Convert to arrays
-    const serializedGroups: SerializedGroups = {}
-    Object.keys(cityGroups).forEach(city => {
-        serializedGroups[city] = Array.from(cityGroups[city].values())
-    })
+    // Convert to array and sort
+    const results: CityGroup[] = Array.from(cityMap.entries()).map(([key, value]) => ({
+        id: key,
+        name: value.name,
+        nameZh: value.nameZh,
+        nameRu: value.nameRu,
+        venues: Array.from(value.venues.values())
+    })).sort((a, b) => a.name.localeCompare(b.name))
 
-    return serializedGroups
+    return results
 }

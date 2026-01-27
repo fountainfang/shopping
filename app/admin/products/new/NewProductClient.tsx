@@ -9,14 +9,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { Check, ChevronsUpDown } from "lucide-react"
 
-
 type CityData = {
     en: string
     zh: string
     ru: string
 }
 
-export default function NewProductClient({ existingCities }: { existingCities: CityData[] }) {
+type AttractionSimple = { id: string, name: string, city: string }
+
+export default function NewProductClient({ existingCities, attractions = [] }: { existingCities: CityData[], attractions?: AttractionSimple[] }) {
     const router = useRouter()
     const { dict } = useLanguage()
     const [loading, setLoading] = useState(false)
@@ -44,12 +45,26 @@ export default function NewProductClient({ existingCities }: { existingCities: C
         location: "",
         venue: "",
         googleMapLink: "",
-        yandexMapLink: ""
+        yandexMapLink: "",
+        attractionId: ""
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
+
+        // If attraction is selected, auto-fill city
+        if (name === 'attractionId' && value) {
+            const attr = attractions?.find(a => a.id === value)
+            if (attr) {
+                setFormData(prev => ({
+                    ...prev,
+                    city: attr.city,
+                    attractionId: value,
+                    location: attr.name
+                }))
+            }
+        }
     }
 
     const handleCitySelect = (cityData: CityData) => {
@@ -182,12 +197,29 @@ export default function NewProductClient({ existingCities }: { existingCities: C
                 {/* Type Selection */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium">{dict.admin.form.type}</label>
-                    <select name="type" value={formData.type} onChange={handleChange} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
-                        <option value="VIRTUAL">{dict.admin.form.virtual}</option>
-                        <option value="ATTRACTION">{dict.admin.form.attraction}</option>
-                        <option value="THEATER">{dict.admin.form.theater}</option>
-                        <option value="CONCIERGE">{dict.admin.form.concierge}</option>
-                    </select>
+                    <div className="grid grid-cols-2 gap-4">
+                        <select name="type" value={formData.type} onChange={handleChange} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                            <option value="VIRTUAL">{dict.admin.form.virtual}</option>
+                            <option value="ATTRACTION">{dict.admin.form.attraction}</option>
+                            <option value="THEATER">{dict.admin.form.theater}</option>
+                            <option value="CONCIERGE">{dict.admin.form.concierge}</option>
+                        </select>
+
+                        {/* Attraction Selection */}
+                        <div className="space-y-1">
+                            <select
+                                name="attractionId"
+                                value={formData.attractionId}
+                                onChange={handleChange}
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground"
+                            >
+                                <option value="">-- No Attraction (Independent) --</option>
+                                {attractions?.map(a => (
+                                    <option key={a.id} value={a.id}>{a.name} ({a.city})</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Multilingual Tabs */}

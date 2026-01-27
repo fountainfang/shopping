@@ -65,12 +65,38 @@ model Product {
   googleMapLink   String?
   yandexMapLink   String?
 
+  attractionId    String?
+  attraction      Attraction? @relation(fields: [attractionId], references: [id])
+
   availableSlots  Json?       // For Attraction date/time configuration
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   orders      Order[]
+}
+
+model Attraction {
+  id            String   @id @default(cuid())
+  name          String
+  nameZh        String?
+  nameRu        String?
+  description   String?
+  descriptionZh String?
+  descriptionRu String?
+  
+  city          String
+  cityZh        String?
+  cityRu        String?
+  
+  image         String?
+  googleMapLink String?
+  yandexMapLink String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  products      Product[]
 }
 
 model Order {

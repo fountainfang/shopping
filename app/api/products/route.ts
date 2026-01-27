@@ -39,6 +39,7 @@ export async function POST(req: Request) {
                 googleMapLink: data.googleMapLink,
                 yandexMapLink: data.yandexMapLink,
                 availableSlots: data.availableSlots, // Saved as Json
+                attractionId: data.attractionId || null,
             }
         });
         console.log("Admin Create Product: SUCCESS", product.id);
