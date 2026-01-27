@@ -1,11 +1,9 @@
 "use client"
 
 import { useLanguage } from "@/lib/i18n/LanguageContext"
-import { VenueInfo } from "@/lib/data/venues"
 import { MapPin } from "lucide-react"
 
 export function VenueHeader({
-    venueInfo,
     title,
     googleMap,
     yandexMap,
@@ -15,7 +13,6 @@ export function VenueHeader({
     titleZh,
     titleRu
 }: {
-    venueInfo?: VenueInfo,
     title: string,
     googleMap?: string,
     yandexMap?: string,
@@ -29,11 +26,7 @@ export function VenueHeader({
 
     const dynamicDescription = (language === 'zh' ? descriptionZh : language === 'ru' ? descriptionRu : description) || description
 
-    // Resolve dynamic title
-    let displayTitle = title
-    if (venueInfo) {
-        displayTitle = venueInfo.names[language]
-    }
+    const displayTitle = (language === 'zh' ? titleZh : language === 'ru' ? titleRu : title) || title
 
     return (
         <div className="mb-8 p-8 glass-card relative overflow-hidden">
@@ -43,13 +36,7 @@ export function VenueHeader({
             <div className="relative z-10">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
                     <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
-                        {venueInfo ? venueInfo.names[language] : (
-                            (language === 'zh' && titleZh)
-                                ? titleZh
-                                : (language === 'ru' && titleRu)
-                                    ? titleRu
-                                    : title
-                        )}
+                        {displayTitle}
                     </h1>
                     <div className="flex gap-3 flex-wrap">
                         {googleMap && (
@@ -66,15 +53,11 @@ export function VenueHeader({
                 </div>
 
                 <div className="prose prose-invert max-w-none">
-                    {venueInfo ? (
-                        <p className="text-lg text-muted-foreground leading-relaxed max-w-4xl">
-                            {venueInfo.descriptions[language]}
-                        </p>
-                    ) : dynamicDescription ? (
+                    {dynamicDescription && (
                         <p className="text-lg text-muted-foreground leading-relaxed max-w-4xl whitespace-pre-wrap">
                             {dynamicDescription}
                         </p>
-                    ) : null}
+                    )}
                 </div>
             </div>
         </div>

@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma"
-import { VENUES } from "@/lib/data/venues"
 
 export type VenueInfo = { name: string, nameZh?: string, nameRu?: string }
 export type SerializedGroups = Record<string, VenueInfo[]>
@@ -33,9 +32,7 @@ export async function getGroupedVenues(): Promise<SerializedGroups> {
         }
 
         // Determine Venue/Location Name for Grouping
-        // We want to group by the MAIN entity (e.g. Bolshoi Theatre), not the specific hall (Historic Stage).
-        // In our generic import: location = "Bolshoi Theatre", venue = "Historic Stage".
-        // So we prioritize location.
+        // Priority: Location (Main Venue like "Bolshoi Theatre") > Venue (Specific Hall) > Title
 
         let name = "General"
         let nameZh = undefined
@@ -49,26 +46,28 @@ export async function getGroupedVenues(): Promise<SerializedGroups> {
             name = p.title
         }
 
-        // Capture multilingual fields
-        // Attempt to lookup in static VENUES data first for well-known places
-        if (name) {
-            // Normalize for lookup (simple check)
-            const lower = name.toLowerCase()
-            const matchKey = Object.keys(VENUES).find(k => lower.includes(k) || (VENUES as any)[k].names.en.toLowerCase().includes(lower))
+        // Use the product's own localized titles if available, assuming the product represents the venue well enough
+        // or if the admin has entered data consistent with the location name.
+        // For general grouping, we just need the NAME. The localized names might be tricky if "location" is just a string.
+        // Ideally, 'location' refers to the Venue Name. 
+        // We will try to use the *first encountered* translations for this location KEY.
 
-            if (matchKey) {
-                const v = VENUES[matchKey]
-                nameZh = v.names.zh
-                nameRu = v.names.ru
-                // Optionally enforce the canonical English name too to merge "Bolshoi" and "Bolshoi Theatre"
-                name = v.names.en
-            } else if (p.title) {
-                // Fallback to product title translations if we are using title as name
-                if (name === p.title) {
-                    nameZh = p.titleZh || undefined
-                    nameRu = p.titleRu || undefined
-                }
-            }
+        // Since we don't have a separate Venue table, we rely on the product's localization fields 
+        // IF the product title seems to match the location name, OR we just take the first product's locale fields as a "best guess" for the venue name's translation?
+        // Actually, `titleZh` is the PRODUCT title, not the VENUE title.
+        // But in many cases "Bolshoi Theatre Ticket" might have titleZh "莫斯科大剧院票".
+        // The previous code relied on hardcoded dictionary for "Bolshoi Theatre" -> "莫斯科大剧院".
+        // WITHOUT that dictionary, we can only use what's in the DB.
+        // If the DB `location` is just "Bolshoi Theatre", we don't know the Chinese for it unless we have it stored.
+        // Use-case: The user mostly wants to use DB content. 
+        // We will fallback to English only if no translation found, OR assume `titleZh` contains useful info? 
+        // Best approach: WE JUST USE THE ENGLISH NAME for keying. 
+        // AND we expose `nameZh` / `nameRu` IF explicitly added to a Venue Table later. 
+        // But for now, we will leave them undefined if we can't be sure, OR use the `product.titleZh` if `product.title == name`.
+
+        if (name === p.title) {
+            nameZh = p.titleZh || undefined
+            nameRu = p.titleRu || undefined
         }
 
         // Deduplicate by English name
