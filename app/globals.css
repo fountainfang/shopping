@@ -1,53 +1,44 @@
 @import "tailwindcss";
 
-
 :root {
-  /* Common Colors (HSL) */
-  --primary: 250 100% 65%;
-  /* Vibrant Violet */
+  /* Unified Premium Dark Theme (Violet/Indigo based) */
+  /* Base Hue: 265 (Violet) */
+
+  --background: 265 40% 4%;    /* Very deep violet-black */
+  --foreground: 265 10% 98%;   /* Almost white */
+
+  /* Primary: Vibrant Violet/Fuchsia */
+  --primary: 265 80% 60%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 190 100% 50%;
-  /* Cyan accent */
-  --secondary-foreground: 0 0% 0%;
+  /* Secondary: Deep Indigo/Blue */
+  --secondary: 230 60% 50%;
+  --secondary-foreground: 0 0% 100%;
 
+  /* Accent: Cyan/Teal for highlights */
+  --accent: 190 90% 50%;
+  --accent-foreground: 265 40% 4%;
+
+  /* Destructive */
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  /* Light logic */
-  --background: 240 10% 98%;
-  --foreground: 240 10% 4%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 4%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 4%;
-  --muted: 240 5% 96%;
-  --muted-foreground: 240 4% 46%;
-  --accent: 240 5% 96%;
-  --accent-foreground: 240 6% 10%;
-  --border: 240 6% 90%;
-  --input: 240 6% 90%;
-  --ring: 250 100% 65%;
+  /* UI Elements */
+  --card: 265 30% 6%;
+  --card-foreground: 265 10% 98%;
+  
+  --popover: 265 30% 6%;
+  --popover-foreground: 265 10% 98%;
+  
+  --muted: 265 20% 12%;
+  --muted-foreground: 265 10% 60%;
+  
+  --border: 265 20% 12%;
+  --input: 265 20% 12%;
+  
+  --ring: 265 80% 60%;
+  
   --radius: 0.75rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 240 10% 4%;
-    /* Deep dark */
-    --foreground: 0 0% 98%;
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 240 4% 16%;
-    --accent-foreground: 0 0% 98%;
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 250 100% 65%;
-  }
 }
 
 @theme inline {
@@ -74,8 +65,6 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
-
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 body {
@@ -85,16 +74,40 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Glassmorphism utilities */
+/* Glassmorphism Utilities */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  @apply rounded-xl;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  @apply rounded-xl transition-all duration-300;
+}
+
+.glass-card:hover {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Text Gradients */
+.text-gradient-primary {
+  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-accent {
+  background: linear-gradient(to right, hsl(var(--accent)), hsl(var(--primary)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
