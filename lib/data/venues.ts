@@ -52,5 +52,18 @@ export const VENUES: Record<string, VenueInfo> = {
             zh: "国立埃尔米塔日博物馆（冬宫）是俄罗斯圣彼得堡的艺术和文化博物馆。它是世界上第二大艺术博物馆。",
             ru: "Государственный Эрмитаж — музей изобразительного и декоративно-прикладного искусства, расположенный в Санкт-Петербурге. Второй по величине художественный музей в мире."
         }
+    },
+    kremlin: {
+        id: 'kremlin',
+        names: {
+            en: "Kremlin & Armory",
+            zh: "克里姆林宫及武器库",
+            ru: "Кремль и Оружейная палата"
+        },
+        descriptions: {
+            en: "The Moscow Kremlin is a fortified complex in the center of Moscow, overlooking the Moskva River to the south, Saint Basil's Cathedral and Red Square to the east, and the Alexander Garden to the west.",
+            zh: "莫斯科克里姆林宫是位于莫斯科中心的防御建筑群，南临莫斯科河，东临圣瓦西里大教堂和红场，西临亚历山大花园。",
+            ru: "Московский Кремль — крепость в центре Москвы и древнейшая её часть, главный общественно-политический и историко-художественный комплекс города, официальная резиденция Президента Российской Федерации."
+        }
     }
 }

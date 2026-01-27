@@ -11,7 +11,23 @@ export type Dictionary = {
         settings: string;
         wallet: string;
         shop: string;
+        orders: string;
         loading: string;
+    };
+    settings: {
+        title: string;
+        subtitle: string;
+        profile: string;
+        displayName: string;
+        managedByGoogle: string;
+        email: string;
+        role: string;
+        preferences: string;
+        language: string;
+        languageDesc: string;
+        notifications: string;
+        notificationsDesc: string;
+        configure: string;
     };
     home: {
         title: string;
@@ -96,6 +112,17 @@ export type Dictionary = {
         loginRequired: string;
     };
     // ... existing ...
+    orders: {
+        title: string;
+        subtitle: string;
+        orderId: string;
+        product: string;
+        date: string;
+        status: string;
+        amount: string;
+        booking: string;
+        empty: string;
+    };
     admin: {
         dashboard: string;
         products: string;
@@ -158,6 +185,7 @@ export const dictionaries: Record<Language, Dictionary> = {
             settings: "Settings",
             wallet: "Wallet",
             shop: "Shop",
+            orders: "My Orders",
             loading: "Loading..."
         },
         home: {
@@ -242,6 +270,32 @@ export const dictionaries: Record<Language, Dictionary> = {
             processing: "Processing...",
             loginRequired: "Please login to purchase"
         },
+        orders: {
+            title: "My Orders",
+            subtitle: "View and manage your purchase history",
+            orderId: "Order ID",
+            product: "Product",
+            date: "Date",
+            status: "Status",
+            amount: "Amount",
+            booking: "Booking",
+            empty: "You haven't placed any orders yet."
+        },
+        settings: {
+            title: "Settings",
+            subtitle: "Manage your account settings and preferences.",
+            profile: "Profile",
+            displayName: "Display Name",
+            managedByGoogle: "Managed by your Google Account.",
+            email: "Email",
+            role: "Account Role",
+            preferences: "Preferences",
+            language: "Language",
+            languageDesc: "Select your preferred language for the interface.",
+            notifications: "Notifications (Coming Soon)",
+            notificationsDesc: "Receive email updates about your orders.",
+            configure: "Configure"
+        },
         admin: {
             dashboard: "Dashboard",
             products: "Products",
@@ -302,6 +356,7 @@ export const dictionaries: Record<Language, Dictionary> = {
             settings: "设置",
             wallet: "钱包",
             shop: "商店",
+            orders: "我的订单",
             loading: "加载中..."
         },
         home: {
@@ -386,6 +441,32 @@ export const dictionaries: Record<Language, Dictionary> = {
             processing: "处理中...",
             loginRequired: "请登录后购买"
         },
+        orders: {
+            title: "我的订单",
+            subtitle: "查看和管理您的购买记录",
+            orderId: "订单号",
+            product: "商品",
+            date: "日期",
+            status: "状态",
+            amount: "金额",
+            booking: "预订时间",
+            empty: "您还没有下过订单。"
+        },
+        settings: {
+            title: "设置",
+            subtitle: "管理您的账户设置和偏好。",
+            profile: "个人资料",
+            displayName: "显示名称",
+            managedByGoogle: "由您的 Google 账户管理。",
+            email: "邮箱",
+            role: "账户角色",
+            preferences: "偏好设置",
+            language: "语言",
+            languageDesc: "选择您偏好的界面语言。",
+            notifications: "通知 (即将推出)",
+            notificationsDesc: "接收关于订单的电子邮件更新。",
+            configure: "配置"
+        },
         admin: {
             dashboard: "仪表盘",
             products: "商品管理",
@@ -446,6 +527,7 @@ export const dictionaries: Record<Language, Dictionary> = {
             settings: "Настройки",
             wallet: "Кошелек",
             shop: "Магазин",
+            orders: "Мои заказы",
             loading: "Загрузка..."
         },
         home: {
@@ -529,6 +611,32 @@ export const dictionaries: Record<Language, Dictionary> = {
             insufficientBalance: "Недостаточно средств. Пополните баланс.",
             processing: "Обработка...",
             loginRequired: "Войдите для покупки"
+        },
+        orders: {
+            title: "Мои заказы",
+            subtitle: "Просмотр и управление историей покупок",
+            orderId: "ID заказа",
+            product: "Товар",
+            date: "Дата",
+            status: "Статус",
+            amount: "Сумма",
+            booking: "Бронь",
+            empty: "Вы еще не делали заказов."
+        },
+        settings: {
+            title: "Настройки",
+            subtitle: "Управление настройками аккаунта.",
+            profile: "Профиль",
+            displayName: "Имя",
+            managedByGoogle: "Управляется через Google аккаунт.",
+            email: "Email",
+            role: "Роль",
+            preferences: "Настройки",
+            language: "Язык",
+            languageDesc: "Выберите язык интерфейса.",
+            notifications: "Уведомления (Скоро)",
+            notificationsDesc: "Получать письма о заказах.",
+            configure: "Настроить"
         },
         admin: {
             dashboard: "Кабинет",

@@ -40,6 +40,10 @@ export function Sidebar({ user }: SidebarProps) {
                     <Settings className="w-5 h-5" />
                     {dict.common.settings}
                 </Link>
+                <Link href="/dashboard/orders" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+                    <ShoppingBag className="w-5 h-5" />
+                    {dict.common.orders}
+                </Link>
                 {user?.role === 'admin' && (
                     <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted text-destructive hover:text-destructive transition-colors">
                         <ShieldCheck className="w-5 h-5" />

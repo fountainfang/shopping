@@ -10,176 +10,146 @@ import { formatPrice } from "@/lib/utils"
 
 export function ScheduleList({ products }: { products: any[] }) {
     const { dict, language } = useLanguage()
-    const [selectedDate, setSelectedDate] = useState("")
 
     if (products.length === 0) return null
 
-    // Determine Mode: If all products are ATTRACTION, use strict date picker mode.
-    const isAttractionMode = products.every(p => p.type === 'ATTRACTION')
+    // 1. Flatten all products into Event Instances
+    // Each date in availableSlots becomes a row.
+    // If no slots, it's a "general" product (shown once, maybe at top or bottom? Or ignored?)
+    // For now, if no slots, we default to "Date TBA" and show it once.
 
-    // 1. Process Logic
-    let displayItems: any[] = []
+    const allEvents: any[] = []
 
-    if (isAttractionMode) {
-        // ATTRACTION MODE: Expand Slots
-        // If date is selected, filter by date.
-        // If no date, show distinct products (Aggregated) OR show next slots?
-        // User said: "not selected -> show next dates, selected -> show only that date"
+    products.forEach(product => {
+        const slots = (Array.isArray(product.availableSlots) ? product.availableSlots : []) as string[]
 
-        products.forEach(product => {
-            const slots = (Array.isArray(product.availableSlots) ? product.availableSlots : []) as string[]
+        // Detect Type Badge
+        let badgeType = "Other"
+        const lowerDesc = (product.description || "").toLowerCase() + (product.title || "").toLowerCase() + (product.titleRu || "").toLowerCase() + (product.descriptionRu || "").toLowerCase()
 
-            // If selectedDate is set, filter slots
-            const filteredSlots = selectedDate
-                ? slots.filter(s => s.startsWith(selectedDate))
-                : slots.filter(s => new Date(s) >= new Date()) // Future only by default
-
-            // Create display items from slots
-            filteredSlots.forEach(slot => {
-                displayItems.push({
-                    ...product,
-                    virtualId: `${product.id}-${slot}`, // Unique key
-                    slotInfo: slot, // "YYYY-MM-DD HH:mm"
-                    isSpecificSlot: true
-                })
-            })
-        })
-
-        // Sort by time
-        displayItems.sort((a, b) => a.slotInfo.localeCompare(b.slotInfo))
-
-        // Limit if no date selected to avoid spam? Lets show 20 max.
-        if (!selectedDate && displayItems.length > 20) {
-            displayItems = displayItems.slice(0, 20)
+        if (lowerDesc.includes("ballet") || lowerDesc.includes("ballerina") || lowerDesc.includes("swan lake") || lowerDesc.includes("балет") || lowerDesc.includes("芭蕾")) {
+            badgeType = "Ballet"
+        } else if (lowerDesc.includes("opera") || lowerDesc.includes("soprano") || lowerDesc.includes("опера") || lowerDesc.includes("歌剧")) {
+            badgeType = "Opera"
+        } else if (lowerDesc.includes("concert") || lowerDesc.includes("symphony") || lowerDesc.includes("piano") || lowerDesc.includes("orchestra") || lowerDesc.includes("концерт") || lowerDesc.includes("音乐会")) {
+            badgeType = "Concert"
         }
 
-    } else {
-        // STANDARD MODE (Theaters): Product = Event
-        displayItems = [...products].sort((a, b) => {
-            const dateA = a.availableSlots && Array.isArray(a.availableSlots) ? String(a.availableSlots[0]) : ""
-            const dateB = b.availableSlots && Array.isArray(b.availableSlots) ? String(b.availableSlots[0]) : ""
-            return dateA.localeCompare(dateB)
-        })
-    }
+        if (slots.length > 0) {
+            slots.forEach(slot => {
+                allEvents.push({
+                    ...product,
+                    instanceId: `${product.id}-${slot}`,
+                    slotInfo: slot, // "YYYY-MM-DD HH:mm"
+                    dateObj: new Date(slot),
+                    badgeType
+                })
+            })
+        } else {
+            // No slots (e.g. Concierge or Virtual generic)
+            allEvents.push({
+                ...product,
+                instanceId: product.id,
+                slotInfo: null,
+                dateObj: new Date(2099, 0, 1), // Push to end
+                badgeType: "Service"
+            })
+        }
+    })
 
-    // If attraction mode and no results for date
-    if (isAttractionMode && displayItems.length === 0) {
-        return (
-            <div className="space-y-4">
-                <div className="flex items-center gap-4 bg-teal-900/20 p-4 rounded-lg border border-teal-800/30">
-                    <label className="text-sm font-medium text-teal-200">Select Date:</label>
-                    <Input
-                        type="date"
-                        value={selectedDate}
-                        onChange={e => setSelectedDate(e.target.value)}
-                        className="max-w-[200px] bg-black/40 border-teal-700/50 text-white"
-                    />
-                </div>
-                <div className="p-8 text-center text-muted-foreground bg-teal-900/10 rounded-lg">
-                    No slots available for this date.
-                </div>
-            </div>
-        )
+    // 2. Sort by Date
+    allEvents.sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime())
+
+    // 3. Filter Past Events (Optional, but good UX)
+    // const now = new Date()
+    // const futureEvents = allEvents.filter(e => e.dateObj >= now) 
+    // (Keeping all for demo purposes or exact logic?) 
+    // Let's keep all for now until told dates are strictly future.
+
+    // Helper for Badge Color
+    const getBadgeColor = (type: string) => {
+        switch (type) {
+            case "Ballet": return "bg-purple-500/20 text-purple-300 border-purple-500/30"
+            case "Opera": return "bg-blue-500/20 text-blue-300 border-blue-500/30"
+            case "Concert": return "bg-amber-500/20 text-amber-300 border-amber-500/30"
+            default: return "bg-slate-700/50 text-slate-300 border-slate-600"
+        }
     }
 
     return (
-        <div className="w-full text-left border-collapse space-y-4">
-            {isAttractionMode && (
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-teal-900/30 p-4 rounded-lg border border-teal-700/30 mb-6">
-                    <label htmlFor="date-picker-input" className="flex items-center gap-2 text-teal-100 cursor-pointer hover:text-white transition-colors">
-                        <Calendar className="w-5 h-5" />
-                        <span className="font-semibold">Check Availability</span>
-                    </label>
-                    <div className="relative">
-                        <Input
-                            id="date-picker-input"
-                            type="date"
-                            style={{ colorScheme: "dark" }}
-                            value={selectedDate}
-                            onChange={e => setSelectedDate(e.target.value)}
-                            className="max-w-[200px] bg-black/40 border-teal-600/50 text-white focus:border-teal-400 cursor-pointer"
-                            min={new Date().toISOString().split('T')[0]}
-                        />
-                    </div>
-                    {!selectedDate && <span className="text-xs text-teal-400/70 italic">Showing upcoming slots</span>}
-                    {selectedDate && (
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setSelectedDate("")}
-                            className="text-teal-400 hover:text-white h-8 px-2"
-                        >
-                            Clear
-                        </Button>
-                    )}
-                </div>
-            )}
+        <div className="w-full space-y-4">
+            {/* Header / Legend (Optional) */}
 
-            <div className="hidden md:grid grid-cols-12 gap-4 text-sm font-bold text-teal-200 border-b border-teal-700/50 pb-2 mb-4 px-4">
-                <div className="col-span-3">Date & Time</div>
-                <div className="col-span-5">Performance / Item</div>
-                <div className="col-span-2">Venue</div>
-                <div className="col-span-2 text-right">Price</div>
-            </div>
+            <div className="space-y-2">
+                {allEvents.map((item) => {
+                    // Date Formatting
+                    let dateDisplay = "TBA"
+                    let timeDisplay = ""
 
-            <div className="space-y-3">
-                {displayItems.map((item) => {
-                    // Logic for time formatting
-                    let dateFormatted = "TBA"
-                    let timeFormatted = ""
-                    let slotStr = ""
-
-                    if (item.isSpecificSlot) {
-                        slotStr = item.slotInfo
-                    } else if (item.availableSlots && Array.isArray(item.availableSlots)) {
-                        slotStr = String(item.availableSlots[0])
-                    }
-
-                    if (slotStr) {
-                        const dateObj = new Date(slotStr)
-                        if (!isNaN(dateObj.getTime())) {
-                            dateFormatted = dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric', weekday: 'short' })
-                            timeFormatted = dateObj.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
+                    if (item.slotInfo) {
+                        // Check if valid date
+                        if (!isNaN(item.dateObj.getTime())) {
+                            dateDisplay = item.dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) // "Jan 26"
+                            timeDisplay = item.dateObj.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }) // "19:00"
                         } else {
-                            dateFormatted = slotStr
+                            dateDisplay = item.slotInfo
                         }
                     }
 
-                    // Resolve Multilingual Title/Desc
                     const displayTitle = (language === 'zh' ? item.titleZh : language === 'ru' ? item.titleRu : item.title) || item.title
                     const displayDesc = (language === 'zh' ? item.descriptionZh : language === 'ru' ? item.descriptionRu : item.description) || item.description
 
-                    // Construct Buy URL
-                    // If specific slot, can pre-fill? currently /buy/[id] checks state. 
-                    // To support pre-fill, we'd need ClientBuyPage to read searchParams? 
-                    // For now, simple link.
-                    const buyUrl = `/buy/${item.id}${item.isSpecificSlot ? `?slot=${encodeURIComponent(item.slotInfo)}` : ''}`
+                    const buyUrl = `/buy/${item.id}${item.slotInfo ? `?slot=${encodeURIComponent(item.slotInfo)}` : ''}`
 
+                    // Row Layout
                     return (
-                        <div key={item.virtualId || item.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-teal-900/30 hover:bg-teal-800/50 p-4 rounded-lg transition-colors border border-teal-800/30">
-                            <div className="col-span-12 md:col-span-3 flex md:flex-col gap-2 md:gap-0">
-                                <span className="text-white font-medium">{dateFormatted}</span>
-                                <span className="text-teal-300">{timeFormatted}</span>
+                        <div key={item.instanceId} className="flex flex-col md:flex-row items-start md:items-center gap-4 p-4 rounded-lg bg-slate-900/40 border border-slate-800 hover:border-teal-500/50 hover:bg-slate-900/60 transition-all group">
+
+                            {/* Date Column */}
+                            <div className="flex-shrink-0 w-24 flex flex-col items-center justify-center p-2 rounded bg-slate-950/50 border border-slate-800/50">
+                                <span className="text-lg font-bold text-white leading-none">{dateDisplay}</span>
+                                <span className="text-sm text-teal-400 font-mono mt-1">{timeDisplay}</span>
                             </div>
-                            <div className="col-span-12 md:col-span-5">
-                                <h3 className="text-lg font-bold text-white">{displayTitle}</h3>
-                                <p className="text-sm text-teal-300 line-clamp-1">{displayDesc}</p>
+
+                            {/* Main Content */}
+                            <div className="flex-grow min-w-0">
+                                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                    <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider border ${getBadgeColor(item.badgeType)}`}>
+                                        {item.badgeType}
+                                    </span>
+                                    <h3 className="text-base md:text-lg font-bold text-white truncate group-hover:text-teal-300 transition-colors">
+                                        {displayTitle}
+                                    </h3>
+                                </div>
+                                <p className="text-sm text-slate-400 line-clamp-2 leading-relaxed">
+                                    {displayDesc}
+                                </p>
                             </div>
-                            <div className="col-span-6 md:col-span-2 text-sm text-teal-200">
-                                {item.venue || item.location}
+
+                            {/* Venue & Action */}
+                            <div className="flex-shrink-0 w-full md:w-48 flex flex-row md:flex-col justify-between md:justify-center items-center md:items-end gap-3 md:gap-1 pl-0 md:pl-4 md:border-l border-slate-800">
+                                <span className="text-xs text-slate-500 text-right">{item.venue || item.location}</span>
+
+                                <div className="flex items-center gap-3">
+                                    <span className="font-bold text-white text-lg">{formatPrice(item.price, language)}</span>
+                                    <Link href={buyUrl}>
+                                        <Button size="sm" className="h-8 bg-teal-600 hover:bg-teal-500 text-white rounded-full px-4">
+                                            Buy
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
-                            <div className="col-span-6 md:col-span-2 flex flex-col items-end gap-2">
-                                <span className="font-bold text-white">{formatPrice(item.price, language)}</span>
-                                <Link href={buyUrl} className="w-full md:w-auto">
-                                    <Button size="sm" className="w-full bg-teal-600 hover:bg-teal-500 text-white border-none py-1 h-8">
-                                        {dict.home.buyNow}
-                                    </Button>
-                                </Link>
-                            </div>
+
                         </div>
                     )
                 })}
             </div>
+
+            {allEvents.length === 0 && (
+                <div className="text-center py-10 text-slate-500">
+                    No events found.
+                </div>
+            )}
         </div>
     )
 }

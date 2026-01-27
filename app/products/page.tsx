@@ -21,26 +21,33 @@ async function getProducts(searchParams: { city?: string, venue?: string, title?
     if (searchParams.venue) {
         const venueQuery = searchParams.venue.toLowerCase();
 
-        // Specific Theater Logic
-        if (venueQuery === 'bolshoi') {
+        // Specific Theater/Venue Logic (Fuzzy Match & Normalization)
+        if (venueQuery.includes('bolshoi')) {
             where.location = { contains: 'Bolshoi', mode: 'insensitive' }
-        } else if (venueQuery === 'mariinsky') {
+        } else if (venueQuery.includes('mariinsky')) {
             where.location = { contains: 'Mariinsky', mode: 'insensitive' }
+        } else if (venueQuery.includes('kremlin') || venueQuery.includes('armory') || venueQuery.includes('armoury')) {
+            where.OR = [
+                { location: { contains: 'Kremlin', mode: 'insensitive' } },
+                { venue: { contains: 'Armour', mode: 'insensitive' } }, // Matches Armoury
+                { venue: { contains: 'Armory', mode: 'insensitive' } }
+            ]
         } else {
-            // Generic Strict Search
-            // If user passed venue=Kremlin complex, we search strictly for that.
+            // Generic Fuzzy Search
             where.OR = [
                 { venue: { contains: searchParams.venue, mode: 'insensitive' } },
                 { location: { contains: searchParams.venue, mode: 'insensitive' } },
-                { title: { contains: searchParams.venue, mode: 'insensitive' } },
-                // If title param is also passed, it overrides specific title match
-                ...(searchParams.title ? [{ title: { contains: searchParams.title, mode: 'insensitive' } }] : [])
+                // Only search title if it's NOT the same as the venue param (avoid self-filter)
+                ...(searchParams.title && searchParams.title !== searchParams.venue
+                    ? [{ title: { contains: searchParams.venue, mode: 'insensitive' } }]
+                    : [])
             ]
         }
     }
 
-    // If title is explicitly passed and we haven't strictly narrowed by venue ID above
-    if (searchParams.title && !where.location) {
+    // If title is explicitly passed and we haven't strictly narrowed by location/venue type above
+    // And ensure title is not just repeating the venue name
+    if (searchParams.title && !where.location && !where.OR && searchParams.title !== searchParams.venue) {
         where.title = { contains: searchParams.title, mode: 'insensitive' }
     }
 
@@ -55,7 +62,15 @@ export default async function ProductsPage({ searchParams }: { searchParams: { c
     const title = searchParams.title || "Products"
 
     // Find static venue info if available
-    const venueId = searchParams.venue?.toLowerCase()
+    // Normalize logic for mapping complex query params to simple IDs
+    let venueId = searchParams.venue?.toLowerCase()
+
+    // Mapping overrides
+    if (venueId?.includes('kremlin')) venueId = 'kremlin';
+    if (venueId?.includes('bolshoi')) venueId = 'bolshoi';
+    if (venueId?.includes('mariinsky')) venueId = 'mariinsky';
+    if (venueId?.includes('hermitage')) venueId = 'hermitage';
+
     const venueInfo = venueId ? VENUES[venueId] : undefined
 
     return (
