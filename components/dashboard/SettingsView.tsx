@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { User, Mail, Shield, Bell, Globe } from "lucide-react"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
+import { SignOutButton } from "@/components/auth/SignOutButton"
 
 interface SettingsViewProps {
     user: {
@@ -85,6 +86,12 @@ export function SettingsView({ user }: SettingsViewProps) {
                             {dict.settings.configure}
                         </Button>
                     </div>
+                </div>
+            </div>
+            {/* Account Actions */}
+            <div className="space-y-6 pt-6">
+                <div className="glass-card p-6">
+                    <SignOutButton />
                 </div>
             </div>
         </div>

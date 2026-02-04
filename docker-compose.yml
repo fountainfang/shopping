@@ -17,4 +17,11 @@ services:
       - MASTER_MNEMONIC=${MASTER_MNEMONIC}
       - WALLET_SECRET=${WALLET_SECRET}
       - BSC_RPC_URL=${BSC_RPC_URL}
-      # Add other env vars here
+
+  tunnel:
+    container_name: v-ticket-tunnel
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --url http://web:3000
+    depends_on:
+      - web

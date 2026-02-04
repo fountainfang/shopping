@@ -36,10 +36,54 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
     const [bookingTime, setBookingTime] = useState(initialTime)
     const [targetLink, setTargetLink] = useState("")
     const [additionalInfo, setAdditionalInfo] = useState("")
+    // Purchasing Service Logic
+    const [rubleAmount, setRubleAmount] = useState("")
+    const [calculatedPrice, setCalculatedPrice] = useState<number | null>(null)
+    const [calculationDetails, setCalculationDetails] = useState<any>(null)
+    const [rmbDisplayPrice, setRmbDisplayPrice] = useState<number | null>(null)
+    const [calculating, setCalculating] = useState(false)
+
+    useEffect(() => {
+        if (product.type !== 'CONCIERGE' || !rubleAmount) {
+            setCalculatedPrice(null)
+            setRmbDisplayPrice(null)
+            return
+        }
+
+        const timer = setTimeout(async () => {
+            setCalculating(true)
+            try {
+                const res = await fetch(`https://lolzteam.fountain-fang.workers.dev/?amount=${rubleAmount}`)
+                const data = await res.json()
+
+                // Logic: (Taobao Price / Rate)
+                // Keys from user: "淘宝价格", "人民币usdt汇率"
+                const tbPrice = data["淘宝价格"]
+                const rate = data["人民币usdt汇率"]
+
+                if (tbPrice && rate) {
+                    const final = tbPrice / rate
+                    setCalculatedPrice(final)
+                    setRmbDisplayPrice(tbPrice)
+                    setCalculationDetails(data)
+                }
+            } catch (e) {
+                console.error(e)
+            } finally {
+                setCalculating(false)
+            }
+        }, 800) // Debounce
+
+        return () => clearTimeout(timer)
+    }, [rubleAmount, product.type])
 
     if (!product) return <div className="p-8 text-center text-muted-foreground">Product not found</div>
 
-    const canAfford = userBalance >= product.price
+    // Effective Price: Dynamic if Concierge, else Product Price
+    const effectivePrice = (product.type === 'CONCIERGE' && calculatedPrice) ? calculatedPrice : product.price
+
+    // Balance Check uses effective price
+    const canAfford = userBalance >= effectivePrice
     const isLoggedIn = !!session
 
     async function onBuy() {
@@ -48,6 +92,11 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
             return
         }
         if (!canAfford) {
+            return
+        }
+
+        if (product.type === 'CONCIERGE' && !targetLink) {
+            setError("Target Link is required")
             return
         }
 
@@ -62,7 +111,11 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                     productId: product.id,
                     bookingDate: bookingDate ? new Date(bookingDate + (bookingTime ? 'T' + bookingTime : '')).toISOString() : null,
                     targetLink,
-                    additionalInfo
+                    // Pass dynamic price for Concierge
+                    price: product.type === 'CONCIERGE' ? effectivePrice : undefined,
+                    additionalInfo: product.type === 'CONCIERGE'
+                        ? `Amount: ${rubleAmount} RUB | Rate: ${calculationDetails?.["人民币usdt汇率"]} | TB: ${calculationDetails?.["淘宝价格"]} | Cost: ${calculationDetails?.["成本"]}. ${additionalInfo}`
+                        : additionalInfo
                 })
             })
 
@@ -119,7 +172,22 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                             </div>
                             <div className="flex justify-between items-center">
                                 <span className="text-muted-foreground">{dict.buy.priceLabel}</span>
-                                <span className="font-bold text-2xl text-primary">{formatPrice(product.price, language)}</span>
+                                <div className="text-right">
+                                    <span className="font-bold text-2xl text-primary">
+                                        {(() => {
+                                            if (product.type === 'CONCIERGE' && calculatedPrice !== null) {
+                                                if (language === 'zh' && rmbDisplayPrice) {
+                                                    return `¥${rmbDisplayPrice}`
+                                                }
+                                                return `$${calculatedPrice.toFixed(2)}`
+                                            }
+                                            return formatPrice(effectivePrice, language)
+                                        })()}
+                                    </span>
+                                    {product.type === 'CONCIERGE' && calculating && (
+                                        <span className="text-xs text-muted-foreground block animate-pulse">Calculating...</span>
+                                    )}
+                                </div>
                             </div>
                         </div>
 
@@ -189,18 +257,38 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                         )}
 
                         {product.type === 'CONCIERGE' && (
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
-                                    <LinkIcon className="w-4 h-4" />
-                                    Target Link (Item to buy)
-                                </label>
-                                <Input
-                                    placeholder="https://..."
-                                    required
-                                    value={targetLink}
-                                    onChange={e => setTargetLink(e.target.value)}
-                                    className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
-                                />
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
+                                        <LinkIcon className="w-4 h-4" />
+                                        Target Link (Item to buy)
+                                    </label>
+                                    <Input
+                                        placeholder="https://..."
+                                        required
+                                        value={targetLink}
+                                        onChange={e => setTargetLink(e.target.value)}
+                                        className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
+                                        ₽ Ruble Amount
+                                    </label>
+                                    <Input
+                                        type="number"
+                                        placeholder="e.g. 500"
+                                        required
+                                        value={rubleAmount}
+                                        onChange={e => setRubleAmount(e.target.value)}
+                                        className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
+                                    />
+                                    {calculationDetails && (
+                                        <div className="text-xs text-muted-foreground space-y-1 bg-white/5 p-2 rounded">
+                                            {/* Debug details removed per user request */}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
 
@@ -312,7 +400,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                 className="w-full h-12 text-lg shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white border-none transition-all hover:scale-[1.02] active:scale-[0.98]"
                                 size="lg"
                                 onClick={onBuy}
-                                disabled={loading || !canAfford}
+                                disabled={loading || !canAfford || (product.type === 'CONCIERGE' && !calculatedPrice)}
                             >
                                 {loading ? dict.buy.processing : dict.buy.confirmBtn}
                             </Button>

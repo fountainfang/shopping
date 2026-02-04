@@ -53,7 +53,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
     console.log("Admin Create Product: Session Check:", JSON.stringify(session, null, 2));
 
-    if (!session || session.user.role !== "admin") {
+    if (!session || !session.user || session.user.role !== "admin") {
         console.log("Admin Create Product: UNAUTHORIZED. Role:", session?.user?.role);
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

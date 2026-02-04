@@ -180,7 +180,7 @@ export default function EditProductClient({ product, existingCities, attractions
                             <option value="VIRTUAL">Virtual Product (Standard)</option>
                             <option value="ATTRACTION">Attraction Ticket (景点门票)</option>
                             <option value="THEATER">Theater Ticket (剧院门票)</option>
-                            <option value="CONCIERGE">Concierge Service (代买服务)</option>
+                            <option value="CONCIERGE">Purchasing Service (代买服务)</option>
                         </select>
 
                         {/* Attraction Selection */}

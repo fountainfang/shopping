@@ -53,7 +53,7 @@ async function getUserData(userId: string) {
 
 export default async function DashboardPage() {
     const session = await getServerSession(authOptions)
-    if (!session) return null
+    if (!session || !session.user || !session.user.id) return null
 
 
     // Fetch real data from DB

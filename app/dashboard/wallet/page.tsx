@@ -26,11 +26,11 @@ async function getUserWallet(userId: string) {
 export default async function WalletPage() {
     const session = await getServerSession(authOptions)
 
-    if (!session || !session.user) {
+    if (!session || !session.user || !session.user.id) {
         redirect("/auth/login")
     }
 
-    const userData = await getUserWallet(session.user.id)
+    const userData = await getUserWallet(session.user.id!)
 
     if (!userData) {
         return <div>User not found</div>
@@ -65,7 +65,7 @@ export default async function WalletPage() {
                 {/* Deposit Card */}
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Deposit Address (USDT - TRC20)</CardTitle>
+                        <CardTitle className="text-sm font-medium">Deposit Address (USDT - BEP20)</CardTitle>
                         <ArrowDownLeft className="h-4 w-4 text-green-500" />
                     </CardHeader>
                     <CardContent>
@@ -78,7 +78,7 @@ export default async function WalletPage() {
                                     </Button>
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                    Send only USDT (TRC20) to this address.
+                                    Send only USDT (BEP20) to this address.
                                 </p>
                             </div>
                         ) : (

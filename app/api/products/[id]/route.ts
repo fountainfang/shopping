@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
     const session = await getServerSession(authOptions);
 
-    if (!session || session.user.role !== 'admin') { // Assume role check or basic admin logic
+    if (!session || !session.user || session.user.role !== 'admin') { // Assume role check or basic admin logic
         // For this MVP, we might rely on the fact it's an admin route or authorized
         // If user role check fails, return 401
     }

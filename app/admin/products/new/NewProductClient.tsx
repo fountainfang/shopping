@@ -244,7 +244,7 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                             <option value="VIRTUAL">{dict.admin.form.virtual}</option>
                             <option value="ATTRACTION">{dict.admin.form.attraction}</option>
                             <option value="THEATER">{dict.admin.form.theater}</option>
-                            <option value="CONCIERGE">{dict.admin.form.concierge}</option>
+                            <option value="CONCIERGE">Purchasing Service (代买服务)</option>
                         </select>
 
                         {/* Attraction Selection */}

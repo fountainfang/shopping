@@ -6,9 +6,10 @@ import { SettingsView } from "@/components/dashboard/SettingsView"
 export default async function SettingsPage() {
     const session = await getServerSession(authOptions)
 
-    if (!session || !session.user) {
+    if (!session?.user?.id) {
         redirect("/auth/login")
     }
 
+    // @ts-ignore - Validated id exists
     return <SettingsView user={session.user} />
 }

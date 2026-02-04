@@ -3,6 +3,8 @@ import { authOptions } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { LayoutDashboard, Package, Users, Wallet, LogOut, ShoppingCart, Landmark } from "lucide-react"
+import { SignOutButton } from "@/components/auth/SignOutButton"
+import { SimpleLanguageSwitcher } from "@/components/SimpleLanguageSwitcher"
 
 export default async function AdminLayout({
     children,
@@ -11,7 +13,7 @@ export default async function AdminLayout({
 }) {
     const session = await getServerSession(authOptions)
 
-    if (!session || session.user.role !== "admin") {
+    if (!session || !session.user || session.user.role !== "admin") {
         redirect("/dashboard") // Redirect non-admins to user dashboard
     }
 
@@ -46,15 +48,20 @@ export default async function AdminLayout({
                 </nav>
 
                 <div className="p-4 border-t border-border">
-                    <Link href="/api/auth/signout" className="flex items-center gap-3 px-4 py-3 text-sm text-muted-foreground hover:text-destructive transition-colors">
-                        <LogOut className="w-4 h-4" />
-                        Sign out
-                    </Link>
+                    <SignOutButton />
                 </div>
             </div>
 
-            <main className="flex-1 overflow-auto p-8">
-                {children}
+            <main className="flex-1 overflow-auto bg-muted/5 flex flex-col">
+                <header className="h-16 border-b border-border bg-background px-8 flex items-center justify-between sticky top-0 z-10">
+                    <h2 className="text-lg font-medium text-muted-foreground">Console</h2>
+                    <div className="flex items-center gap-4">
+                        <SimpleLanguageSwitcher />
+                    </div>
+                </header>
+                <div className="p-8">
+                    {children}
+                </div>
             </main>
         </div>
     )

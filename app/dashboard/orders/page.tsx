@@ -23,11 +23,11 @@ async function getOrders(userId: string) {
 export default async function OrdersPage() {
     const session = await getServerSession(authOptions)
 
-    if (!session || !session.user) {
+    if (!session || !session.user || !session.user.id) {
         redirect("/auth/login")
     }
 
-    const orders = await getOrders(session.user.id)
+    const orders = await getOrders(session.user.id!)
 
     return <OrderList orders={orders} />
 }
