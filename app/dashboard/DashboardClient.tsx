@@ -3,6 +3,7 @@
 import { useLanguage } from "@/lib/i18n/LanguageContext"
 import { Wallet, RefreshCw, CreditCard } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import ContactInfo from "@/components/dashboard/ContactInfo"
 
 interface DashboardClientProps {
     userData: {
@@ -121,6 +122,9 @@ export default function DashboardClient({ userData }: DashboardClientProps) {
                     </table>
                 </div>
             </div>
+
+            {/* Contact Info Section */}
+            <ContactInfo />
         </div>
     )
 }

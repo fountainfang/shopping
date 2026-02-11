@@ -123,6 +123,8 @@ export type Dictionary = {
         booking: string;
         empty: string;
         deliveryContent: string;
+        messageFromAdmin: string;
+        refunded: string;
     };
     admin: {
         dashboard: string;
@@ -281,7 +283,9 @@ export const dictionaries: Record<Language, Dictionary> = {
             amount: "Amount",
             booking: "Booking",
             empty: "You haven't placed any orders yet.",
-            deliveryContent: "Delivery Content"
+            deliveryContent: "Delivery Content",
+            messageFromAdmin: "Message from Admin",
+            refunded: "Refunded"
         },
         settings: {
             title: "Settings",
@@ -453,7 +457,9 @@ export const dictionaries: Record<Language, Dictionary> = {
             amount: "金额",
             booking: "预订时间",
             empty: "您还没有下过订单。",
-            deliveryContent: "发货内容"
+            deliveryContent: "发货内容",
+            messageFromAdmin: "管理员留言",
+            refunded: "已退款"
         },
         settings: {
             title: "设置",
@@ -625,7 +631,9 @@ export const dictionaries: Record<Language, Dictionary> = {
             amount: "Сумма",
             booking: "Бронь",
             empty: "Вы еще не делали заказов.",
-            deliveryContent: "Информация о доставке"
+            deliveryContent: "Информация о доставке",
+            messageFromAdmin: "Сообщение от админа",
+            refunded: "Возврат"
         },
         settings: {
             title: "Настройки",

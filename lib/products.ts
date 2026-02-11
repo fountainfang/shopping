@@ -58,7 +58,13 @@ export async function getGroupedAttractions(): Promise<CityGroup[]> {
         })
     })
 
-    return Array.from(cityMap.values()).sort((a, b) => a.name.localeCompare(b.name))
+    return Array.from(cityMap.values()).sort((a, b) => {
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+        if (nameA === 'other' || nameA === 'others') return 1;
+        if (nameB === 'other' || nameB === 'others') return -1;
+        return a.name.localeCompare(b.name);
+    })
 }
 
 export async function getGroupedVenues(): Promise<CityGroup[]> {
@@ -136,7 +142,13 @@ export async function getGroupedVenues(): Promise<CityGroup[]> {
         nameZh: value.nameZh,
         nameRu: value.nameRu,
         venues: Array.from(value.venues.values())
-    })).sort((a, b) => a.name.localeCompare(b.name))
+    })).sort((a, b) => {
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+        if (nameA === 'other' || nameA === 'others') return 1;
+        if (nameB === 'other' || nameB === 'others') return -1;
+        return a.name.localeCompare(b.name);
+    })
 
     return results
 }
