@@ -6,11 +6,12 @@ import { ArrowLeft } from "lucide-react"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { VenueHeader } from "@/components/VenueHeader"
 import { ScheduleList } from "@/components/ScheduleList"
+import { DateFilter } from "@/components/DateFilter"
 
 // Force dynamic
 export const dynamic = 'force-dynamic'
 
-export default async function AttractionPage({ params }: { params: { id: string } }) {
+export default async function AttractionPage({ params, searchParams }: { params: { id: string }, searchParams: { date?: string } }) {
     const attraction = await prisma.attraction.findUnique({
         where: { id: params.id },
         include: {
@@ -23,6 +24,48 @@ export default async function AttractionPage({ params }: { params: { id: string 
     if (!attraction) {
         notFound()
     }
+
+    // Filter Products: Remove past slots and remove products with no future slots (unless open-dated)
+    // using sv-SE locale gives YYYY-MM-DD HH:MM:SS format
+    const moscowTime = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Moscow", hour12: false }).replace(' ', ' ').substring(0, 16);
+
+    const filteredProducts = attraction.products.map(p => {
+        // If no slots (open ticket), keep as is
+        if (!p.availableSlots || !Array.isArray(p.availableSlots) || p.availableSlots.length === 0) {
+            return p;
+        }
+
+        // Filter slots
+        const validSlots = (p.availableSlots as string[]).filter(slot => {
+            // Must be in the future
+            if (slot < moscowTime) return false;
+            // If a specific date is selected, must match that date
+            if (searchParams.date && !slot.startsWith(searchParams.date)) return false;
+            return true;
+        });
+
+        // Return product with filtered slots
+        return {
+            ...p,
+            availableSlots: validSlots
+        };
+    }).filter(p => {
+        // Keep if open ticket (no slots originally) OR has valid future slots
+        // We need to check if it HAD slots originally. 
+        // If p.availableSlots is now empty, but originally wasn't (implied by previous logic), it should be removed.
+
+        // However, the map above returns a new object with filtered slots.
+        // If the original had slots, and now validSlots is empty, we should drop it.
+
+        // Re-check logic:
+        // Case 1: Original had no slots -> map returns p (no change) -> keep.
+        // Case 2: Original had slots -> map returns new p with validSlots.
+        //    If validSlots is empty -> Drop.
+        //    If validSlots has items -> Keep.
+
+        if (!p.availableSlots || !Array.isArray(p.availableSlots)) return true; // Should be covered by map logic but safe check
+        return p.availableSlots.length > 0;
+    });
 
     return (
         <div className="min-h-screen flex flex-col bg-background text-foreground font-sans selection:bg-primary selection:text-white relative">
@@ -55,9 +98,10 @@ export default async function AttractionPage({ params }: { params: { id: string 
 
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white px-2">Available Tickets & Services</h2>
-                    <ScheduleList products={attraction.products} />
+                    <DateFilter />
+                    <ScheduleList products={filteredProducts} />
 
-                    {attraction.products.length === 0 && (
+                    {filteredProducts.length === 0 && (
                         <div className="text-center py-20 bg-white/5 border border-white/10 rounded-xl">
                             <p className="text-xl text-muted-foreground">No tickets currently available online.</p>
                             <p className="text-sm text-muted-foreground/60 mt-2">Please contact support or check back later.</p>

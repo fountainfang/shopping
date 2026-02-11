@@ -20,32 +20,43 @@ export type CityGroup = {
     attractions?: AttractionInfo[];
 }
 
-export async function getGroupedAttractions(): Promise<CityGroup[]> {
+export async function getGroupedAttractions(filterDate?: string): Promise<CityGroup[]> {
     // @ts-ignore - Prisma client update might lag in IDE
     const attractions = await prisma.attraction.findMany({
         orderBy: { name: 'asc' },
         include: { products: true }
     })
 
+    // Current Moscow Time String for comparison (YYYY-MM-DD HH:MM)
+    // using sv-SE locale gives YYYY-MM-DD HH:MM:SS format
+    const moscowTime = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Moscow", hour12: false }).replace(' ', ' ').substring(0, 16);
+
     const cityMap = new Map<string, CityGroup>()
-    const now = new Date();
 
     // @ts-ignore
     attractions.forEach((attr: any) => {
-        // Filter Logic: Check if attraction has any valid future products
-        const hasFutureProducts = attr.products.some((p: any) => {
-            const slots = Array.isArray(p.availableSlots) ? p.availableSlots : [];
-            // If no slots are defined, it's a generic product (always available)
-            if (slots.length === 0) return true;
+        // Filter Logic:
+        // 1. Must have products
+        // 2. If product has NO slots -> Keep (Open dated)
+        // 3. If product HAS slots -> Check if any slot > moscowTime
+        // 4. If filterDate provided -> must also match the date
+        const validProducts = attr.products.filter((p: any) => {
+            const hasSlots = p.availableSlots && Array.isArray(p.availableSlots) && p.availableSlots.length > 0;
+            if (!hasSlots) return true; // Open dated
 
-            // If slots exist, check if ANY are in the future
-            return slots.some((slotStr: string) => new Date(slotStr) > now);
+            // Basic future check
+            const hasFutureSlot = p.availableSlots.some((slot: string) => slot >= moscowTime);
+            if (!hasFutureSlot) return false;
+
+            // Specific date filter
+            if (filterDate) {
+                return p.availableSlots.some((slot: string) => slot.startsWith(filterDate));
+            }
+
+            return true;
         });
 
-        if (!hasFutureProducts) {
-            // Skip this attraction if all its specific events are in the past
-            return;
-        }
+        if (validProducts.length === 0) return; // Skip this attraction
 
         const cityKey = attr.city || "Other"
 
