@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma"; // Changed from @/lib/prisma to match relative path or alias
+import { prisma } from "@/lib/prisma";
+import { getWorkerPrice } from "@/lib/price";
 import { redirect } from "next/navigation";
 
 export async function POST(req: Request) {
@@ -43,6 +44,17 @@ export async function POST(req: Request) {
                     finalPrice = body.price;
                 }
                 // Optional: You could re-verify with the worker API here for security
+            } else {
+                // Standard Product: Price in DB is RUB. We need to deduct USDT.
+                // Fetch dynamic USD price from worker
+                try {
+                    // We trust the worker to give us the USDT equivalent
+                    const usdPrice = await getWorkerPrice(product.price);
+                    finalPrice = usdPrice;
+                } catch (error) {
+                    console.error("Failed to get worker price for order", error);
+                    throw new Error("Failed to calculate price. Please try again.");
+                }
             }
 
             if (product.stock <= 0 && product.type !== 'CONCIERGE') {

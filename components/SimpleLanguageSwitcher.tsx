@@ -24,9 +24,11 @@ export function SimpleLanguageSwitcher() {
 
     return (
         <div className="relative" ref={ref}>
-            <Button variant="ghost" size="icon" className="w-9 h-9" onClick={() => setOpen(!open)}>
+            <Button variant="ghost" size="sm" className="gap-1.5 px-3" onClick={() => setOpen(!open)}>
                 <Globe className="h-4 w-4" />
-                <span className="sr-only">Switch Language</span>
+                <span className="font-medium text-xs">
+                    {language === 'zh' ? "中文" : language === 'ru' ? "РУ" : "EN"}
+                </span>
             </Button>
 
             {open && (

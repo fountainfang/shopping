@@ -19,11 +19,18 @@ export function LanguageSwitcher() {
         ru: "Русский"
     }
 
+    const labels = {
+        en: "EN",
+        zh: "中文",
+        ru: "РУ"
+    }
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="w-9 h-9">
+                <Button variant="ghost" size="sm" className="gap-1.5 px-3">
                     <Globe className="h-4 w-4" />
+                    <span className="font-medium text-xs">{labels[language as keyof typeof labels] || "EN"}</span>
                     <span className="sr-only">Switch Language</span>
                 </Button>
             </DropdownMenuTrigger>

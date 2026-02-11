@@ -11,6 +11,8 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 
 import { useSearchParams } from "next/navigation"
 import { formatPrice } from "@/lib/utils"
+import { useWorkerPrice } from "@/lib/hooks/useWorkerPrice"
+import { Loader2 } from "lucide-react"
 
 export default function ClientBuyPage({ product, session, userBalance }: { product: any, session: any, userBalance: number }) {
     const { dict, language } = useLanguage()
@@ -42,6 +44,11 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
     const [calculationDetails, setCalculationDetails] = useState<any>(null)
     const [rmbDisplayPrice, setRmbDisplayPrice] = useState<number | null>(null)
     const [calculating, setCalculating] = useState(false)
+
+    // Fetch price for standard products (Attraction/Theater)
+    const { prices: standardPrices, isLoading: isLoadingPrice } = useWorkerPrice(
+        product.type !== 'CONCIERGE' ? product.price : null
+    )
 
     useEffect(() => {
         if (product.type !== 'CONCIERGE' || !rubleAmount) {
@@ -79,8 +86,14 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
 
     if (!product) return <div className="p-8 text-center text-muted-foreground">Product not found</div>
 
-    // Effective Price: Dynamic if Concierge, else Product Price
-    const effectivePrice = (product.type === 'CONCIERGE' && calculatedPrice) ? calculatedPrice : product.price
+    // Effective Price: Dynamic if Concierge, else use Worker USD Price for check
+    // If standard product, effectivePrice should be the USDT cost (approx worker USD price)
+    // We use a fallback if loading, but typically we want to block buy if loading
+    const standardUsdPrice = standardPrices?.["美元价格"] || 0
+
+    const effectivePrice = product.type === 'CONCIERGE'
+        ? (calculatedPrice || 0)
+        : standardUsdPrice
 
     // Balance Check uses effective price
     const canAfford = userBalance >= effectivePrice
@@ -175,13 +188,26 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                 <div className="text-right">
                                     <span className="font-bold text-2xl text-primary">
                                         {(() => {
-                                            if (product.type === 'CONCIERGE' && calculatedPrice !== null) {
-                                                if (language === 'zh' && rmbDisplayPrice) {
-                                                    return `¥${rmbDisplayPrice}`
+                                            if (product.type === 'CONCIERGE') {
+                                                if (calculatedPrice !== null) {
+                                                    if (language === 'zh' && rmbDisplayPrice) {
+                                                        return `¥${rmbDisplayPrice}`
+                                                    }
+                                                    return `$${calculatedPrice.toFixed(2)}`
                                                 }
-                                                return `$${calculatedPrice.toFixed(2)}`
+                                                return "---"
                                             }
-                                            return formatPrice(effectivePrice, language)
+
+                                            // Standard Product Display
+                                            if (isLoadingPrice) return <Loader2 className="w-5 h-5 animate-spin inline" />
+                                            if (!standardPrices) return "Error"
+
+                                            if (language === 'zh') {
+                                                const cny = standardPrices["不走淘宝价格"]
+                                                return `¥${cny}`
+                                            }
+                                            // USD for others
+                                            return `$${standardPrices["美元价格"]}`
                                         })()}
                                     </span>
                                     {product.type === 'CONCIERGE' && calculating && (
@@ -371,7 +397,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                             <div className={`p-4 rounded-xl border ${canAfford ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-destructive/10 border-destructive/20 text-destructive'}`}>
                                 <div className="flex justify-between items-center">
                                     <span>{dict.buy.balanceLabel}</span>
-                                    <span className="font-bold text-lg">{formatPrice(userBalance, language)}</span>
+                                    <span className="font-bold text-lg">${userBalance.toFixed(2)}</span>
                                 </div>
                                 {!canAfford && (
                                     <p className="text-xs mt-2 font-medium flex items-center gap-1">
@@ -400,7 +426,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                 className="w-full h-12 text-lg shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white border-none transition-all hover:scale-[1.02] active:scale-[0.98]"
                                 size="lg"
                                 onClick={onBuy}
-                                disabled={loading || !canAfford || (product.type === 'CONCIERGE' && !calculatedPrice)}
+                                disabled={loading || !canAfford || (product.type === 'CONCIERGE' && !calculatedPrice) || (product.type !== 'CONCIERGE' && isLoadingPrice)}
                             >
                                 {loading ? dict.buy.processing : dict.buy.confirmBtn}
                             </Button>

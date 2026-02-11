@@ -39,14 +39,25 @@ export function OrderList({ orders }: { orders: any[] }) {
                                             {dict.orders.booking}: {formatDate(order.bookingDate)}
                                         </span>
                                     )}
+                                    {/* Delivery Content Display */}
+                                    {order.status === 'completed' && order.deliveryContent && (
+                                        <div className="mt-2 p-3 bg-green-500/10 border border-green-500/20 rounded-md text-sm">
+                                            <span className="block font-bold text-green-500 text-xs uppercase mb-1">
+                                                {dict.orders?.deliveryContent || "Delivery Content"}:
+                                            </span>
+                                            <div className="font-mono text-foreground break-all whitespace-pre-wrap select-all">
+                                                {order.deliveryContent}
+                                            </div>
+                                        </div>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4">
                                     {formatDate(order.createdAt)}
                                 </td>
                                 <td className="px-6 py-4">
                                     <span className={`px-2 py-1 rounded-full text-xs font-bold ${order.status === 'completed' || order.status === 'paid' ? 'bg-green-500/10 text-green-500' :
-                                            order.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500' :
-                                                'bg-red-500/10 text-red-500'
+                                        order.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500' :
+                                            'bg-red-500/10 text-red-500'
                                         }`}>
                                         {order.status.toUpperCase()}
                                     </span>

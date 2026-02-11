@@ -122,6 +122,7 @@ export type Dictionary = {
         amount: string;
         booking: string;
         empty: string;
+        deliveryContent: string;
     };
     admin: {
         dashboard: string;
@@ -279,7 +280,8 @@ export const dictionaries: Record<Language, Dictionary> = {
             status: "Status",
             amount: "Amount",
             booking: "Booking",
-            empty: "You haven't placed any orders yet."
+            empty: "You haven't placed any orders yet.",
+            deliveryContent: "Delivery Content"
         },
         settings: {
             title: "Settings",
@@ -450,7 +452,8 @@ export const dictionaries: Record<Language, Dictionary> = {
             status: "状态",
             amount: "金额",
             booking: "预订时间",
-            empty: "您还没有下过订单。"
+            empty: "您还没有下过订单。",
+            deliveryContent: "发货内容"
         },
         settings: {
             title: "设置",
@@ -621,7 +624,8 @@ export const dictionaries: Record<Language, Dictionary> = {
             status: "Статус",
             amount: "Сумма",
             booking: "Бронь",
-            empty: "Вы еще не делали заказов."
+            empty: "Вы еще не делали заказов.",
+            deliveryContent: "Информация о доставке"
         },
         settings: {
             title: "Настройки",

@@ -406,7 +406,7 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                 {/* Price & Stock */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">{dict.admin.form.price}</label>
+                        <label className="text-sm font-medium">{dict.admin.form.price} (₽ RUB)</label>
                         <Input name="price" type="number" step="0.01" value={formData.price} onChange={handleChange} required placeholder="0.00" />
                     </div>
                     <div className="space-y-2">

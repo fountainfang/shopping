@@ -76,7 +76,7 @@ export function AdminProductList({ products }: { products: any[] }) {
                                 <td className="px-6 py-4 text-muted-foreground">
                                     {product.city || product.location || "-"}
                                 </td>
-                                <td className="px-6 py-4">${product.price.toFixed(2)}</td>
+                                <td className="px-6 py-4">₽{product.price.toFixed(2)}</td>
                                 <td className="px-6 py-4">
                                     <span className={`px-2 py-1 rounded-full text-xs font-bold ${product.stock > 0 ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
                                         {product.stock}

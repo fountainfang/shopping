@@ -19,6 +19,7 @@ type AttractionSimple = { id: string, name: string, city: string }
 
 export default function EditProductClient({ product, existingCities, attractions = [] }: { product: any, existingCities: CityData[], attractions?: AttractionSimple[] }) {
     const router = useRouter()
+    const { dict } = useLanguage()
     const [loading, setLoading] = useState(false)
 
     // City Autocomplete State
@@ -270,7 +271,7 @@ export default function EditProductClient({ product, existingCities, attractions
                 {/* Conditional Fields */}
                 {(type === 'ATTRACTION' || type === 'THEATER') && (
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Location / Address</label>
+                        <label className="text-sm font-medium">{dict.admin.form.price} (₽ RUB)</label>
                         <Input name="location" value={formData.location} onChange={handleChange} placeholder={type === 'THEATER' ? "Theater Name" : "Attraction Address"} />
                     </div>
                 )}
@@ -337,8 +338,8 @@ export default function EditProductClient({ product, existingCities, attractions
 
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Price ($)</label>
-                        <Input name="price" value={formData.price} onChange={handleChange} type="number" step="0.01" required />
+                        <label className="text-sm font-medium">{dict.admin.form.price} (₽ RUB)</label>
+                        <Input name="price" value={formData.price} onChange={handleChange} type="number" step="0.01" required placeholder="0.00" />
                     </div>
                     {type !== 'CONCIERGE' && (
                         <div className="space-y-2">

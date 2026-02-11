@@ -109,7 +109,7 @@ export default function AdminOrdersPage({ orders }: { orders: any[] }) {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            {order.status === 'paid' && (
+                                            {(order.status === 'paid' || order.status === 'pending') && (
                                                 <Button
                                                     size="sm"
                                                     variant="outline"

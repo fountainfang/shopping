@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/lib/i18n/LanguageContext"
 import { Calendar } from "lucide-react"
 import { formatPrice } from "@/lib/utils"
+import { PriceDisplay } from "@/components/PriceDisplay"
 
 export function ScheduleList({ products }: { products: any[] }) {
     const { dict, language } = useLanguage()
@@ -131,7 +132,12 @@ export function ScheduleList({ products }: { products: any[] }) {
                                 <span className="text-xs text-slate-500 text-right">{item.venue || item.location}</span>
 
                                 <div className="flex items-center gap-3">
-                                    <span className="font-bold text-white text-lg">{formatPrice(item.price, language)}</span>
+                                    <div className="font-bold text-white text-lg flex items-baseline gap-1">
+                                        {language === 'en' && <span className="text-xs font-normal text-slate-400">starting from</span>}
+                                        {language === 'ru' && <span className="text-xs font-normal text-slate-400">от</span>}
+                                        <PriceDisplay amount={item.price} />
+                                        {language === 'zh' && <span className="text-sm font-normal text-slate-400">起</span>}
+                                    </div>
                                     <Link href={buyUrl}>
                                         <Button size="sm" className="h-8 bg-teal-600 hover:bg-teal-500 text-white rounded-full px-4">
                                             Buy

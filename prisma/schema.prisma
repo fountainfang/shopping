@@ -57,6 +57,7 @@ model Product {
   image       String?  // Product image URL
   stock       Int      @default(0)
   content     String?  // The virtual good content (e.g. code/link), hidden until purchase
+  currency    String   @default("RUB")
   
   type            ProductType @default(VIRTUAL)
   location        String?     // General location or Theater Name
