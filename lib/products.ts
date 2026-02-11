@@ -23,13 +23,30 @@ export type CityGroup = {
 export async function getGroupedAttractions(): Promise<CityGroup[]> {
     // @ts-ignore - Prisma client update might lag in IDE
     const attractions = await prisma.attraction.findMany({
-        orderBy: { name: 'asc' }
+        orderBy: { name: 'asc' },
+        include: { products: true }
     })
 
     const cityMap = new Map<string, CityGroup>()
+    const now = new Date();
 
     // @ts-ignore
     attractions.forEach((attr: any) => {
+        // Filter Logic: Check if attraction has any valid future products
+        const hasFutureProducts = attr.products.some((p: any) => {
+            const slots = Array.isArray(p.availableSlots) ? p.availableSlots : [];
+            // If no slots are defined, it's a generic product (always available)
+            if (slots.length === 0) return true;
+
+            // If slots exist, check if ANY are in the future
+            return slots.some((slotStr: string) => new Date(slotStr) > now);
+        });
+
+        if (!hasFutureProducts) {
+            // Skip this attraction if all its specific events are in the past
+            return;
+        }
+
         const cityKey = attr.city || "Other"
 
         if (!cityMap.has(cityKey)) {
