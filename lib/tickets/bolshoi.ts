@@ -2,10 +2,10 @@ import { prisma } from "@/lib/prisma"
 import fs from "fs/promises"
 import path from "path"
 
-export async function importBolshoiTickets() {
+export async function importBolshoiTickets(attractionId?: string) {
     try {
         // Use absolute path to ensure reliability in local environment
-        const filePath = "/Users/chengfang/Downloads/make money/shopping/moscow.json"
+        const filePath = path.join(process.cwd(), "moscow.json");
         console.log("Reading file from:", filePath);
 
         // Fallback to checks if needed, but for now strict absolute path
@@ -67,7 +67,8 @@ export async function importBolshoiTickets() {
                     where: { id: exactMatch.id },
                     data: {
                         stock: show.freeSeats || 100,
-                        price: parseFloat(price)
+                        price: parseFloat(price),
+                        ...(attractionId && !exactMatch.attractionId ? { attractionId } : {})
                     }
                 })
             } else {
@@ -83,6 +84,7 @@ export async function importBolshoiTickets() {
                         city: "Moscow",
                         availableSlots: [slot],
                         content: "E-Ticket for Bolshoi Theatre",
+                        ...(attractionId ? { attractionId } : {}),
                     }
                 })
                 count++

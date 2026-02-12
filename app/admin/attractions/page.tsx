@@ -3,11 +3,15 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Plus, Pencil, Trash2 } from "lucide-react"
+import { Plus, Pencil, Trash2, RefreshCw } from "lucide-react"
 
 export default function AdminAttractionsPage() {
     const [attractions, setAttractions] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
+    const [syncingMariinsky, setSyncingMariinsky] = useState(false)
+    const [syncingBolshoi, setSyncingBolshoi] = useState(false)
+    const [syncingMikhailovsky, setSyncingMikhailovsky] = useState(false)
+    const [syncResult, setSyncResult] = useState<{ type: "success" | "error"; message: string } | null>(null)
 
     useEffect(() => {
         fetch("/api/attractions")
@@ -18,6 +22,26 @@ export default function AdminAttractionsPage() {
             })
             .catch(err => setLoading(false))
     }, [])
+
+    const anySyncing = syncingMariinsky || syncingBolshoi || syncingMikhailovsky
+
+    async function handleSync(endpoint: string, setSyncing: (v: boolean) => void) {
+        setSyncing(true)
+        setSyncResult(null)
+        try {
+            const res = await fetch(endpoint, { method: "POST" })
+            const data = await res.json()
+            if (res.ok) {
+                setSyncResult({ type: "success", message: data.message || "Sync completed." })
+            } else {
+                setSyncResult({ type: "error", message: data.error || "Sync failed." })
+            }
+        } catch (err) {
+            setSyncResult({ type: "error", message: String(err) })
+        } finally {
+            setSyncing(false)
+        }
+    }
 
     async function handleDelete(id: string) {
         if (!confirm("Are you sure? This might delete linked products or leave them orphaned.")) return
@@ -36,12 +60,47 @@ export default function AdminAttractionsPage() {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold tracking-tight">Attractions</h1>
-                <Link href="/admin/attractions/new">
-                    <Button className="gap-2">
-                        <Plus className="w-4 h-4" /> Add Attraction
+                <div className="flex gap-2 flex-wrap justify-end">
+                    <Button
+                        variant="outline"
+                        className="gap-2"
+                        onClick={() => handleSync("/api/admin/sync-mariinsky", setSyncingMariinsky)}
+                        disabled={anySyncing}
+                    >
+                        <RefreshCw className={`w-4 h-4 ${syncingMariinsky ? "animate-spin" : ""}`} />
+                        {syncingMariinsky ? "Syncing…" : "Sync Mariinsky"}
                     </Button>
-                </Link>
+                    <Button
+                        variant="outline"
+                        className="gap-2"
+                        onClick={() => handleSync("/api/admin/sync-bolshoi", setSyncingBolshoi)}
+                        disabled={anySyncing}
+                    >
+                        <RefreshCw className={`w-4 h-4 ${syncingBolshoi ? "animate-spin" : ""}`} />
+                        {syncingBolshoi ? "Syncing…" : "Sync Bolshoi"}
+                    </Button>
+                    <Button
+                        variant="outline"
+                        className="gap-2"
+                        onClick={() => handleSync("/api/admin/sync-mikhailovsky", setSyncingMikhailovsky)}
+                        disabled={anySyncing}
+                    >
+                        <RefreshCw className={`w-4 h-4 ${syncingMikhailovsky ? "animate-spin" : ""}`} />
+                        {syncingMikhailovsky ? "Syncing…" : "Sync Mikhailovsky"}
+                    </Button>
+                    <Link href="/admin/attractions/new">
+                        <Button className="gap-2">
+                            <Plus className="w-4 h-4" /> Add Attraction
+                        </Button>
+                    </Link>
+                </div>
             </div>
+
+            {syncResult && (
+                <div className={`px-4 py-3 rounded-lg text-sm ${syncResult.type === "success" ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"}`}>
+                    {syncResult.message}
+                </div>
+            )}
 
             <div className="border rounded-lg bg-card">
                 <table className="w-full text-sm text-left">

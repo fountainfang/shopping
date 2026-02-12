@@ -135,8 +135,18 @@ export default function AdminOrdersPage({ orders }: { orders: any[] }) {
                                                 </div>
                                             )}
                                             {order.additionalInfo && (
-                                                <div className="mt-1 text-muted-foreground italic">
-                                                    "{order.additionalInfo}"
+                                                <div className="mt-2 text-muted-foreground text-xs bg-muted/30 p-2 rounded border border-border/50">
+                                                    {order.additionalInfo.includes('|') ? (
+                                                        <ul className="list-disc list-inside space-y-1">
+                                                            {order.additionalInfo.split('|').map((info: string, i: number) => (
+                                                                <li key={i} className="break-words">
+                                                                    {info.trim()}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    ) : (
+                                                        <span className="italic">"{order.additionalInfo}"</span>
+                                                    )}
                                                 </div>
                                             )}
                                             {!order.bookingDate && !order.targetLink && !order.additionalInfo && (

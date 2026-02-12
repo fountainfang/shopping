@@ -48,7 +48,7 @@ export function normalizeMariinskyEvent(item: MariinskyRawItem): NormalizedEvent
     };
 }
 
-export async function importMariinskyTickets() {
+export async function importMariinskyTickets(attractionId?: string) {
     try {
         const filePath = path.join(process.cwd(), "mariinsky_raw.json");
         console.log("Reading file from:", filePath);
@@ -116,7 +116,8 @@ export async function importMariinskyTickets() {
                     data: {
                         availableSlots: mergedSlots,
                         // Don't overwrite description if existing has one, unless empty
-                        description: existing.description || base.description
+                        description: existing.description || base.description,
+                        ...(attractionId && !existing.attractionId ? { attractionId } : {})
                     }
                 });
             } else {
@@ -134,6 +135,7 @@ export async function importMariinskyTickets() {
                         cityZh: "圣彼得堡",
                         cityRu: "Санкт-Петербург",
                         availableSlots: sortedSlots,
+                        ...(attractionId ? { attractionId } : {}),
                         content: `E-Ticket for ${base.theater}`
                     }
                 });

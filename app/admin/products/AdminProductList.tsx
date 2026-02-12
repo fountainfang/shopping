@@ -7,9 +7,10 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Plus, Edit, Trash, ChevronLeft, ChevronRight } from "lucide-react"
 
-export function AdminProductList({ products }: { products: any[] }) {
+export function AdminProductList({ products, attractions }: { products: any[]; attractions: { id: string; name: string }[] }) {
     const [search, setSearch] = useState("")
     const [typeFilter, setTypeFilter] = useState("ALL")
+    const [attractionFilter, setAttractionFilter] = useState("ALL")
     const [page, setPage] = useState(1)
     const pageSize = 10
 
@@ -18,7 +19,12 @@ export function AdminProductList({ products }: { products: any[] }) {
         const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase()) ||
             (p.city || "").toLowerCase().includes(search.toLowerCase())
         const matchesType = typeFilter === "ALL" || p.type === typeFilter
-        return matchesSearch && matchesType
+        const matchesAttraction = attractionFilter === "ALL"
+            ? true
+            : attractionFilter === "NONE"
+                ? !p.attractionId
+                : p.attractionId === attractionFilter
+        return matchesSearch && matchesType && matchesAttraction
     })
 
     // Pagination Logic
@@ -28,7 +34,7 @@ export function AdminProductList({ products }: { products: any[] }) {
     return (
         <div className="space-y-4">
             {/* Controls */}
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-4 items-center flex-wrap">
                 <Input
                     placeholder="Search products..."
                     value={search}
@@ -45,6 +51,18 @@ export function AdminProductList({ products }: { products: any[] }) {
                         <SelectItem value="THEATER">Theater</SelectItem>
                         <SelectItem value="ATTRACTION">Attraction</SelectItem>
                         <SelectItem value="CONCIERGE">Concierge</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select value={attractionFilter} onValueChange={(v: string) => { setAttractionFilter(v); setPage(1); }}>
+                    <SelectTrigger className="w-[220px]">
+                        <SelectValue placeholder="Filter by Attraction" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="ALL">All Attractions</SelectItem>
+                        <SelectItem value="NONE">No Attraction</SelectItem>
+                        {attractions.map(a => (
+                            <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
             </div>

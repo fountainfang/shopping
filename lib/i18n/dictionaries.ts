@@ -110,6 +110,10 @@ export type Dictionary = {
         insufficientBalance: string;
         processing: string;
         loginRequired: string;
+        surname: string;
+        givenName: string;
+        phoneNumber: string;
+        contactDetails: string;
     };
     // ... existing ...
     orders: {
@@ -271,7 +275,11 @@ export const dictionaries: Record<Language, Dictionary> = {
             error: "Purchase failed",
             insufficientBalance: "Insufficient balance. Please top up.",
             processing: "Processing...",
-            loginRequired: "Please login to purchase"
+            loginRequired: "Please login to purchase",
+            surname: "Surname (Pinyin)",
+            givenName: "Given Name (Pinyin)",
+            phoneNumber: "Phone Number",
+            contactDetails: "Contact Details"
         },
         orders: {
             title: "My Orders",
@@ -445,7 +453,11 @@ export const dictionaries: Record<Language, Dictionary> = {
             error: "购买失败",
             insufficientBalance: "余额不足，请先充值。",
             processing: "处理中...",
-            loginRequired: "请登录后购买"
+            loginRequired: "请登录后购买",
+            surname: "姓 (拼音)",
+            givenName: "名 (拼音)",
+            phoneNumber: "手机号",
+            contactDetails: "联系人信息"
         },
         orders: {
             title: "我的订单",
@@ -619,7 +631,11 @@ export const dictionaries: Record<Language, Dictionary> = {
             error: "Ошибка покупки",
             insufficientBalance: "Недостаточно средств. Пополните баланс.",
             processing: "Обработка...",
-            loginRequired: "Войдите для покупки"
+            loginRequired: "Войдите для покупки",
+            surname: "Фамилия (Pinyin)",
+            givenName: "Имя (Pinyin)",
+            phoneNumber: "Номер телефона",
+            contactDetails: "Контактные данные"
         },
         orders: {
             title: "Мои заказы",

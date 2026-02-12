@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle, AlertCircle, ShoppingBag, Calendar, Link as LinkIcon, Info } from "lucide-react"
+import { ArrowLeft, CheckCircle, AlertCircle, ShoppingBag, Calendar, Link as LinkIcon, Info, User, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/lib/i18n/LanguageContext"
@@ -38,6 +38,9 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
     const [bookingTime, setBookingTime] = useState(initialTime)
     const [targetLink, setTargetLink] = useState("")
     const [additionalInfo, setAdditionalInfo] = useState("")
+    const [surname, setSurname] = useState("")
+    const [givenName, setGivenName] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
     // Purchasing Service Logic
     const [rubleAmount, setRubleAmount] = useState("")
     const [calculatedPrice, setCalculatedPrice] = useState<number | null>(null)
@@ -113,6 +116,13 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
             return
         }
 
+        if (product.type === 'ATTRACTION') {
+            if (!surname || !givenName || !phoneNumber) {
+                setError("Please fill in all contact details (Surname, Given Name, Phone Number)")
+                return
+            }
+        }
+
         setLoading(true)
         setError("")
 
@@ -128,7 +138,9 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                     price: product.type === 'CONCIERGE' ? effectivePrice : undefined,
                     additionalInfo: product.type === 'CONCIERGE'
                         ? `Amount: ${rubleAmount} RUB | Rate: ${calculationDetails?.["人民币usdt汇率"]} | TB: ${calculationDetails?.["淘宝价格"]} | Cost: ${calculationDetails?.["成本"]}. ${additionalInfo}`
-                        : additionalInfo
+                        : product.type === 'ATTRACTION'
+                            ? ` Surname: ${surname} | Given Name: ${givenName} | Phone: ${phoneNumber} | ${additionalInfo}`
+                            : additionalInfo
                 })
             })
 
@@ -279,6 +291,48 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                 {!bookingDate && (
                                     <p className="text-xs text-muted-foreground/60">Please select a date to see available slots.</p>
                                 )}
+
+                                <div className="space-y-4 pt-4 border-t border-white/5">
+                                    <h3 className="font-medium text-white flex items-center gap-2">
+                                        <User className="w-4 h-4" />
+                                        {dict.buy.contactDetails || "Contact Details"}
+                                    </h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-medium text-muted-foreground">{dict.buy.surname}</label>
+                                            <Input
+                                                placeholder="Wang"
+                                                required
+                                                value={surname}
+                                                onChange={e => setSurname(e.target.value)}
+                                                className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-medium text-muted-foreground">{dict.buy.givenName}</label>
+                                            <Input
+                                                placeholder="Wei"
+                                                required
+                                                value={givenName}
+                                                onChange={e => setGivenName(e.target.value)}
+                                                className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
+                                            <Phone className="w-4 h-4" />
+                                            {dict.buy.phoneNumber}
+                                        </label>
+                                        <Input
+                                            placeholder="+86 138 0000 0000"
+                                            required
+                                            value={phoneNumber}
+                                            onChange={e => setPhoneNumber(e.target.value)}
+                                            className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         )}
 

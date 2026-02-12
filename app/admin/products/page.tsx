@@ -7,10 +7,19 @@ import { AdminProductList } from "./AdminProductList"
 export const dynamic = 'force-dynamic'
 
 export default async function AdminProductsPage() {
-    const products = await prisma.product.findMany({
-        orderBy: { createdAt: 'desc' },
-        include: { _count: { select: { orders: true } } }
-    })
+    const [products, attractions] = await Promise.all([
+        prisma.product.findMany({
+            orderBy: { createdAt: 'desc' },
+            include: {
+                _count: { select: { orders: true } },
+                attraction: { select: { id: true, name: true } }
+            }
+        }),
+        prisma.attraction.findMany({
+            orderBy: { name: 'asc' },
+            select: { id: true, name: true }
+        })
+    ])
 
     return (
         <div className="space-y-6">
@@ -26,7 +35,8 @@ export default async function AdminProductsPage() {
                 </div>
             </div>
 
-            <AdminProductList products={products} />
+            <AdminProductList products={products} attractions={attractions} />
         </div>
     )
 }
+
