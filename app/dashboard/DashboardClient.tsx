@@ -1,9 +1,11 @@
 "use client"
 
 import { useLanguage } from "@/lib/i18n/LanguageContext"
-import { Wallet, RefreshCw, CreditCard } from "lucide-react"
+import { Wallet, RefreshCw, CreditCard, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ContactInfo from "@/components/dashboard/ContactInfo"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 interface DashboardClientProps {
     userData: {
@@ -15,6 +17,32 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ userData }: DashboardClientProps) {
     const { dict } = useLanguage()
+    const router = useRouter()
+    const [isRefreshing, setIsRefreshing] = useState(false)
+    const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+
+    const handleRefresh = async () => {
+        setIsRefreshing(true)
+        setMessage(null)
+
+        try {
+            const res = await fetch('/api/user/refresh-balance', {
+                method: 'POST',
+            })
+            const data = await res.json()
+
+            if (!res.ok) {
+                setMessage({ type: 'error', text: data.message || data.error || "Failed to refresh" })
+            } else {
+                setMessage({ type: 'success', text: data.message || "Balance updated!" })
+                router.refresh()
+            }
+        } catch (error) {
+            setMessage({ type: 'error', text: "An error occurred" })
+        } finally {
+            setIsRefreshing(false)
+        }
+    }
 
     return (
         <div className="space-y-8">
@@ -57,13 +85,26 @@ export default function DashboardClient({ userData }: DashboardClientProps) {
                         </Button>
                     </div>
 
-                    <div className="mt-4 flex justify-end">
-                        <form action="/api/user/refresh-balance" method="POST">
-                            <Button variant="outline" size="sm" className="gap-2">
+                    <div className="mt-4 flex flex-col items-end gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            className="gap-2"
+                            onClick={handleRefresh}
+                            disabled={isRefreshing}
+                        >
+                            {isRefreshing ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
                                 <RefreshCw className="w-4 h-4" />
-                                {dict.dashboard.refreshBalance}
-                            </Button>
-                        </form>
+                            )}
+                            {dict.dashboard.refreshBalance}
+                        </Button>
+                        {message && (
+                            <p className={`text-xs ${message.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                                {message.text}
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>

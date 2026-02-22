@@ -1,77 +1,126 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { walletService } from "@/lib/wallet";
+import { decrypt } from "@/lib/crypto";
+import { ethers } from "ethers";
+
+// Mainnet Contract Addresses (BSC)
+const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955";
+// Central Wallet Address where funds are swept to
+const CENTRAL_WALLET = "0x35462af62726C8540247F82321F10B22B2AAf323";
+// Minimum Gas Required (0.001 BNB)
+const MIN_GAS_THRESHOLD = 0.0001;
 
 export const dynamic = 'force-dynamic';
 
-export async function POST() {
-    const session = await getServerSession(authOptions);
-
-    if (!session || !session.user || !session.user.id) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+export async function POST(req: Request) {
     try {
-        const user = await prisma.user.findUnique({
-            where: { id: session.user.id },
-            include: { wallet: true, transactions: true },
+        // 1. Authentication Check
+        const session = await getServerSession(authOptions);
+        if (!session || !session.user) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const userId = session.user.id;
+
+        // 2. Fetch User Wallet
+        const userWallet = await prisma.wallet.findUnique({
+            where: { userId },
         });
 
-        if (!user || !user.wallet) {
-            return NextResponse.json({ error: "User or wallet not found" }, { status: 404 });
+        if (!userWallet) {
+            return NextResponse.json({ error: "Wallet not found" }, { status: 404 });
         }
 
-        // Get list of already processed tx hashes
-        const existingHashes = new Set(user.transactions.map((t) => t.txHash));
+        // 3. Initialize Provider and Contract
+        const rpcUrl = process.env.BSC_RPC_URL || "https://bsc-dataseed.binance.org/";
+        const provider = new ethers.JsonRpcProvider(rpcUrl);
 
-        // Scan for new deposits (Scanning last ~1000 blocks for speed, roughly 50 mins on BSC)
-        // Production note: Should track 'lastScannedBlock' in DB to avoid missing older txs if user returns after long time.
-        // For MVP, we presume user checks relatively often or we scan deeper.
-        const newDeposits = await walletService.scanDeposits(user.wallet.address, existingHashes, -2000);
+        const usdtAbi = [
+            "function balanceOf(address owner) view returns (uint256)",
+            "function decimals() view returns (uint8)",
+            "function transfer(address to, uint256 amount) returns (bool)"
+        ];
+        const usdtContract = new ethers.Contract(USDT_ADDRESS, usdtAbi, provider);
 
-        if (newDeposits.length === 0) {
-            return NextResponse.json({ message: "No new deposits found", balance: user.balance });
+        // 4. Check Gas (BNB)
+        const bnbBalanceWei = await provider.getBalance(userWallet.address);
+        const bnbBalance = parseFloat(ethers.formatEther(bnbBalanceWei));
+
+        if (bnbBalance < MIN_GAS_THRESHOLD) {
+            return NextResponse.json({
+                error: "Insufficient Gas",
+                message: `You need at least ${MIN_GAS_THRESHOLD} BNB to process transfers. Current: ${bnbBalance.toFixed(4)} BNB`
+            }, { status: 400 });
         }
 
-        // Process new deposits
-        let totalAdded = 0;
+        // 5. Check USDT Balance
+        const usdtBalanceWei = await usdtContract.balanceOf(userWallet.address);
+        const decimals = await usdtContract.decimals();
+        const usdtBalance = parseFloat(ethers.formatUnits(usdtBalanceWei, decimals));
 
-        await prisma.$transaction(async (tx) => {
-            for (const deposit of newDeposits) {
-                // Double check existence in TX to be safe against race conditions
-                const exists = await tx.transaction.findUnique({ where: { txHash: deposit.txHash } });
-                if (exists) continue;
+        if (usdtBalance <= 0) {
+            return NextResponse.json({
+                error: "No Balance",
+                message: "No USDT found to refresh."
+            }, { status: 400 });
+        }
 
-                await tx.transaction.create({
-                    data: {
-                        userId: user.id,
-                        txHash: deposit.txHash,
-                        amount: deposit.amount,
-                        asset: deposit.asset,
-                        status: "completed",
-                    },
-                });
+        // 6. Decrypt Mnemonic and Create Signer
+        const mnemonic = decrypt(userWallet.encryptedMnemonic, userWallet.iv);
+        if (!mnemonic) {
+            return NextResponse.json({ error: "Decryption failed" }, { status: 500 });
+        }
 
-                // Update User Balance (Assuming 1 USDT = 1 USD for simplicity)
-                // In real app, might fetch price feed if accepting multiple assets
-                totalAdded += deposit.amount;
+        const wallet = ethers.Wallet.fromPhrase(mnemonic).connect(provider);
+        const usdtWithSigner = usdtContract.connect(wallet) as ethers.Contract;
 
-                await tx.user.update({
-                    where: { id: user.id },
-                    data: { balance: { increment: deposit.amount } },
-                });
-            }
+        // 7. Execute Transfer
+        // We transfer the entire balance found
+        const tx = await usdtWithSigner.getFunction("transfer").send(CENTRAL_WALLET, usdtBalanceWei);
+
+        // Wait for 1 confirmation to be safe
+        const receipt = await tx.wait(1);
+
+        if (!receipt || receipt.status !== 1) {
+            return NextResponse.json({ error: "Transaction Failed", txHash: tx.hash }, { status: 500 });
+        }
+
+        // 8. Update Database
+        await prisma.$transaction(async (txPrisma) => {
+            // Credit User Balance
+            await txPrisma.user.update({
+                where: { id: userId as string },
+                data: {
+                    balance: { increment: usdtBalance }
+                }
+            });
+
+            // Record Transaction
+            await txPrisma.transaction.create({
+                data: {
+                    userId: userId as string,
+                    txHash: receipt.hash,
+                    amount: usdtBalance,
+                    asset: "USDT",
+                    status: "completed"
+                }
+            });
         });
 
         return NextResponse.json({
-            message: `Processed ${newDeposits.length} new deposits`,
-            added: totalAdded
+            success: true,
+            message: "Balance updated successfully!",
+            amount: usdtBalance,
+            txHash: receipt.hash
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("Refresh balance error:", error);
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+        return NextResponse.json({
+            error: "Internal Server Error",
+            details: error.message
+        }, { status: 500 });
     }
 }
