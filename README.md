@@ -102,3 +102,4 @@ A modern e-commerce and ticketing web application built with Next.js. This platf
 ## 📝 License
 
 This project is licensed under the MIT License.
+
