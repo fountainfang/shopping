@@ -2,6 +2,8 @@
 
 A modern e-commerce and ticketing web application built with Next.js. This platform enables users to purchase various types of products, including attraction tickets, theater tickets, virtual goods, and general merchandise using cryptocurrency (USDT/USDC).
 
+**🚀 Live Demo:** [https://layers-bride-refrigerator-episodes.trycloudflare.com](https://layers-bride-refrigerator-episodes.trycloudflare.com)
+
 ## 🌟 Features
 
 - **Crypto Payments**: Integrated with Binance Smart Chain (BEP20) for USDT/USDC deposits. Each user is assigned a unique generated deposit wallet, and balances pull seamlessly from the blockchain.
