@@ -58,7 +58,7 @@ A modern e-commerce and ticketing web application built with Next.js. This platf
    NEXTAUTH_SECRET="your_random_secret_string"
 
    # Wallet Generation (CRITICAL: Do not expose this)
-   MASTER_MNEMONIC="word word word word word word word word word word word word"
+   MASTER_MNEMONIC="your_wallet_master_mnemonic"
    WALLET_SECRET="your_wallet_encryption_secret"
 
    # Blockchain (BSC node)
