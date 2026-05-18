@@ -67,6 +67,8 @@ export type Dictionary = {
         emailLabel: string;
         passwordLabel: string;
         wechatLabel: string;
+        telegramLabel: string;
+        contactRequired: string;
         phoneLabel: string;
         codeLabel: string;
         sendCode: string;
@@ -233,6 +235,8 @@ export const dictionaries: Record<Language, Dictionary> = {
             emailLabel: "Email",
             passwordLabel: "Password",
             wechatLabel: "WeChat ID",
+            telegramLabel: "Telegram ID",
+            contactRequired: "Please provide at least one: WeChat ID or Telegram ID",
             phoneLabel: "Phone Number",
             codeLabel: "Verification Code",
             sendCode: "Send Code",
@@ -411,6 +415,8 @@ export const dictionaries: Record<Language, Dictionary> = {
             emailLabel: "邮箱",
             passwordLabel: "密码",
             wechatLabel: "微信号",
+            telegramLabel: "Telegram ID (电报)",
+            contactRequired: "微信号和 Telegram ID 至少填写一个",
             phoneLabel: "手机号",
             codeLabel: "验证码",
             sendCode: "发送验证码",
@@ -589,6 +595,8 @@ export const dictionaries: Record<Language, Dictionary> = {
             emailLabel: "Email",
             passwordLabel: "Пароль",
             wechatLabel: "WeChat ID",
+            telegramLabel: "Telegram ID",
+            contactRequired: "Укажите хотя бы один: WeChat ID или Telegram ID",
             phoneLabel: "Номер телефона",
             codeLabel: "Код подтверждения",
             sendCode: "Отправить код",

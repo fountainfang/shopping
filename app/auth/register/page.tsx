@@ -19,6 +19,7 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [wechatId, setWechatId] = useState("")
+    const [telegramId, setTelegramId] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -26,11 +27,17 @@ export default function RegisterPage() {
         setIsLoading(true)
         setError("")
 
+        if (!wechatId && !telegramId) {
+            setError(dict.auth.contactRequired)
+            setIsLoading(false)
+            return
+        }
+
         try {
             const res = await fetch("/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password, wechatId, phoneNumber }),
+                body: JSON.stringify({ email, password, wechatId, telegramId, phoneNumber }),
             })
 
             if (!res.ok) {
@@ -90,8 +97,18 @@ export default function RegisterPage() {
                         value={wechatId}
                         onChange={(e) => setWechatId(e.target.value)}
                         disabled={isLoading}
-                        required
                     />
+
+                    <Input
+                        placeholder={dict.auth.telegramLabel}
+                        value={telegramId}
+                        onChange={(e) => setTelegramId(e.target.value)}
+                        disabled={isLoading}
+                    />
+                    
+                    <p className="text-xs text-muted-foreground !mt-1">
+                        * {dict.auth.contactRequired}
+                    </p>
 
                     <Input
                         placeholder={dict.auth.phoneLabel}

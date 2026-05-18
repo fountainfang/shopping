@@ -6,11 +6,18 @@ import { encrypt } from "@/lib/crypto";
 
 export async function POST(req: Request) {
     try {
-        const { email, password, wechatId, phoneNumber } = await req.json();
+        const { email, password, wechatId, telegramId, phoneNumber } = await req.json();
 
-        if (!email || !password || !wechatId || !phoneNumber) {
+        if (!email || !password || !phoneNumber) {
             return NextResponse.json(
-                { error: "All fields are required" },
+                { error: "Email, password, and phone number are required" },
+                { status: 400 }
+            );
+        }
+
+        if (!wechatId && !telegramId) {
+            return NextResponse.json(
+                { error: "Please provide at least one: WeChat ID or Telegram ID" },
                 { status: 400 }
             );
         }
@@ -46,7 +53,8 @@ export async function POST(req: Request) {
                 data: {
                     email,
                     passwordHash: hashedPassword,
-                    wechatId,
+                    wechatId: wechatId || null,
+                    telegramId: telegramId || null,
                     phoneNumber
                 },
             });

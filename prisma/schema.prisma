@@ -13,7 +13,8 @@ model User {
   id            String    @id @default(cuid())
   email         String    @unique
   passwordHash  String
-  wechatId      String    // Required
+  wechatId      String?   // Optional, but one of wechat/telegram is required
+  telegramId    String?   // Optional, but one of wechat/telegram is required
   phoneNumber   String    // Required
   role          String    @default("user") // "user" | "admin"
   balance       Float     @default(0.0)
