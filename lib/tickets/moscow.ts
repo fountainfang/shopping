@@ -11,6 +11,7 @@ interface MoscowRawItem {
     minPrice: number;
     specDate: string; // "2026-01-27"
     startTime: string; // "18:00:00"
+    performanceTypeName?: string;
 }
 
 export function normalizeMoscowEvent(item: MoscowRawItem): NormalizedEvent {
@@ -19,6 +20,7 @@ export function normalizeMoscowEvent(item: MoscowRawItem): NormalizedEvent {
         title: item.showForeignName || item.showName, // Prefer English
         titleRu: item.showName,
         description: item.description || "",
+        performanceType: item.performanceTypeName || "",
         theater: "Bolshoi Theater", // Hardcoded as per context (moscow.json seems to comprise Bolshoi events based on "Historic Stage")
         hall: item.hallForeignName || item.hallName,
         minPrice: item.minPrice,

@@ -130,18 +130,32 @@ export async function importMikhailovskyTickets(attractionId?: string) {
                 const existingSlots = (Array.isArray(existing.availableSlots) ? existing.availableSlots : []) as string[];
                 const mergedSlots = Array.from(new Set([...existingSlots, ...sortedSlots])).sort();
 
+                let matchedType = ""
+                const descLower = String(group.type || "").toLowerCase()
+                if (descLower.includes("ballet") || descLower.includes("dance")) matchedType = "Балет"
+                else if (descLower.includes("opera") || descLower.includes("cantata")) matchedType = "Опера"
+                else if (descLower.includes("concert") || descLower.includes("symphony") || descLower.includes("piano")) matchedType = "Концерт"
+
                 await prisma.product.update({
                     where: { id: existing.id },
                     data: {
                         availableSlots: mergedSlots,
+                        descriptionRu: existing.descriptionRu || (matchedType ? matchedType : null),
                         ...(attractionId && !existing.attractionId ? { attractionId } : {})
                     }
                 });
             } else {
+                let matchedType = ""
+                const descLower = String(group.type || "").toLowerCase()
+                if (descLower.includes("ballet") || descLower.includes("dance")) matchedType = "Балет"
+                else if (descLower.includes("opera") || descLower.includes("cantata")) matchedType = "Опера"
+                else if (descLower.includes("concert") || descLower.includes("symphony") || descLower.includes("piano")) matchedType = "Концерт"
+
                 await prisma.product.create({
                     data: {
                         title: group.title,
                         description,
+                        descriptionRu: matchedType ? matchedType : null,
                         price: 2000,
                         stock: 50,
                         type: "THEATER",

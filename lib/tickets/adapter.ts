@@ -3,6 +3,7 @@ export interface NormalizedEvent {
     title: string;          // English Name (fallback to Ru)
     titleRu: string;        // Russian Name
     description?: string;
+    performanceType?: string; // e.g. "Опера", "Балет"
     theater: string;        // "Bolshoi"
     minPrice: number;
 

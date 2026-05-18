@@ -1,1323 +1,83 @@
 [
   {
-    "date": "11",
-    "month": "February",
+    "date": "26",
+    "month": "March",
     "location": "Mariinsky Theatre",
     "time": "19:00",
-    "summary": "The Fountain of Bakhchisarai",
-    "description": "ballet by Boris AsafievFeaturing Alisa Barinova, Alexei&nbsp;Timofeyev, Soslan&nbsp;Kulaev, Oxana&nbsp;Skorik"
+    "summary": "Swan Lake",
+    "description": "ballet by Pyotr TchaikovskyFeaturing Maria&nbsp;Iliushkina, Even Capitaine"
   },
   {
-    "date": "11",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "The Maid of Orleans",
-    "description": "opera by Pyotr TchaikovskyFeaturing Yulia&nbsp;Matochkina, Zhanna&nbsp;Dombrovskaya, Sergei&nbsp;Semishkur, Gleb&nbsp;Peryazev, Vladimir&nbsp;Moroz, Pavel&nbsp;Yankovsky, Yevgeny&nbsp;Nikitin"
+    "date": "26",
+    "month": "March",
+    "location": "Concert Hall",
+    "time": "14:00",
+    "summary": "Gala-concert of the prize-winners of All-Russian competition for the prize of the Elena Obraztsova Cultural Center",
+    "description": ""
   },
   {
-    "date": "11",
-    "month": "February",
+    "date": "26",
+    "month": "March",
     "location": "Concert Hall",
     "time": "19:00",
-    "summary": "Il viaggio a Reims",
-    "description": "opera by Gioachino Rossini Featuring Maria&nbsp;Bayankina, Anna&nbsp;Kiknadze, Olga&nbsp;Pudova, Anastasia&nbsp;Kalagina, Dmitry&nbsp;Voropaev, Denis&nbsp;Zakirov, Vadim&nbsp;Kravets, Nikolai&nbsp;Kamensky, Ilya&nbsp;Bannik, Yaroslav&nbsp;Petryanik"
+    "summary": "Rachmaninoff. Tchaikovsky",
+    "description": "Soloist: Oleg Vainshtein (piano)The St Petersburg Northern Sinfonia Orchestra Conductor: Fabio&nbsp;Mastrangelo"
   },
   {
-    "date": "12",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Maid of Pskov",
-    "description": "opera by Nikolai Rimsky-KorsakovFeaturing Irina&nbsp;Churilova, Alexander&nbsp;Trofimov, Alexander&nbsp;Morozov, Gennady&nbsp;Bezzubenkov"
-  },
-  {
-    "date": "12",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Danses Сoncertantes. Jeu de cartes. The Fairy's Kiss",
-    "description": "ballets set to music by Igor StravinskyFeaturing Ekaterina&nbsp;Kondaurova, Maria&nbsp;Shirinkina, Maria Bulanova, Vlada Borodulina, Elena Svinko, Tatiana&nbsp;Tkachenko, Maya Palilionis, Daria Ustyuzhanina, Konstantin&nbsp;Zverev, Yevgeny&nbsp;Konovalov, Alexander&nbsp;Sergeev, Yaroslav&nbsp;Baibordin, Dmitry&nbsp;Pykhachov, Danil Zinoviev"
-  },
-  {
-    "date": "12",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Tchaikovsky. Pabst",
-    "description": "Performed by Oleg Vainshtein (piano)"
-  },
-  {
-    "date": "12",
-    "month": "February",
+    "date": "26",
+    "month": "March",
     "location": "The Stravinsky Hall",
     "time": "19:30",
-    "summary": "Mozart. Bassoon Concerto, Symphony No. 41 (“Jupiter”)",
-    "description": "Soloist: Rodion Tolmachov (bassoon)The Mariinsky OrchestraConductor: Zaurbek&nbsp;Gugkaev"
+    "summary": "Three tenors",
+    "description": "theatrical concertAlexander&nbsp;Mikhailov, Boris&nbsp;Stepanov, Klim&nbsp;Tikhonov  Piano: Ekaterina&nbsp;Ilina\r\nProgramme: -->"
   },
   {
-    "date": "13",
-    "month": "February",
+    "date": "27",
+    "month": "March",
     "location": "Mariinsky Theatre",
     "time": "19:00",
-    "summary": "A life for the Tsar",
-    "description": "opera by Mikhail GlinkaFeaturing Yuri&nbsp;Vlasov, Antonina&nbsp;Vesenina, Yekaterina&nbsp;Sergeyeva, Yaramir&nbsp;Nizamutdinov Conductor: Valery&nbsp;Gergiev"
+    "summary": "Swan Lake",
+    "description": "ballet by Pyotr TchaikovskyFeaturing Oxana&nbsp;Skorik, Nikita&nbsp;Korneyev"
   },
   {
-    "date": "13",
-    "month": "February",
+    "date": "27",
+    "month": "March",
     "location": "Mariinsky II",
     "time": "19:00",
-    "summary": "Konyok-Gorbunok (The Little Humpbacked Horse)",
-    "description": "ballet by Rodion ShchedrinFeaturing Even Capitaine, Maria&nbsp;Iliushkina, Aaron Osawa-Horowitz"
+    "summary": "The Snow Maiden",
+    "description": "opera by Nikolai Rimsky-Korsakov Featuring Aigul&nbsp;Khismatullina, Maria&nbsp;Bayankina, Yekaterina&nbsp;Sergeyeva, Vladislav&nbsp;Kupriyanov, Alexander&nbsp;Mikhailov, Anna&nbsp;Kiknadze, Mikhail&nbsp;Kolelishvili"
   },
   {
-    "date": "13",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "13:00",
-    "summary": "Turandot",
-    "description": "opera by Giacomo Puccini Featuring Zhanna&nbsp;Dombrovskaya, Mikhail Pirogov, Gelena&nbsp;Gaskarova, Gennady&nbsp;Bezzubenkov, Andrei&nbsp;Spekhov, Alexander&nbsp;Timchenko, Oleg&nbsp;Balashov Conductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "13",
-    "month": "February",
+    "date": "27",
+    "month": "March",
     "location": "Concert Hall",
     "time": "20:00",
-    "summary": "Sorochintsy Fair",
-    "description": "opera by Modest Musorgsky Featuring Stanislav&nbsp;Trofimov, Anna&nbsp;Kiknadze, Violetta&nbsp;Lukyanenko, Yevgeny&nbsp;Nikitin, Igor&nbsp;Morozov, Andrei&nbsp;Zorin, Maxim&nbsp;Daminov, Egor&nbsp;Sotov"
-  },
-  {
-    "date": "14",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "12:00",
-    "summary": "La Sylphide",
-    "description": "ballet by Herman von LovenskjøldFeaturing Anastasia Lukina, Ramanbek&nbsp;Beishenaliev"
-  },
-  {
-    "date": "14",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "16:00",
-    "summary": "La Sylphide",
-    "description": "ballet by Herman von LovenskjøldFeaturing Vlada Borodulina, Alexei&nbsp;Timofeyev"
-  },
-  {
-    "date": "14",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "20:00",
-    "summary": "La Sylphide",
-    "description": "ballet by Herman von LovenskjøldFeaturing May&nbsp;Nagahisa, Maxim&nbsp;Izmestiev"
-  },
-  {
-    "date": "14",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Norma",
-    "description": "opera by Vincenzo Bellini Featuring Albina&nbsp;Shagimuratova, Ekaterina&nbsp;Lukash, Sergei&nbsp;Skorokhodov, Miroslav&nbsp;Molchanov, Varvara&nbsp;Solovyova, Savva&nbsp;Khastaev Conductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "14",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "13:00",
-    "summary": "The Story of Kai and Gerda",
-    "description": "opera by Sergei Banevich Featuring Igor&nbsp;Chikishev, Albina&nbsp;Sharafutdinova, Anna&nbsp;Matis, Grigory&nbsp;Chernetsov, Grigor&nbsp;Verner, Varvara&nbsp;Solovyova, Bakuri Kalichava, Tsvetana&nbsp;Omeltchuk"
-  },
-  {
-    "date": "14",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Prokofiev Evening",
-    "description": "Soloist: Alexander Kliuchko (piano) Soloists of the Mariinsky Academy of Young Opera SingersThe Mariinsky Orchestra Conductor: Yuri Demidovich"
-  },
-  {
-    "date": "14",
-    "month": "February",
-    "location": "The Stravinsky Hall",
-    "time": "14:00",
-    "summary": "Bastien und Bastienne",
-    "description": "opera by Wolfgang Amadeus MozartFeaturing Klim&nbsp;Tikhonov, Kristina&nbsp;Gontsa, Anatoly&nbsp;Mikhailov Piano: Oxana Klevtsova"
-  },
-  {
-    "date": "14",
-    "month": "February",
-    "location": "The Stravinsky Hall",
-    "time": "19:30",
-    "summary": "Bastien und Bastienne",
-    "description": "opera by Wolfgang Amadeus Mozart Featuring Klim&nbsp;Tikhonov, Kristina&nbsp;Gontsa, Anatoly&nbsp;Mikhailov  Piano: Oxana Klevtsova"
-  },
-  {
-    "date": "15",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "13:00",
-    "summary": "The Firebird. Le Spectre de la rose. The Swan. Schéhérazade",
-    "description": "evening of one-act balletsFeaturing Oxana&nbsp;Skorik, Elena Svinko, Yekaterina&nbsp;Osmolkina, Valeria Kuznetsova, Konstantin&nbsp;Zverev, Maxim&nbsp;Zyuzin, Halid Mardini"
-  },
-  {
-    "date": "15",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Firebird. Le Spectre de la rose. The Swan. Schéhérazade",
-    "description": "evening of one-act balletsFeaturing Viktoria&nbsp;Tereshkina, Ekaterina&nbsp;Kondaurova, Maria Bulanova, Kristina&nbsp;Shapran, Nikita&nbsp;Korneyev, Yevgeny&nbsp;Konovalov, Roman&nbsp;Belyakov"
-  },
-  {
-    "date": "15",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Idomeneo, re di Creta",
-    "description": "opera by Wolfgang Amadeus MozartFeaturing Gamid&nbsp;Abdulov, Boris&nbsp;Stepanov, Yulia&nbsp;Suleimanova, Oxana&nbsp;Shilova, Yevgeny&nbsp;Akhmedov Conductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "15",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Idomeneo, re di Creta",
-    "description": "opera by Wolfgang Amadeus MozartFeaturing Igor&nbsp;Morozov, Roman&nbsp;Shirokikh, Yekaterina&nbsp;Savinkova, Anzhelika&nbsp;Minasova, Yegor&nbsp;Chubakov Conductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "15",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "12:00",
-    "summary": "The Little Prince",
-    "description": "opera by Leonid Klinichev Featuring Anastasia&nbsp;Donets, Dmitry&nbsp;Koleushko, Albina&nbsp;Sharafutdinova, Dmitry&nbsp;Podrazhanets,&nbsp;Carlos&nbsp;D'Onofrio, Yekaterina&nbsp;Phenina, Natalia&nbsp;Chasovitina"
-  },
-  {
-    "date": "15",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Mozart. Evening Prayers",
-    "description": "Andrei Telkov (piano)The Mariinsky Opera soloists, Chorus and Orchestra Conductor: Konstantin Rylov"
-  },
-  {
-    "date": "15",
-    "month": "February",
-    "location": "The Stravinsky Hall",
-    "time": "19:00",
-    "summary": "Mozart. Serenade for Winds (Gran Partita), <br />Adagio for two clarinets and three basset horns",
-    "description": "Artists of the of the Mariinsky Orchestra Conductor: Ivan&nbsp;Stolbov"
-  },
-  {
-    "date": "16",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Romeo and Juliet",
-    "description": "ballet by Sergei ProkofievFeaturing Olesya&nbsp;Novikova, Timur&nbsp;Askerov"
-  },
-  {
-    "date": "16",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Nabucco",
-    "description": "opera by Giuseppe VerdiFeaturing Tatiana&nbsp;Serjan"
-  },
-  {
-    "date": "17",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Don Quichotte",
-    "description": "opera by Jules Massenet "
-  },
-  {
-    "date": "17",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Adriana Lecouvreur",
-    "description": "opera by Francesco CileaFeaturing Hibla&nbsp;Gerzmava, Hovhannes&nbsp;Ayvazyan, Yulia&nbsp;Matochkina, Pavel&nbsp;Yankovsky"
-  },
-  {
-    "date": "17",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "A Midsummer Night's Dream",
-    "description": "opera by Benjamin Britten Featuring Ivan Borodulin, Larisa&nbsp;Yudina, Nadezhda&nbsp;Serdyuk, Oxana&nbsp;Shilova, Alexander&nbsp;Timchenko, Vladimir&nbsp;Moroz, Oleg&nbsp;Sychov"
-  },
-  {
-    "date": "18",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Faust",
-    "description": "opera by Charles Gounod Featuring Mikhail&nbsp;Vekua, Anastasia&nbsp;Kalagina, Mikhail&nbsp;Petrenko, Grigory&nbsp;Chernetsov, Nikolai&nbsp;Kamensky, Irina Shishkova, Elena&nbsp;Vitman"
-  },
-  {
-    "date": "18",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "The Twelve",
-    "description": "ballet by Boris TishchenkoFeaturing Kristina&nbsp;Shapran, Nadezhda&nbsp;Batoeva, Daria Ustyuzhanina, Alexei&nbsp;Timofeyev, Maxim&nbsp;Zyuzin, Yegor Rachin"
-  },
-  {
-    "date": "18",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The Stone Guest",
-    "description": "opera by Alexander Dargomyzhsky (concert performance)"
-  },
-  {
-    "date": "18",
-    "month": "February",
-    "location": "The Stravinsky Hall",
-    "time": "19:30",
-    "summary": "Tchaikovsky. The Seasons",
-    "description": "a music and literature composition Narrator: Mikhail MorozovThe Mariinsky Orchestra Conductor: Pavel Smelkov"
-  },
-  {
-    "date": "19",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Macbeth",
-    "description": "opera by Giuseppe VerdiFeaturing Vladislav&nbsp;Sulimsky, Alena&nbsp;Diyanova"
-  },
-  {
-    "date": "19",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Bach – Shostakovich. Dialogue of Eras",
-    "description": "Yuri Afonkin (viola) and artists of the Mariinsky Orchestra  Featuring Nikita Muchkaev"
-  },
-  {
-    "date": "20",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Il tabarro. Suor Angelica. Gianni Schicchi",
-    "description": "one-act operas by Giacomo PucciniFeaturing Tatiana&nbsp;Serjan, Hovhannes&nbsp;Ayvazyan, Pavel&nbsp;Yankovsky, Nadezhda&nbsp;Serdyuk, Yekaterina&nbsp;Goncharova, Elena&nbsp;Vitman, Anna&nbsp;Denisova"
-  },
-  {
-    "date": "20",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Spartacus",
-    "description": "ballet by Aram KhachaturianFeaturing Yuri&nbsp;Smekalov, Valeria Kuznetsova, Tatiana&nbsp;Tkachenko, Anton Osetrov"
-  },
-  {
-    "date": "20",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Sviridov. Rachmaninoff. Smelkov",
-    "description": "Albina&nbsp;Shagimuratova, Natalia&nbsp;Yevstafieva, Alexander&nbsp;Mikhailov, Vladimir&nbsp;Moroz Ravil Islyamov (violin) The Mariinsky OrchestraConductor: Pavel Smelkov"
-  },
-  {
-    "date": "21",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "12:00",
-    "summary": "Don Quixote",
-    "description": "ballet by Ludwig MinkusFeaturing-->"
-  },
-  {
-    "date": "21",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "La Cenerentola",
-    "description": "opera by Gioachino Rossini Featuring Evelina Agabalaeva, Kristina&nbsp;Gontsa, Yekaterina&nbsp;Latysheva, Klim&nbsp;Tikhonov, Miroslav&nbsp;Molchanov, Sergei&nbsp;Romanov, Nikolai&nbsp;Kamensky"
-  },
-  {
-    "date": "21",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Spartacus",
-    "description": "ballet by Aram KhachaturianFeaturing Nikita&nbsp;Korneyev, Kristina&nbsp;Shapran, Zlata Yalinich, Nail Yenikeyev"
-  },
-  {
-    "date": "21",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Spartacus",
-    "description": "ballet by Aram KhachaturianFeaturing Roman&nbsp;Belyakov, Viktoria&nbsp;Tereshkina, Renata&nbsp;Shakirova, Alexander&nbsp;Sergeev"
-  },
-  {
-    "date": "21",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Davide penitente",
-    "description": "cantata by Wolfgang Amadeus Mozart The Mariinsky Opera soloists, Chorus and Orchestra Conductor: Konstantin Rylov"
-  },
-  {
-    "date": "21",
-    "month": "February",
-    "location": "The Rachmaninov Hall",
-    "time": "19:30",
-    "summary": "Mozart. Debussy",
-    "description": "Vitaly Malkov (violin), Vladimir&nbsp;Yunovich (cello), Maria Provotorova (piano)"
-  },
-  {
-    "date": "22",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "13:00",
-    "summary": "The Tale of Tsar Saltan",
-    "description": "opera by Nikolai Rimsky-Korsakov "
-  },
-  {
-    "date": "22",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Tale of Tsar Saltan",
-    "description": "opera by Nikolai Rimsky-Korsakov "
-  },
-  {
-    "date": "22",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Spartacus",
-    "description": "ballet by Aram KhachaturianFeaturing Yuri&nbsp;Smekalov, Yesenia Anushenkova, Yevgenia Savkina, Anton Osetrov"
-  },
-  {
-    "date": "22",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Spartacus",
-    "description": "ballet by Aram KhachaturianFeaturing Konstantin&nbsp;Zverev, Ekaterina&nbsp;Kondaurova, Oxana&nbsp;Skorik, Roman Malyshev"
-  },
-  {
-    "date": "22",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Gala concert of Mariinsky Theatre basses",
-    "description": ""
-  },
-  {
-    "date": "22",
-    "month": "February",
-    "location": "The Rachmaninov Hall",
-    "time": "19:30",
-    "summary": "Mozart",
-    "description": "Tatiana Frenkel, Sergei Toporenko (violin), Dmitry Starikov (viola), Yekaterina Travkina (cello), Ivan&nbsp;Stolbov (clarinet), Natalia Andreyeva (soprano)"
-  },
-  {
-    "date": "23",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "12:00",
-    "summary": "Prince Igor",
-    "description": "opera by Alexander Borodin \r\nConductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "23",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Prince Igor",
-    "description": "opera by Alexander Borodin Featuring Vladislav&nbsp;Sulimsky Conductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "23",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Le Corsaire",
-    "description": "ballet by Adolphe AdamFeaturing Oxana&nbsp;Skorik, Elena&nbsp;Yevseyeva, Even Capitaine"
-  },
-  {
-    "date": "23",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Le Corsaire",
-    "description": "ballet by Adolphe AdamFeaturing Nadezhda&nbsp;Batoeva, Nikita&nbsp;Korneyev"
-  },
-  {
-    "date": "23",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "14:00",
-    "summary": "In memory of Valery Khalilov",
-    "description": "Soloists: Irina&nbsp;Mataeva, Dmitry&nbsp;Demidchik, Grigory&nbsp;Chernetsov The Mariinsky Chorus and Wind EnsembleConductor: Arseny&nbsp;Shuplyakov"
-  },
-  {
-    "date": "23",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The Dawns Here Are Quiet",
-    "description": "opera by Kirill Molchanov (concert performance)Featuring -->"
-  },
-  {
-    "date": "24",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "La Sylphide",
-    "description": "ballet by Herman von LovenskjøldFeaturing Maria&nbsp;Shirinkina"
-  },
-  {
-    "date": "24",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Falstaff",
-    "description": "opera by Giuseppe Verdi \r\nConductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "25",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Lady Macbeth of Mtsensk",
-    "description": "opera by Dmitry Shostakovich\r\nConductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "25",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Lilia Yakusheva (organ)",
-    "description": "Programme: Buxtehude, Boehm, Bach, Mendelssohn, Widor, Brahms, Franck"
-  },
-  {
-    "date": "25",
-    "month": "February",
-    "location": "The Stravinsky Hall",
-    "time": "19:30",
-    "summary": "Mozart. Horn Concerto No 2, Symphony No. 38 (“Prague”)",
-    "description": "Soloist: Zakhar&nbsp;Katsman (horn)The Mariinsky Orchestra"
-  },
-  {
-    "date": "26",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Così fan tutte",
-    "description": "opera by Wolfgang Amadeus Mozart "
-  },
-  {
-    "date": "26",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Carmen Suite. Round Dances (<em>premiere</em>)",
-    "description": "one-act balletsFeaturing Viktoria&nbsp;Tereshkina, Roman&nbsp;Belyakov, Konstantin&nbsp;Zverev"
-  },
-  {
-    "date": "26",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Britten. Simple Symphony <br />Shostakovich. Piano Concerto No. 1",
-    "description": "Soloists: Vladimir&nbsp;Vishnevsky (piano), Timur&nbsp;Martynov (trumpet) The Mariinsky Stradivarius Ensemble Soloist and conductor: Lorenz Nasturica-Herschcowici"
+    "summary": "IX International B. T. Shtokolov Vocal Competition (III round)",
+    "description": "The Mariinsky Orchestra Conductor: Pavel Smelkov"
   },
   {
     "date": "27",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Le nozze di Figaro",
-    "description": "opera by Wolfgang Amadeus Mozart \r\nConductor: Justus Frantz"
-  },
-  {
-    "date": "27",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Carmen Suite. Round Dances (<em>premiere</em>)",
-    "description": "one-act balletsFeaturing Renata&nbsp;Shakirova, Timur&nbsp;Askerov"
-  },
-  {
-    "date": "27",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Janáček. Liszt. Bartók",
-    "description": "The St&nbsp;Petersburg Northern Sinfonia OrchestraConductor: Fabio&nbsp;Mastrangelo"
-  },
-  {
-    "date": "27",
-    "month": "February",
-    "location": "The Stravinsky Hall",
+    "month": "March",
+    "location": "The Rachmaninov Hall",
     "time": "19:30",
-    "summary": "Mozart. Piano Quartet No. 1<br>Schubert. Piano Quintet  (“Forellenquintett”)",
-    "description": "Lorenz Nasturica-Herschcowici (violin), Vladimir&nbsp;Vishnevsky (piano) and the Mariinsky Orchestra soloists"
+    "summary": "Christmas Eve",
+    "description": "opera by Nikolai Rimsky-Korsakov (semi-staged performance)Featuring Anton&nbsp;Khalansky, Elizaveta Mironova, Valeria Belyakova, Gleb Shapkov, Viacheslav&nbsp;Kozlovski, Artem Arutyunov, Mikhail Tolpyshev, Nikita&nbsp;Chernikov Piano: Tikhon Selivanov"
   },
   {
-    "date": "28",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "13:00",
-    "summary": "Romeo and Juliet",
-    "description": "ballet by Sergei ProkofievFeaturing May&nbsp;Nagahisa Yevgeny&nbsp;Konovalov"
-  },
-  {
-    "date": "28",
-    "month": "February",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Romeo and Juliet",
-    "description": "ballet by Sergei ProkofievFeaturing Maria&nbsp;Khoreva, Minchul Jeon"
-  },
-  {
-    "date": "28",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Idomeneo, re di Creta",
-    "description": "opera by Wolfgang Amadeus Mozart\r\nConductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "28",
-    "month": "February",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Idomeneo, re di Creta",
-    "description": "opera by Wolfgang Amadeus Mozart\r\nConductor: Valery&nbsp;Gergiev"
-  },
-  {
-    "date": "28",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "12:00",
-    "summary": "Mozart for Children",
-    "description": "The Mariinsky Orchestra Conductor: -->"
-  },
-  {
-    "date": "28",
-    "month": "February",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Berlioz. Cantata <em>Cléopâtre</em> <br> Poulenc. Mono-opera <em>La Voix humaine</em>",
-    "description": "Soloists: Tatiana&nbsp;Serjan (soprano), Yulia&nbsp;Matochkina (mezzo-soprano) The Mariinsky Orchestra Conductor: Christian&nbsp;Knapp"
-  },
-  {
-    "date": "28",
-    "month": "February",
-    "location": "The Rachmaninov Hall",
-    "time": "12:00",
-    "summary": "Mozart. Piano marathon",
-    "description": " Timofei Kalmykov , Rimma Kachalova, Alexey Grigoriev, Ulyana Degtiariova, Anton Samsonov, Mikhail Pirozhenko (piano)"
-  },
-  {
-    "date": "28",
-    "month": "February",
-    "location": "The Rachmaninov Hall",
-    "time": "17:00",
-    "summary": "Mozart. Piano marathon",
-    "description": "Natalia Lisanova, Daniil&nbsp;Svidler, Dmitry&nbsp;Fedenko, Ashad Shogentsukov, Andrei Blagovchanin (piano)"
-  },
-  {
-    "date": "1",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "13:00",
-    "summary": "The Fountain of Bakhchisarai",
-    "description": "ballet by Boris AsafievFeaturing -->"
-  },
-  {
-    "date": "1",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Fountain of Bakhchisarai",
-    "description": "ballet by Boris AsafievFeaturing -->"
-  },
-  {
-    "date": "1",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Les Huguenots",
-    "description": "opera by Giacomo Meyerbeer "
-  },
-  {
-    "date": "1",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Les Huguenots",
-    "description": "opera by Giacomo Meyerbeer "
-  },
-  {
-    "date": "1",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "14:00",
-    "summary": "Mozart and Salieri. Kashchey the Immortal",
-    "description": "one act operas by Nikolai Rimsky-Korsakov"
-  },
-  {
-    "date": "1",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Mozart and Salieri. Kashchey the Immortal",
-    "description": "one act operas by Nikolai Rimsky-Korsakov"
-  },
-  {
-    "date": "2",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Don Pasquale",
-    "description": "opera by Gaetano DonizettiPerformed in Italian Performed in Russian\r\nПРИ ИСПОЛНЕНИИ НА РУССКОМ ЯЗЫКЕ УБРАТЬ В ПАСПОРТЕ ТИТРЫ-->"
-  },
-  {
-    "date": "2",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The Mariinsky Orchestra",
-    "description": ""
-  },
-  {
-    "date": "3",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Turn of the Screw",
-    "description": "opera by Benjamin Britten"
-  },
-  {
-    "date": "3",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "A Thousand and One Nights",
-    "description": "ballet by Fikret AmirovFeaturing-->"
-  },
-  {
-    "date": "3",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The Enchanted Wanderer",
-    "description": "opera by Rodion ShchedrinConductor: -->"
-  },
-  {
-    "date": "4",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Mazepa",
-    "description": "opera by Pyotr Tchaikovsky "
-  },
-  {
-    "date": "4",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "A Thousand and One Nights",
-    "description": "ballet by Fikret AmirovFeaturing-->"
-  },
-  {
-    "date": "5",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Nutcracker",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "5",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The Idiot",
-    "description": "opera by Mieczysław Weinberg Featuring -->"
-  },
-  {
-    "date": "5",
+    "date": "27",
     "month": "March",
     "location": "The Stravinsky Hall",
     "time": "19:30",
-    "summary": "Bach. <em>Kaffeekantate</em>",
-    "description": "The Mariinsky Opera soloists and Orchestra musicians\r\nNarrator:  (harpsichord)-->"
-  },
-  {
-    "date": "6",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Nutcracker",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "6",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Mandragora",
-    "description": "opera in two acts, music by Pyotr Tchaikovsky and Pyotr Dranga"
-  },
-  {
-    "date": "6",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The Mariinsky Orchestra",
-    "description": ""
-  },
-  {
-    "date": "7",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "14:00",
-    "summary": "Le Corsaire",
-    "description": "ballet by Adolphe AdamFeaturing-->"
-  },
-  {
-    "date": "7",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Le Corsaire",
-    "description": "ballet by Adolphe AdamFeaturing-->"
-  },
-  {
-    "date": "7",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "12:00",
-    "summary": "Mandragora",
-    "description": "opera in two acts, music by Pyotr Tchaikovsky and Pyotr Dranga"
-  },
-  {
-    "date": "7",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Mandragora",
-    "description": "opera in two acts, music by Pyotr Tchaikovsky and Pyotr Dranga"
-  },
-  {
-    "date": "7",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "12:00",
-    "summary": "The Little Prince",
-    "description": "opera by Leonid Klinichev "
-  },
-  {
-    "date": "7",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "16:00",
-    "summary": "The Stradivarius Ensemble Нoliday Concert",
-    "description": "Soloist and conductor: Lorenz Nasturica-Herschcowici\r\nProgramme: -->"
-  },
-  {
-    "date": "8",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "14:00",
-    "summary": "The Nutcracker",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "8",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Nutcracker",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "8",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Die Fledermaus",
-    "description": "operetta by Johann Strauss II"
-  },
-  {
-    "date": "8",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Die Fledermaus",
-    "description": "operetta by Johann Strauss II"
-  },
-  {
-    "date": "8",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "15:00",
-    "summary": "The Stradivarius Ensemble Нoliday Concert",
-    "description": "Soloist and conductor: Lorenz Nasturica-Herschcowici\r\nProgramme: -->"
-  },
-  {
-    "date": "8",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The Stradivarius Ensemble Нoliday Concert",
-    "description": "Soloist and conductor: Lorenz Nasturica-Herschcowici\r\nProgramme: -->"
-  },
-  {
-    "date": "9",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Die Entführung aus dem Serail",
-    "description": "opera by Wolfgang Amadeus Mozart\r\nConductor: Justus Frantz"
-  },
-  {
-    "date": "9",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "14:00",
-    "summary": "A Thousand and One Nights",
-    "description": "ballet by Fikret AmirovFeaturing-->"
-  },
-  {
-    "date": "9",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "A Thousand and One Nights",
-    "description": "ballet by Fikret AmirovFeaturing-->"
-  },
-  {
-    "date": "9",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The Golden Cockerel",
-    "description": "opera by Nikolai Rimsky-Korsakov "
-  },
-  {
-    "date": "10",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Turandot",
-    "description": "opera by Giacomo Puccini "
-  },
-  {
-    "date": "10",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Not Love Alone",
-    "description": "opera by Rodion Shchedrin "
-  },
-  {
-    "date": "11",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "La fille mal gardée",
-    "description": "ballet set to music by Louis HeroldFeaturing -->"
-  },
-  {
-    "date": "11",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Soloists of the Mariinsky Academy of Young Opera Singers",
-    "description": "The Mariinsky Orchestra Conductor: Yuri Demidovich"
-  },
-  {
-    "date": "12",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "La fille mal gardée",
-    "description": "ballet set to music by Louis HeroldFeaturing -->"
-  },
-  {
-    "date": "12",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Boris Godunov",
-    "description": "opera by Modest Musorgsky "
-  },
-  {
-    "date": "12",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Concert of St Petersburg House of Music soloists",
-    "description": "Soloists: "
-  },
-  {
-    "date": "13",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Shurale",
-    "description": "ballet by Farid Yarullin"
-  },
-  {
-    "date": "13",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "The Maid of Orleans",
-    "description": "opera by Pyotr Tchaikovsky"
-  },
-  {
-    "date": "14",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "13:00",
-    "summary": "Shurale",
-    "description": "ballet by Farid Yarullin"
-  },
-  {
-    "date": "14",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Shurale",
-    "description": "ballet by Farid Yarullin"
-  },
-  {
-    "date": "14",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Boris Godunov",
-    "description": "opera by Modest Musorgsky "
-  },
-  {
-    "date": "14",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "18:00",
-    "summary": "Boris Godunov",
-    "description": "opera by Modest Musorgsky "
-  },
-  {
-    "date": "14",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Ekaterina Semenchuk (mezzo-soprano) and Semyon Skigin (piano)",
-    "description": "Programme: -->"
-  },
-  {
-    "date": "15",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "13:00",
-    "summary": "Konyok-Gorbunok (The Little Humpbacked Horse)",
-    "description": "ballet by Rodion ShchedrinFeaturing-->"
-  },
-  {
-    "date": "15",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Konyok-Gorbunok (The Little Humpbacked Horse)",
-    "description": "ballet by Rodion ShchedrinFeaturing-->"
-  },
-  {
-    "date": "15",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "12:00",
-    "summary": "Der Schauspieldirektor",
-    "description": "Komödie mit Musik by Wolfgang Amadeus Mozart Komödie mit Musik in one act -->"
-  },
-  {
-    "date": "15",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "La Fille du régiment",
-    "description": "comic opera by Gaetano Donizetti (concert performance)"
-  },
-  {
-    "date": "15",
-    "month": "March",
-    "location": "The Stravinsky Hall",
-    "time": "17:00",
     "summary": "La serva padrona",
-    "description": "opera by Giovanni Battista Pergolesi (concert performance)Featuring Kristina&nbsp;Gontsa, Maharram&nbsp;Huseynov"
+    "description": "opera by Giovanni Battista Pergolesi (concert performance)Featuring Kristina&nbsp;Gontsa, Gevorg&nbsp;Grigoryan, Igor&nbsp;Chikishev"
   },
   {
-    "date": "16",
+    "date": "28",
     "month": "March",
     "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Sleeping Beauty",
-    "description": "ballet by Pyotr TchaikovskyFeaturing-->"
-  },
-  {
-    "date": "16",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Cavalleria rusticana",
-    "description": "opera by Pietro Mascagni"
-  },
-  {
-    "date": "16",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The St Petersburg Northern Sinfonia Orchestra",
-    "description": "The St Petersburg Northern Sinfonia OrchestraConductor: Fabio Mastrangelo-->"
-  },
-  {
-    "date": "17",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Fountain of Bakhchisarai",
-    "description": "ballet by Boris AsafievFeaturing -->"
-  },
-  {
-    "date": "17",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Otello",
-    "description": "opera by Giuseppe Verdi"
-  },
-  {
-    "date": "17",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Cendrillon",
-    "description": "opera by Jules Massenet (concert performance)"
-  },
-  {
-    "date": "18",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Queen of Spades",
-    "description": "opera by Pyotr Tchaikovsky staged by Yuri Temirkanov"
-  },
-  {
-    "date": "19",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Sleeping Beauty",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "19",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Un ballo in maschera",
-    "description": "opera by Giuseppe Verdi "
-  },
-  {
-    "date": "19",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Soloists of the Mariinsky Academy of Young Opera Singers",
-    "description": "The Mariinsky Orchestra Conductor: Yuri Demidovich"
-  },
-  {
-    "date": "20",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Sleeping Beauty",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "20",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Ariadne auf Naxos",
-    "description": "opera by Richard Strauss"
-  },
-  {
-    "date": "21",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "13:00",
-    "summary": "The Sleeping Beauty",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "21",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Sleeping Beauty",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "21",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "13:00",
-    "summary": "Ariadne auf Naxos",
-    "description": "opera by Richard Strauss"
-  },
-  {
-    "date": "21",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Ariadne auf Naxos",
-    "description": "opera by Richard Strauss"
-  },
-  {
-    "date": "21",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Lorenzo and Gabriele Bagnati (piano)",
-    "description": "The Mariinsky Orchestra Conductor: Yuri Demidovich"
-  },
-  {
-    "date": "22",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Sleeping Beauty",
-    "description": "ballet by Pyotr TchaikovskyFeaturing -->"
-  },
-  {
-    "date": "22",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "14:00",
-    "summary": "Il barbiere di Siviglia",
-    "description": "opera by Gioachino Rossini"
-  },
-  {
-    "date": "22",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Il barbiere di Siviglia",
-    "description": "opera by Gioachino Rossini"
-  },
-  {
-    "date": "22",
-    "month": "March",
-    "location": "Concert Hall",
     "time": "12:00",
-    "summary": "The Little Prince",
-    "description": "opera by Leonid Klinichev "
-  },
-  {
-    "date": "23",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "La Cenerentola",
-    "description": "opera by Gioachino Rossini "
-  },
-  {
-    "date": "23",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "The Demon",
-    "description": "opera by Anton Rubinstein"
-  },
-  {
-    "date": "24",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "The Fountain of Bakhchisarai",
-    "description": "ballet by Boris AsafievFeaturing -->"
-  },
-  {
-    "date": "24",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Madama Butterfly",
-    "description": "opera by Giacomo Puccini "
-  },
-  {
-    "date": "25",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Swan Lake",
-    "description": "ballet by Pyotr TchaikovskyFeaturing-->"
-  },
-  {
-    "date": "25",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "Simon Boccanegra",
-    "description": "opera by Giuseppe Verdi "
-  },
-  {
-    "date": "25",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "Rusalka",
-    "description": "opera by Antonín Dvořák "
-  },
-  {
-    "date": "26",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Swan Lake",
-    "description": "ballet by Pyotr TchaikovskyFeaturing-->"
-  },
-  {
-    "date": "26",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "14:00",
-    "summary": "Concert of the prize-winners of All-Russian competition for the prize of the Elena Obraztsova Cultural Center",
-    "description": ""
-  },
-  {
-    "date": "26",
-    "month": "March",
-    "location": "Concert Hall",
-    "time": "19:00",
-    "summary": "The St Petersburg Northern Sinfonia Orchestra",
-    "description": "The St Petersburg Northern Sinfonia OrchestraConductor: Fabio Mastrangelo-->"
-  },
-  {
-    "date": "27",
-    "month": "March",
-    "location": "Mariinsky Theatre",
-    "time": "19:00",
-    "summary": "Swan Lake",
-    "description": "ballet by Pyotr TchaikovskyFeaturing-->"
-  },
-  {
-    "date": "27",
-    "month": "March",
-    "location": "Mariinsky II",
-    "time": "19:00",
-    "summary": "The Snow Maiden",
-    "description": "opera by Nikolai Rimsky-Korsakov "
+    "summary": "Romeo and Juliet",
+    "description": "ballet by Sergei ProkofievFeaturing Nadezhda&nbsp;Batoeva, Even Capitaine"
   },
   {
     "date": "28",
@@ -1325,7 +85,7 @@
     "location": "Mariinsky II",
     "time": "13:00",
     "summary": "The Snow Maiden",
-    "description": "opera by Nikolai Rimsky-Korsakov "
+    "description": "opera by Nikolai Rimsky-Korsakov Featuring Anna&nbsp;Denisova, Gelena&nbsp;Gaskarova, Elena&nbsp;Gorlo, Vladimir&nbsp;Moroz, Boris&nbsp;Stepanov, Natalia&nbsp;Yevstafieva, Andrei&nbsp;Serov"
   },
   {
     "date": "28",
@@ -1333,7 +93,7 @@
     "location": "Mariinsky II",
     "time": "18:00",
     "summary": "The Snow Maiden",
-    "description": "opera by Nikolai Rimsky-Korsakov "
+    "description": "opera by Nikolai Rimsky-Korsakov Featuring Aigul&nbsp;Khismatullina, Zhanna&nbsp;Dombrovskaya, Svetlana&nbsp;Karpova, Vyacheslav&nbsp;Vasilyev, Andrei&nbsp;Popov, Irina Shishkova, Vadim&nbsp;Kravets"
   },
   {
     "date": "28",
@@ -1344,12 +104,36 @@
     "description": "Olesya Sudzilovskaya, Pavel Ivanov\r\nMaxim Puryzhinsky (piano) The Mariinsky Orchestra Conductor: Ksenia Zharko"
   },
   {
+    "date": "28",
+    "month": "March",
+    "location": "The Stravinsky Hall",
+    "time": "19:30",
+    "summary": "Viva, Handel",
+    "description": "Marina Tekhteleva (soprano), Tsvetana&nbsp;Omeltchuk (mezzo-soprano), Gevorg&nbsp;Grigoryan (bass) The Mariinsky Orchestra Conductor: Larisa Gabitova"
+  },
+  {
+    "date": "29",
+    "month": "March",
+    "location": "Mariinsky Theatre",
+    "time": "13:00",
+    "summary": "Chopiniana. Schéhérazade. The Firebird",
+    "description": "one act ballets by Michel FokineFeaturing Kristina&nbsp;Shapran, May&nbsp;Nagahisa, Elena Svinko, Alisa Barinova, Yesenia&nbsp;Anushenkova, Maxim&nbsp;Zyuzin, Roman Malyshev, Akim Backaev"
+  },
+  {
+    "date": "29",
+    "month": "March",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Chopiniana. Schéhérazade. The Firebird",
+    "description": "one act ballets by Michel FokineFeaturing Ekaterina&nbsp;Kondaurova, Olesya&nbsp;Novikova, Maria Bulanova, Yekaterina&nbsp;Osmolkina, Vlada Borodulina, Timur&nbsp;Askerov, Roman&nbsp;Belyakov, Konstantin&nbsp;Zverev"
+  },
+  {
     "date": "29",
     "month": "March",
     "location": "Mariinsky II",
     "time": "13:00",
     "summary": "Idomeneo, re di Creta",
-    "description": "opera by Wolfgang Amadeus MozartFeaturing -->"
+    "description": "opera by Wolfgang Amadeus MozartFeaturing Gamid&nbsp;Abdulov, Klim&nbsp;Tikhonov, Yulia&nbsp;Suleimanova, Diana&nbsp;Kazanlieva, Stanislav&nbsp;Leontiev"
   },
   {
     "date": "29",
@@ -1357,15 +141,15 @@
     "location": "Mariinsky II",
     "time": "19:00",
     "summary": "Idomeneo, re di Creta",
-    "description": "opera by Wolfgang Amadeus MozartFeaturing -->"
+    "description": "opera by Wolfgang Amadeus MozartFeaturing Igor&nbsp;Morozov, Roman Shirokikh, Yekaterina&nbsp;Savinkova, Anzhelika&nbsp;Minasova, Yegor&nbsp;Chubakov"
   },
   {
     "date": "29",
     "month": "March",
     "location": "Concert Hall",
     "time": "14:00",
-    "summary": "The Mariinsky Opera Soloists",
-    "description": "theatrical concert"
+    "summary": "‘How much I cherish the perfect moment’",
+    "description": "theatrical concert Zlata&nbsp;Bulycheva, Zhanna&nbsp;Dombrovskaya, Valeria&nbsp;Lebedieva, Violetta&nbsp;Lukyanenko, Irina&nbsp;Mataeva, Yekaterina&nbsp;Shimanovich, Anatoly&nbsp;Mikhailov, Roman&nbsp;Shirokikh, Yevgeny&nbsp;Ulanov, Denis&nbsp;Zakirov, Stepan&nbsp;ZavalishinPiano: Elena&nbsp;Matusovskaya, Alexander&nbsp;Rubinov"
   },
   {
     "date": "29",
@@ -1373,7 +157,15 @@
     "location": "Concert Hall",
     "time": "19:00",
     "summary": "The Mariinsky Brass",
-    "description": ""
+    "description": "Programme: Shostakovich, Bizet &ndash; Shchedrin"
+  },
+  {
+    "date": "29",
+    "month": "March",
+    "location": "The Stravinsky Hall",
+    "time": "19:30",
+    "summary": "Vitali, Saint-Saëns, Frolov, A. Tchaikovsky, Podgaits",
+    "description": "Zarina&nbsp;Shimanskaya (piano), Ekaterina Mochalova (domra)"
   },
   {
     "date": "30",
@@ -1381,7 +173,7 @@
     "location": "Mariinsky Theatre",
     "time": "19:00",
     "summary": "Pagliacci",
-    "description": "opera by Ruggero Leoncavallo "
+    "description": "opera by Ruggero Leoncavallo Featuring Oleg&nbsp;Videman, Evgenia&nbsp;Muravieva, Vladislav&nbsp;Kupriyanov, Dmitry&nbsp;Voropaev, Vyacheslav&nbsp;Vasilyev"
   },
   {
     "date": "30",
@@ -1389,15 +181,15 @@
     "location": "Mariinsky II",
     "time": "19:00",
     "summary": "Rigoletto",
-    "description": "opera by Giuseppe Verdi "
+    "description": "opera by Giuseppe Verdi Featuring Ariunbaatar&nbsp;Ganbaatar, Aigul&nbsp;Khismatullina, Sergei&nbsp;Skorokhodov, Ilya&nbsp;Bannik, Yekaterina&nbsp;Krapivina, Alexander&nbsp;Gerasimov"
   },
   {
     "date": "30",
     "month": "March",
     "location": "Concert Hall",
     "time": "19:00",
-    "summary": "The St Petersburg Northern Sinfonia Orchestra",
-    "description": "The St Petersburg Northern Sinfonia OrchestraConductor: Fabio Mastrangelo-->"
+    "summary": "D’Indy. Ravel. Dukas. Saint-Saëns",
+    "description": "The St Petersburg Northern Sinfonia Orchestra Conductor: Fabio&nbsp;Mastrangelo"
   },
   {
     "date": "31",
@@ -1405,7 +197,7 @@
     "location": "Mariinsky Theatre",
     "time": "19:00",
     "summary": "The Gambler",
-    "description": "opera by Sergei Prokofiev"
+    "description": "opera by Sergei ProkofievFeaturing Sergei&nbsp;Semishkur, Violetta&nbsp;Lukyanenko, Gennady&nbsp;Bezzubenkov, Olga&nbsp;Savova, Alexander&nbsp;Trofimov, Maxim&nbsp;Daminov, Yekaterina&nbsp;Sergeyeva"
   },
   {
     "date": "31",
@@ -1413,7 +205,23 @@
     "location": "Mariinsky II",
     "time": "19:00",
     "summary": "Petrouchka. Les Noces. Le Sacre du printemps",
-    "description": "one act ballets by Igor Stravinsky"
+    "description": "one act ballets by Igor StravinskyFeaturing Tatiana&nbsp;Tkachenko, Yulia Spiridonova, Daria Ustyuzhanina, Luca&nbsp;Dobos, Nikolai&nbsp;Naumov, Nikita Vronskikh"
+  },
+  {
+    "date": "31",
+    "month": "March",
+    "location": "The Stravinsky Hall",
+    "time": "19:30",
+    "summary": "Trombone Ensemble of the Mariinsky Theatre",
+    "description": ""
+  },
+  {
+    "date": "1",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Swan Lake",
+    "description": "ballet by Pyotr TchaikovskyFeaturing Oxana&nbsp;Skorik, Nikita&nbsp;Korneyev"
   },
   {
     "date": "1",
@@ -1421,6 +229,910 @@
     "location": "Mariinsky II",
     "time": "19:00",
     "summary": "Benvenuto Cellini",
-    "description": "opera by Hector Berlioz"
+    "description": "opera by Hector BerliozFeaturing Alexander&nbsp;Mikhailov, Antonina&nbsp;Vesenina, Irina&nbsp;Shishkova, Yegor&nbsp;Chubakov, Nikolai&nbsp;Kamensky, Stanislav&nbsp;Trofimov"
+  },
+  {
+    "date": "1",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "An Evening of Musical Satire",
+    "description": "Zhanna&nbsp;Dombrovskaya, Anastasia&nbsp;Kalagina, Denis&nbsp;Begansky, Gevorg&nbsp;Grigoryan, Bakuri&nbsp;Kalichava, Miroslav&nbsp;Molchanov, Yuri&nbsp;Vlasov, Andrei&nbsp;Zorin Piano: Alexander Rubinov The Mariinsky Chorus"
+  },
+  {
+    "date": "2",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Carmina Burana",
+    "description": "cantata by Carl Orff Soloists: Anastasia&nbsp;Kalagina, Andrei&nbsp;Popov, Vladislav&nbsp;SulimskyThe Mariinsky Chorus, Children&rsquo;s Chorus and&nbsp;Orchestra  Conductor: Konstantin Rylov"
+  },
+  {
+    "date": "2",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Brahms. Violin Concerto <br />Prokofiev. Symphony-Concerto for cello and orchestra",
+    "description": "Soloists: Alexander Poltoratsky (violin), Vasily&nbsp;Stepanov (cello) The&nbsp;Mariinsky Orchestra Conductor: Andrey&nbsp;Kolyasnikov"
+  },
+  {
+    "date": "3",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Swan Lake",
+    "description": "ballet by Pyotr TchaikovskyFeaturing Viktoria&nbsp;Tereshkina, Roman&nbsp;Belyakov"
+  },
+  {
+    "date": "3",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "18:00",
+    "summary": "Aida",
+    "description": "opera by Giuseppe Verdi"
+  },
+  {
+    "date": "3",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Il viaggio a Reims",
+    "description": "opera by Gioachino Rossini Featuring Elena&nbsp;Karpesh, Anna&nbsp;Kiknadze, Oxana&nbsp;Shilova, Dmitry&nbsp;Voropaev, Denis&nbsp;Zakirov, Maharram&nbsp;Huseynov, Nikolai&nbsp;Kamensky, Ilya&nbsp;Bannik, Vladimir&nbsp;Moroz"
+  },
+  {
+    "date": "4",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "13:00",
+    "summary": "Don Quixote",
+    "description": "ballet by Ludwig MinkusFeaturing Yana&nbsp;Peneva, Alexei&nbsp;Orohovsky"
+  },
+  {
+    "date": "4",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Don Quixote",
+    "description": "ballet by Ludwig MinkusFeaturing Renata&nbsp;Shakirova, Ryoma&nbsp;Hudzeleu"
+  },
+  {
+    "date": "4",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "11:00",
+    "summary": "Aida",
+    "description": "opera by Giuseppe Verdi"
+  },
+  {
+    "date": "4",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "15:30",
+    "summary": "Aida",
+    "description": "opera by Giuseppe Verdi"
+  },
+  {
+    "date": "4",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "20:00",
+    "summary": "Aida",
+    "description": "opera by Giuseppe Verdi"
+  },
+  {
+    "date": "4",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Soloists of the Mariinsky Academy of Young Opera Singers",
+    "description": ""
+  },
+  {
+    "date": "4",
+    "month": "April",
+    "location": "The Rachmaninov Hall",
+    "time": "14:00",
+    "summary": "Musical future of Russia",
+    "description": "Students of Russian and European music institutions"
+  },
+  {
+    "date": "5",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "13:00",
+    "summary": "Swan Lake",
+    "description": "ballet by Pyotr TchaikovskyFeaturing Maria&nbsp;Khoreva, Minchul Jeon"
+  },
+  {
+    "date": "5",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Swan Lake",
+    "description": "ballet by Pyotr TchaikovskyFeaturing Nadezhda&nbsp;Batoeva, Timur&nbsp;Askerov"
+  },
+  {
+    "date": "5",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "13:00",
+    "summary": "Ruslan and Lyudmila",
+    "description": "opera by Mikhail Glinka (abridged version)"
+  },
+  {
+    "date": "5",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Ruslan and Lyudmila",
+    "description": "opera by Mikhail Glinka (abridged version)"
+  },
+  {
+    "date": "5",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "20:00",
+    "summary": "Bach. Johannes-Passion",
+    "description": "Soloists: Marina Kirushina, Maria&nbsp;Uvarova, Egor Semenkov, Alexander Shashkin, Alexei Krotov, Alexander Nazemtsev, Alexander Bashkatov Olga&nbsp;Kotlyarova (organ) The Mariinsky Chorus and Orchestra Conductor: Konstantin Rylov"
+  },
+  {
+    "date": "5",
+    "month": "April",
+    "location": "The Rachmaninov Hall",
+    "time": "19:30",
+    "summary": "A concert of Russian and Armenian music <br />The harmony of two hearts",
+    "description": "Anna Shoka (violin), Yekaterina Skurtu (violin), Yekaterina Zaplakhova (cello), Alexander Vasiliev (clarinet), Trofim&nbsp;Konvisarov (piano)"
+  },
+  {
+    "date": "5",
+    "month": "April",
+    "location": "The Stravinsky Hall",
+    "time": "19:30",
+    "summary": "Mariinsky brass ensembles",
+    "description": "Programme: Bach, Telemann, Ewald, Crespo"
+  },
+  {
+    "date": "6",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Don Pasquale",
+    "description": "opera by Gaetano DonizettiFeaturing Yevgeny&nbsp;Chernyadiev, Anna&nbsp;Denisova, Alexander&nbsp;Gontsa, Stanislav&nbsp;Leontiev, Dmitry&nbsp;Koleushko Performed in Russian"
+  },
+  {
+    "date": "6",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Le Corsaire",
+    "description": "ballet by Adolphe AdamFeaturing Maria&nbsp;Iliushkina, Anastasia Lukina, Kimin&nbsp;Kim, Even Capitaine"
+  },
+  {
+    "date": "6",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "A concert in memory of Yoko Nagae Ceschina",
+    "description": "Soloists and the Mariinsky Orchestra Conductor: Valery&nbsp;Gergiev"
+  },
+  {
+    "date": "7",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Eugene Onegin",
+    "description": "opera by Pyotr Tchaikovsky, production by Yuri Temirkanov  "
+  },
+  {
+    "date": "7",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "The Enchantress",
+    "description": "opera by Pyotr Tchaikovsky "
+  },
+  {
+    "date": "7",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "The Mariinsky Orchestra, conductor: Christian Knapp",
+    "description": "The Mariinsky OrchestraConductor: Christian&nbsp;Knapp-->"
+  },
+  {
+    "date": "8",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Don Quixote",
+    "description": "ballet by Ludwig MinkusFeaturing Maria Bulanova, Ruslan&nbsp;Stenyushkin"
+  },
+  {
+    "date": "8",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Gala opening of the festival",
+    "description": "Soloists: Sofia&nbsp;Kiprskaya, Ksenia Kurlovich, Milena Stani&scaron;ić (harp), S&eacute;bastian Jacot, Denis&nbsp;Lupachev, Veronika Tkachuk, Sofia&nbsp;Viland, Stanislav Yaroshevsky (flute), Feras Charestan (kanun), Su Chang (guzheng) The Mariinsky Orchestra"
+  },
+  {
+    "date": "8",
+    "month": "April",
+    "location": "The Prokofiev Hall",
+    "time": "11:00",
+    "summary": "Master-class with Yu Yuan (flute)",
+    "description": "Conductor: Cemi'i Can Deliorman-->"
+  },
+  {
+    "date": "9",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Anyuta",
+    "description": "ballet set to music by Valery GavrilinFeaturing Nadezhda&nbsp;Batoeva, Alexander&nbsp;Sergeev, Konstantin&nbsp;Zverev, Anton Osetrov, Aaron Osawa-Horowitz"
+  },
+  {
+    "date": "9",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Der fliegende Holländer",
+    "description": "opera by Richard Wagner "
+  },
+  {
+    "date": "9",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "20:00",
+    "summary": "Connecting worlds",
+    "description": "Soloists: Sofia&nbsp;Kiprskaya (harp), Nikolai&nbsp;Khotin (percussion), Feras&nbsp;Charestan (kanun), Su&nbsp;Chang (guzheng), Marina&nbsp;V&auml;is&auml; (organ) Maria&nbsp;Bayankina, Alexander&nbsp;Mikhailov, Mikhail&nbsp;Petrenko, Yuri&nbsp;Smekalov, Alexandra&nbsp;Iosifidi The Mariinsky Chamber Chorus"
+  },
+  {
+    "date": "9",
+    "month": "April",
+    "location": "The Rachmaninov Hall",
+    "time": "15:30",
+    "summary": "Master-class with Milena Stanišić (harp)",
+    "description": "Conductor: Cemi'i Can Deliorman-->"
+  },
+  {
+    "date": "10",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Giselle",
+    "description": "ballet by Adolphe AdamFeaturing Maria&nbsp;Shirinkina, Yevgeny&nbsp;Konovalov"
+  },
+  {
+    "date": "10",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Les Huguenots",
+    "description": "opera by Giacomo Meyerbeer "
+  },
+  {
+    "date": "10",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Strauss. Metamorphosen <br>Tchaikovsky. Serenade for Strings",
+    "description": "The Mariinsky Stradivarius EnsembleSoloist and conductor: Lorenz Nasturica-Herschcowici"
+  },
+  {
+    "date": "10",
+    "month": "April",
+    "location": "The Prokofiev Hall",
+    "time": "11:00",
+    "summary": "Master-class with Diana Krivenko (flute)",
+    "description": "Conductor: Cemi'i Can Deliorman-->"
+  },
+  {
+    "date": "10",
+    "month": "April",
+    "location": "The Stravinsky Hall",
+    "time": "18:00",
+    "summary": "A Tribute to teachers",
+    "description": "The Mariinsky Orchestra soloists and guest musicians\r\nConductor: Cemi'i Can Deliorman-->"
+  },
+  {
+    "date": "11",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "13:00",
+    "summary": "Giselle",
+    "description": "ballet by Adolphe AdamTickets for the performance may be acquired at the the historic stage of Mariinsky Theatre box-offices-->Featuring-->"
+  },
+  {
+    "date": "11",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Giselle",
+    "description": "ballet by Adolphe AdamFeaturing Olesya&nbsp;Novikova, Timur&nbsp;Askerov"
+  },
+  {
+    "date": "11",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "18:00",
+    "summary": "The Legend of the Invisible City of Kitezh and the Maiden Fevroniya",
+    "description": "opera by Nikolai Rimsky-Korsakov"
+  },
+  {
+    "date": "11",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "11:30",
+    "summary": "Prokofiev. Symphony No 1. Peter and the Wolf",
+    "description": "Oleg SenchenkoThe Mariinsky Orchestra"
+  },
+  {
+    "date": "11",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "14:00",
+    "summary": "Ravel. Chopin",
+    "description": "Performed by Zarina&nbsp;Shimanskaya (piano)"
+  },
+  {
+    "date": "11",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:30",
+    "summary": "Yu Yuan and Sébastian Jacot (flute)",
+    "description": "Featuring Elena&nbsp;Serova (piano)"
+  },
+  {
+    "date": "11",
+    "month": "April",
+    "location": "The Stravinsky Hall",
+    "time": "19:30",
+    "summary": "Mozart Gala",
+    "description": "Isabella Andriasyn, Anastasia&nbsp;Kalagina, Sarah&nbsp;Oganesyan, Daria&nbsp;Rositskaya, Antonina&nbsp;Vesenina, Dmitry&nbsp;Grigoriev Piano: Yuri&nbsp;Kokko"
+  },
+  {
+    "date": "12",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "13:00",
+    "summary": "Giselle",
+    "description": "ballet by Adolphe AdamFeaturing Daria&nbsp;Kulikova, Minchul Jeon"
+  },
+  {
+    "date": "12",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Giselle",
+    "description": "ballet by Adolphe AdamFeaturing Viktoria&nbsp;Tereshkina, Roman&nbsp;Belyakov"
+  },
+  {
+    "date": "12",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "14:00",
+    "summary": "Turandot",
+    "description": "opera by Giacomo Puccini "
+  },
+  {
+    "date": "12",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Turandot",
+    "description": "opera by Giacomo Puccini "
+  },
+  {
+    "date": "12",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "12:00",
+    "summary": "Grechaninov. Ecumenical Mass <br />Bruckner. Te Deum",
+    "description": "The Mariinsky Opera soloists, Chorus and Orchestra Conductor: Konstantin Rylov"
+  },
+  {
+    "date": "12",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "20:00",
+    "summary": "Iolanta",
+    "description": "opera by Pyotr Tchaikovsky "
+  },
+  {
+    "date": "12",
+    "month": "April",
+    "location": "The Prokofiev Hall",
+    "time": "11:00",
+    "summary": "Master-class with Sébastian Jacot (flute)",
+    "description": "Conductor: Cemi'i Can Deliorman-->"
+  },
+  {
+    "date": "12",
+    "month": "April",
+    "location": "The Rachmaninov Hall",
+    "time": "14:00",
+    "summary": "Master-class with Yelizaveta Alexandrova (harp)",
+    "description": "Conductor: Cemi'i Can Deliorman-->"
+  },
+  {
+    "date": "13",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "L'elisir d'amore",
+    "description": "opera by Gaetano Donizetti "
+  },
+  {
+    "date": "13",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Pagliacci",
+    "description": "opera by Ruggero Leoncavallo "
+  },
+  {
+    "date": "13",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "The St Petersburg Northern Sinfonia Orchestra",
+    "description": "The St Petersburg Northern Sinfonia OrchestraConductor: Fabio Mastrangelo-->"
+  },
+  {
+    "date": "13",
+    "month": "April",
+    "location": "The Prokofiev Hall",
+    "time": "11:00",
+    "summary": "Master-class with Egor Egorkin (flute)",
+    "description": "Conductor: Cemi'i Can Deliorman-->"
+  },
+  {
+    "date": "14",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "La Cenerentola",
+    "description": "opera by Gioachino Rossini "
+  },
+  {
+    "date": "14",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "The Nutcracker",
+    "description": "ballet by Pyotr Tchaikovsky(staged by Mihail Chemiakin, choreography by Kirill Simonov)Featuring Oxana&nbsp;Skorik, Roman Malyshev"
+  },
+  {
+    "date": "14",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Gala closing of the festival",
+    "description": "Soloists: Maria Fedorova, Sofia&nbsp;Kiprskaya, Maria&nbsp;Fedotova (harp), Sergei&nbsp;Adamenko (hurdy-gurdy) Denis&nbsp;Lupachev, Yu Yuan (flute), Egor Egorkin, Anastasia&nbsp;Kaneyeva (piccolo flute), Gabriele Jebran Yakoub (cello), Ivan&nbsp;Stolbov (clarinet) The Mariinsky Orchestra"
+  },
+  {
+    "date": "15",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "The Queen of Spades",
+    "description": "opera by Pyotr Tchaikovsky staged by Yuri Temirkanov"
+  },
+  {
+    "date": "15",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "18:00",
+    "summary": "Carmen Suite. Round Dances (<em>premiere</em>)",
+    "description": "one-act balletsFeaturing Alexandra Khiteeva, Yana&nbsp;Peneva, B&iacute;borka Lendvai, Nikita&nbsp;Korneyev, Alexei&nbsp;Orohovsky, Yaroslav&nbsp;Baibordin, Kian Mangis, Mikhail Barkidzhidzha Conductor: Valery&nbsp;Gergiev"
+  },
+  {
+    "date": "16",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Don Giovanni",
+    "description": "opera by Wolfgang Amadeus Mozart "
+  },
+  {
+    "date": "17",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "The Turn of the Screw",
+    "description": "opera by Benjamin Britten"
+  },
+  {
+    "date": "17",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Cinderella",
+    "description": "ballet by Sergei ProkofievFeaturing May&nbsp;Nagahisa, Yevgeny&nbsp;Konovalov"
+  },
+  {
+    "date": "18",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "11:30",
+    "summary": "The Love for Three Oranges",
+    "description": "opera by Sergei Prokofiev"
+  },
+  {
+    "date": "18",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "15:30",
+    "summary": "The Love for Three Oranges",
+    "description": "opera by Sergei Prokofiev"
+  },
+  {
+    "date": "18",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:30",
+    "summary": "The Love for Three Oranges",
+    "description": "opera by Sergei Prokofiev"
+  },
+  {
+    "date": "18",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "13:00",
+    "summary": "Cinderella",
+    "description": "ballet by Sergei ProkofievFeaturing Kristina&nbsp;Shapran, Timur&nbsp;Askerov"
+  },
+  {
+    "date": "18",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Cinderella",
+    "description": "ballet by Sergei ProkofievFeaturing Renata&nbsp;Shakirova, Alexander&nbsp;Sergeev"
+  },
+  {
+    "date": "18",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "12:00",
+    "summary": "Concert for Children",
+    "description": ""
+  },
+  {
+    "date": "18",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Ekaterina Semenchuk recital (mezzo-soprano)",
+    "description": "The Mariinsky Orchestra"
+  },
+  {
+    "date": "19",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "13:00",
+    "summary": "Konyok-Gorbunok (The Little Humpbacked Horse)",
+    "description": "ballet by Rodion ShchedrinFeaturing Maxim&nbsp;Izmestiev, Elena&nbsp;Yevseyeva"
+  },
+  {
+    "date": "19",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Konyok-Gorbunok (The Little Humpbacked Horse)",
+    "description": "ballet by Rodion ShchedrinFeaturing Even Capitaine, Maria&nbsp;Iliushkina"
+  },
+  {
+    "date": "19",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "14:00",
+    "summary": "Die Zauberflöte",
+    "description": "opera by Wolfgang Amadeus Mozart"
+  },
+  {
+    "date": "19",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Die Zauberflöte",
+    "description": "opera by Wolfgang Amadeus Mozart"
+  },
+  {
+    "date": "19",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "13:00",
+    "summary": "Betrothal in a Monastery",
+    "description": "opera by Sergei Prokofiev "
+  },
+  {
+    "date": "19",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Betrothal in a Monastery",
+    "description": "opera by Sergei Prokofiev "
+  },
+  {
+    "date": "19",
+    "month": "April",
+    "location": "The Stravinsky Hall",
+    "time": "14:00",
+    "summary": "Bastien und Bastienne",
+    "description": "opera by Wolfgang Amadeus Mozart"
+  },
+  {
+    "date": "19",
+    "month": "April",
+    "location": "The Stravinsky Hall",
+    "time": "19:30",
+    "summary": "Bastien und Bastienne",
+    "description": "opera by Wolfgang Amadeus Mozart"
+  },
+  {
+    "date": "20",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Faust",
+    "description": "opera by Charles Gounod Featuring -->"
+  },
+  {
+    "date": "20",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:30",
+    "summary": "I puritani",
+    "description": "opera by Vincenzo BelliniFeaturing -->"
+  },
+  {
+    "date": "20",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Beethoven. Brahms",
+    "description": ""
+  },
+  {
+    "date": "21",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Il trovatore",
+    "description": "opera by Giuseppe Verdi "
+  },
+  {
+    "date": "21",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Rossini. Stabat Mater",
+    "description": "Soloists: Conductor: -->\r\nThe Mariinsky Opera soloists, Chorus and Orchestra Conductor: Konstantin Rylov"
+  },
+  {
+    "date": "22",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Carmen",
+    "description": "opera by Georges BizetFeaturing -->"
+  },
+  {
+    "date": "22",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "The Miserly Knight",
+    "description": "opera by Sergei Rachmaninoff"
+  },
+  {
+    "date": "23",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "The Stone Flower",
+    "description": "ballet by Sergei ProkofievFeaturing Roman&nbsp;Belyakov, Yekaterina&nbsp;Osmolkina, Viktoria&nbsp;Tereshkina"
+  },
+  {
+    "date": "23",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Semyon Kotko",
+    "description": "opera by Sergei Prokofiev"
+  },
+  {
+    "date": "23",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "The Mariinsky Orchestra, сonductor: Yuri Demidovich",
+    "description": "Soloist: George Harliono (piano)"
+  },
+  {
+    "date": "24",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "The Stone Flower",
+    "description": "ballet by Sergei ProkofievFeaturing Nikita&nbsp;Korneyev, Maria&nbsp;Shirinkina, Nadezhda&nbsp;Batoeva"
+  },
+  {
+    "date": "24",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Les Contes d'Hoffmann",
+    "description": "opera by Jacques Offenbach "
+  },
+  {
+    "date": "24",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "The St Petersburg Northern Sinfonia Orchestra",
+    "description": "The St Petersburg Northern Sinfonia OrchestraConductor: Fabio Mastrangelo-->"
+  },
+  {
+    "date": "25",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "The Stone Flower",
+    "description": "ballet by Sergei ProkofievFeaturing Anton Osetrov, Valeria Kuznetsova, Oxana&nbsp;Skorik"
+  },
+  {
+    "date": "25",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "14:00",
+    "summary": "La traviata",
+    "description": "opera by Giuseppe Verdi"
+  },
+  {
+    "date": "25",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "La traviata",
+    "description": "opera by Giuseppe Verdi"
+  },
+  {
+    "date": "25",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "12:00",
+    "summary": "The Story of Kai and Gerda",
+    "description": "opera by Sergei Banevich "
+  },
+  {
+    "date": "25",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "The Story of Kai and Gerda",
+    "description": "opera by Sergei Banevich "
+  },
+  {
+    "date": "26",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "12:00",
+    "summary": "Don Quixote",
+    "description": "ballet by Ludwig MinkusFeaturing-->"
+  },
+  {
+    "date": "26",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "The Stone Flower",
+    "description": "ballet by Sergei ProkofievFeaturing Yevgeny&nbsp;Konovalov, Alisa Barinova, Renata&nbsp;Shakirova"
+  },
+  {
+    "date": "26",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "12:00",
+    "summary": "La traviata",
+    "description": "opera by Giuseppe Verdi"
+  },
+  {
+    "date": "26",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "La traviata",
+    "description": "opera by Giuseppe Verdi"
+  },
+  {
+    "date": "27",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Le Corsaire",
+    "description": "ballet by Adolphe AdamFeaturing Maria&nbsp;Khoreva, Elena Svinko, Kian Mangis"
+  },
+  {
+    "date": "27",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Cendrillon",
+    "description": "opera by Jules Massenet (concert performance)"
+  },
+  {
+    "date": "28",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "Le Corsaire",
+    "description": "ballet by Adolphe AdamFeaturing Alexandra Khiteeva, Yana&nbsp;Peneva, Nikita&nbsp;Korneyev, Alexei&nbsp;Orohovsky"
+  },
+  {
+    "date": "28",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "Le nozze di Figaro",
+    "description": "opera by Wolfgang Amadeus Mozart "
+  },
+  {
+    "date": "29",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "The Gambler",
+    "description": "opera by Sergei Prokofiev"
+  },
+  {
+    "date": "29",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Swan",
+    "description": ""
+  },
+  {
+    "date": "29",
+    "month": "April",
+    "location": "Concert Hall",
+    "time": "19:00",
+    "summary": "The <em>Symphonica ARTica</em> symphony orchestra, conductor: Natalia&nbsp;Bazaleva",
+    "description": "The Symphonica ARTica symphony orchestra Conductor: Natalia&nbsp;Bazaleva\r\nProgramme: Mikheyev. Beethoven. Dvořák-->"
+  },
+  {
+    "date": "30",
+    "month": "April",
+    "location": "Mariinsky Theatre",
+    "time": "19:00",
+    "summary": "La forza del destino",
+    "description": "opera by Giuseppe Verdi "
+  },
+  {
+    "date": "30",
+    "month": "April",
+    "location": "Mariinsky II",
+    "time": "19:00",
+    "summary": "Swan",
+    "description": ""
+  },
+  {
+    "date": "1",
+    "month": "May",
+    "location": "Mariinsky II",
+    "time": "12:00",
+    "summary": "Swan",
+    "description": ""
+  },
+  {
+    "date": "1",
+    "month": "May",
+    "location": "Mariinsky II",
+    "time": "18:00",
+    "summary": "Swan",
+    "description": ""
   }
 ]

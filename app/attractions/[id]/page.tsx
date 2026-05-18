@@ -11,7 +11,7 @@ import { DateFilter } from "@/components/DateFilter"
 // Force dynamic
 export const dynamic = 'force-dynamic'
 
-export default async function AttractionPage({ params, searchParams }: { params: { id: string }, searchParams: { date?: string } }) {
+export default async function AttractionPage({ params, searchParams }: { params: { id: string }, searchParams: { startDate?: string, endDate?: string } }) {
     const attraction = await prisma.attraction.findUnique({
         where: { id: params.id },
         include: {
@@ -39,8 +39,15 @@ export default async function AttractionPage({ params, searchParams }: { params:
         const validSlots = (p.availableSlots as string[]).filter(slot => {
             // Must be in the future
             if (slot < moscowTime) return false;
-            // If a specific date is selected, must match that date
-            if (searchParams.date && !slot.startsWith(searchParams.date)) return false;
+            
+            const slotDate = slot.substring(0, 10);
+            
+            // If a start date is selected, must be on or after that date
+            if (searchParams.startDate && slotDate < searchParams.startDate) return false;
+            
+            // If an end date is selected, must be on or before that date
+            if (searchParams.endDate && slotDate > searchParams.endDate) return false;
+            
             return true;
         });
 

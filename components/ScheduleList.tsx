@@ -77,6 +77,30 @@ export function ScheduleList({ products }: { products: any[] }) {
         }
     }
 
+    // Helper for Badge Localization
+    const getLocalizedBadge = (type: string) => {
+        if (language === 'zh') {
+            switch (type) {
+                case "Ballet": return "芭蕾"
+                case "Opera": return "歌剧"
+                case "Concert": return "音乐会"
+                case "Service": return "服务"
+                case "Other": return "其他"
+                default: return type
+            }
+        } else if (language === 'ru') {
+            switch (type) {
+                case "Ballet": return "Балет"
+                case "Opera": return "Опера"
+                case "Concert": return "Концерт"
+                case "Service": return "Услуга"
+                case "Other": return "Другое"
+                default: return type
+            }
+        }
+        return type
+    }
+
     return (
         <div className="w-full space-y-4">
             {/* Header / Legend (Optional) */}
@@ -88,11 +112,28 @@ export function ScheduleList({ products }: { products: any[] }) {
                     let timeDisplay = ""
 
                     if (item.slotInfo) {
-                        // Check if valid date
-                        if (!isNaN(item.dateObj.getTime())) {
-                            dateDisplay = item.dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) // "Jan 26"
-                            timeDisplay = item.dateObj.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }) // "19:00"
-                        } else {
+                        try {
+                            const dateMatch = item.slotInfo.match(/^(\d{4})-(\d{2})-(\d{2})/)
+                            if (dateMatch) {
+                                const year = parseInt(dateMatch[1], 10)
+                                const month = parseInt(dateMatch[2], 10) - 1
+                                const day = parseInt(dateMatch[3], 10)
+                                const d = new Date(year, month, day) // Local midnight
+                                
+                                if (!isNaN(d.getTime())) {
+                                    dateDisplay = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+                                } else {
+                                    dateDisplay = item.slotInfo.substring(0, 10)
+                                }
+                                
+                                const timeMatch = item.slotInfo.match(/(\d{2}:\d{2})/)
+                                if (timeMatch) {
+                                    timeDisplay = timeMatch[1]
+                                }
+                            } else {
+                                dateDisplay = item.slotInfo
+                            }
+                        } catch (e) {
                             dateDisplay = item.slotInfo
                         }
                     }
@@ -116,7 +157,7 @@ export function ScheduleList({ products }: { products: any[] }) {
                             <div className="flex-grow min-w-0">
                                 <div className="flex items-center gap-2 mb-1 flex-wrap">
                                     <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider border ${getBadgeColor(item.badgeType)}`}>
-                                        {item.badgeType}
+                                        {getLocalizedBadge(item.badgeType)}
                                     </span>
                                     <h3 className="text-base md:text-lg font-bold text-white truncate group-hover:text-teal-300 transition-colors">
                                         {displayTitle}

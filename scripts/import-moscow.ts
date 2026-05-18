@@ -88,6 +88,7 @@ async function main() {
                     // Update descriptions if missing?
                     description: existing.description || base.description || "",
                     titleRu: existing.titleRu || base.titleRu,
+                    descriptionRu: existing.descriptionRu || base.performanceType || null,
                 }
             });
         } else {
@@ -98,6 +99,7 @@ async function main() {
                     title: base.title,
                     description: base.description || `Tickets for ${base.title} at ${base.theater}`,
                     titleRu: base.titleRu,
+                    descriptionRu: base.performanceType || null,
                     price: minPrice,
                     stock: 100, // Placeholder
                     type: "THEATER",
