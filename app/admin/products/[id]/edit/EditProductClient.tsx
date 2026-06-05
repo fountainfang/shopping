@@ -84,6 +84,9 @@ export default function EditProductClient({ product, existingCities, attractions
     const [endTime, setEndTime] = useState("17:00")
     const [interval, setInterval] = useState(60)
     const [generatedSlots, setGeneratedSlots] = useState(Array.isArray(product.availableSlots) ? product.availableSlots.join('\n') : "")
+    const [slotTimesInput, setSlotTimesInput] = useState(
+        Array.isArray(product.slotTimes) ? product.slotTimes.join(', ') : ""
+    )
 
     function generateSlots() {
         if (!startDate || !endDate || !startTime || !endTime || !interval) return;
@@ -141,10 +144,28 @@ export default function EditProductClient({ product, existingCities, attractions
 
         // Handle Available Slots for Attraction
         if (type === "ATTRACTION" || type === "THEATER") {
-            if (generatedSlots) {
-                // split by new lines
-                submitData.availableSlots = generatedSlots.split('\n').map((s: string) => s.trim()).filter(Boolean);
+            if (type === "ATTRACTION" && formData.attractionId) {
+                // If linked to an attraction, slots are generated automatically from custom slotTimes
+                submitData.slotTimes = slotTimesInput
+                    .split(/[\n,]+/)
+                    .map((s: string) => s.trim())
+                    .map((s: string) => {
+                        // Pad single-digit hours: "9:00" -> "09:00"
+                        if (/^\d:[0-5]\d$/.test(s)) {
+                            return "0" + s;
+                        }
+                        return s;
+                    })
+                    .filter((s: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(s));
+            } else {
+                submitData.slotTimes = null;
+                if (generatedSlots) {
+                    // split by new lines
+                    submitData.availableSlots = generatedSlots.split('\n').map((s: string) => s.trim()).filter(Boolean);
+                }
             }
+        } else {
+            submitData.slotTimes = null;
         }
 
         try {
@@ -285,54 +306,73 @@ export default function EditProductClient({ product, existingCities, attractions
 
                 {(type === 'ATTRACTION' || type === 'THEATER') && (
                     <div className="space-y-4 border p-4 rounded-md bg-muted/20">
-                        <h3 className="font-semibold text-sm">Slot Generator</h3>
-                        {/* Days Selection */}
-                        <div className="space-y-2">
-                            <label className="text-xs font-medium">Active Days</label>
-                            <div className="flex gap-2">
-                                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, i) => (
-                                    <button
-                                        key={day}
-                                        type="button"
-                                        onClick={() => toggleWeekday(i)}
-                                        className={`px-2 py-1 text-xs rounded border ${weekdays[i] ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted'}`}
-                                    >
-                                        {day}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-4">
+                        <h3 className="font-semibold text-sm">Booking Slots Configuration</h3>
+                        
+                        {type === 'ATTRACTION' && formData.attractionId ? (
                             <div className="space-y-2">
-                                <label className="text-xs font-medium">Start Time</label>
-                                <Input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+                                <label className="text-sm font-medium">Custom Daily Slot Times (Split Sessions)</label>
+                                <Textarea
+                                    name="slotTimes"
+                                    value={slotTimesInput}
+                                    onChange={(e) => setSlotTimesInput(e.target.value)}
+                                    className="font-mono min-h-[80px] bg-background border-input text-foreground px-3 py-2 rounded-md"
+                                    placeholder="e.g. 10:00, 11:00, 13:30, 14:30"
+                                />
+                                <p className="text-xs text-muted-foreground">
+                                    Leave blank to use the attraction's default hours. Write comma or newline-separated times to specify split sessions (e.g. morning/afternoon start times).
+                                </p>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-medium">End Time</label>
-                                <Input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-medium">Interval (min)</label>
-                                <Input type="number" value={interval} onChange={(e) => setInterval(Number(e.target.value))} />
-                            </div>
-                        </div>
+                        ) : (
+                            <>
+                                {/* Days Selection */}
+                                <div className="space-y-2">
+                                    <label className="text-xs font-medium">Active Days</label>
+                                    <div className="flex gap-2">
+                                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, i) => (
+                                            <button
+                                                key={day}
+                                                type="button"
+                                                onClick={() => toggleWeekday(i)}
+                                                className={`px-2 py-1 text-xs rounded border ${weekdays[i] ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted'}`}
+                                            >
+                                                {day}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
 
-                        <Button type="button" variant="outline" size="sm" onClick={generateSlots} className="w-full">
-                            Generate Slots
-                        </Button>
+                                <div className="grid grid-cols-3 gap-4">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">Start Time</label>
+                                        <Input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">End Time</label>
+                                        <Input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">Interval (min)</label>
+                                        <Input type="number" value={interval} onChange={(e) => setInterval(Number(e.target.value))} />
+                                    </div>
+                                </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Generated Slots (Editable)</label>
-                            <Textarea
-                                name="availableSlots"
-                                value={generatedSlots}
-                                onChange={(e) => setGeneratedSlots(e.target.value)}
-                                className="font-mono min-h-[150px]"
-                                placeholder="Generated slots will appear here..."
-                            />
-                            <p className="text-xs text-muted-foreground">Verify and remove any specific dates if closed.</p>
-                        </div>
+                                <Button type="button" variant="outline" size="sm" onClick={generateSlots} className="w-full">
+                                    Generate Slots
+                                </Button>
+
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Generated Slots (Editable)</label>
+                                    <Textarea
+                                        name="availableSlots"
+                                        value={generatedSlots}
+                                        onChange={(e) => setGeneratedSlots(e.target.value)}
+                                        className="font-mono min-h-[150px]"
+                                        placeholder="Generated slots will appear here..."
+                                    />
+                                    <p className="text-xs text-muted-foreground">Verify and remove any specific dates if closed.</p>
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
 

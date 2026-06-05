@@ -74,6 +74,7 @@ model Product {
   attraction      Attraction? @relation(fields: [attractionId], references: [id])
 
   availableSlots  Json?       // For Attraction date/time configuration
+  slotTimes       Json?       // Array of daily entry times, e.g. ["10:00", "11:00", "13:30", "14:30"]
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -98,6 +99,14 @@ model Attraction {
   googleMapLink String?
   yandexMapLink String?
   
+  // Slot configuration policies
+  bookingWindow Int?      @default(10) // number of days to sell, e.g. 10, 14, 20
+  closedDays    Json?     // Array of rest days in week, e.g. [2, 4] for Tue/Thu. 0=Sun, 1=Mon, 2=Tue...
+  slotInterval  Int?      @default(60) // in minutes
+  startTime     String?   @default("09:00")
+  endTime       String?   @default("18:00")
+  slotsUpdatedAt DateTime? // timestamp of last slot sync
+
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

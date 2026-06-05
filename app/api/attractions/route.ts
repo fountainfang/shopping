@@ -16,7 +16,8 @@ export async function POST(req: Request) {
             name, nameZh, nameRu,
             description, descriptionZh, descriptionRu,
             city, cityZh, cityRu,
-            image, googleMapLink, yandexMapLink
+            image, googleMapLink, yandexMapLink,
+            bookingWindow, closedDays, slotInterval, startTime, endTime
         } = body
 
         if (!name || !city) {
@@ -28,7 +29,12 @@ export async function POST(req: Request) {
                 name, nameZh, nameRu,
                 description, descriptionZh, descriptionRu,
                 city, cityZh, cityRu,
-                image, googleMapLink, yandexMapLink
+                image, googleMapLink, yandexMapLink,
+                bookingWindow: bookingWindow !== undefined && bookingWindow !== null ? Number(bookingWindow) : null,
+                closedDays: closedDays || null,
+                slotInterval: slotInterval !== undefined && slotInterval !== null ? Number(slotInterval) : null,
+                startTime: startTime || null,
+                endTime: endTime || null
             }
         })
 

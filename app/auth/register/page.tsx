@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
@@ -14,6 +14,11 @@ export default function RegisterPage() {
     const { dict } = useLanguage()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     // Form State
     const [email, setEmail] = useState("")
@@ -63,6 +68,10 @@ export default function RegisterPage() {
         } finally {
             setIsLoading(false)
         }
+    }
+
+    if (!mounted) {
+        return null
     }
 
     return (

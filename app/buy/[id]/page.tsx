@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import ClientBuyPage from "@/components/ClientBuyPage"
 import { notFound, redirect } from "next/navigation"
+import { ensureAttractionSlots } from "@/lib/slots"
 
 export default async function BuyPage({ params }: { params: { id: string } }) {
     const session = await getServerSession(authOptions)
@@ -17,6 +18,18 @@ export default async function BuyPage({ params }: { params: { id: string } }) {
 
     if (!product) {
         notFound()
+    }
+
+    // Sync slots if it belongs to an attraction
+    if (product.attractionId) {
+        await ensureAttractionSlots(product.attractionId)
+        // Refetch product to ensure we pass the newly generated slots to ClientBuyPage
+        const refetched = await prisma.product.findUnique({
+            where: { id: params.id }
+        })
+        if (refetched) {
+            product.availableSlots = refetched.availableSlots
+        }
     }
 
     let userBalance = 0;

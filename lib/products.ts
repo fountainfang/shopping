@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { ensureAttractionSlots } from "./slots"
 
 export type VenueInfo = { name: string, nameZh?: string, nameRu?: string }
 
@@ -21,6 +22,21 @@ export type CityGroup = {
 }
 
 export async function getGroupedAttractions(filterDate?: string): Promise<CityGroup[]> {
+    // Sync slots for attractions with active booking configurations before querying
+    try {
+        const attractionsWithPolicies = await prisma.attraction.findMany({
+            where: {
+                bookingWindow: { gt: 0 }
+            },
+            select: { id: true }
+        });
+        for (const attr of attractionsWithPolicies) {
+            await ensureAttractionSlots(attr.id);
+        }
+    } catch (e) {
+        console.error("Error auto-populating slots in getGroupedAttractions:", e);
+    }
+
     // @ts-ignore - Prisma client update might lag in IDE
     const attractions = await prisma.attraction.findMany({
         orderBy: { name: 'asc' },

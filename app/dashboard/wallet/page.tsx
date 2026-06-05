@@ -65,7 +65,7 @@ export default async function WalletPage() {
                 {/* Deposit Card */}
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Deposit Address (USDT - BEP20)</CardTitle>
+                        <CardTitle className="text-sm font-medium">Deposit Address (USDT/USDC - BEP20)</CardTitle>
                         <ArrowDownLeft className="h-4 w-4 text-green-500" />
                     </CardHeader>
                     <CardContent>
@@ -78,7 +78,7 @@ export default async function WalletPage() {
                                     </Button>
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                    Send only USDT (BEP20) to this address.
+                                    Send only USDT or USDC (BEP20) to this address.
                                 </p>
                             </div>
                         ) : (

@@ -139,6 +139,7 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
     const [endTime, setEndTime] = useState("17:00")
     const [interval, setInterval] = useState(60)
     const [generatedSlots, setGeneratedSlots] = useState("")
+    const [slotTimesInput, setSlotTimesInput] = useState("")
 
     // Days of week configuration
     const [selectedDays, setSelectedDays] = useState({
@@ -208,8 +209,23 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
             image,
         }
 
-        if ((formData.type === "ATTRACTION" || formData.type === "THEATER") && generatedSlots) {
-            submitData.availableSlots = generatedSlots.split('\n').map(s => s.trim()).filter(Boolean);
+        if (formData.type === "ATTRACTION" && formData.attractionId) {
+            submitData.slotTimes = slotTimesInput
+                .split(/[\n,]+/)
+                .map((s: string) => s.trim())
+                .map((s: string) => {
+                    // Pad single-digit hours: "9:00" -> "09:00"
+                    if (/^\d:[0-5]\d$/.test(s)) {
+                        return "0" + s;
+                    }
+                    return s;
+                })
+                .filter((s: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(s));
+        } else {
+            submitData.slotTimes = null;
+            if ((formData.type === "ATTRACTION" || formData.type === "THEATER") && generatedSlots) {
+                submitData.availableSlots = generatedSlots.split('\n').map((s: string) => s.trim()).filter(Boolean);
+            }
         }
 
         try {
@@ -338,64 +354,83 @@ export default function NewProductClient({ existingCities, attractions = [] }: {
                     (formData.type === 'ATTRACTION' || formData.type === 'THEATER') && (
                         <div className="p-4 border border-teal-500/30 rounded-lg bg-teal-500/5 space-y-4">
                             <h3 className="font-semibold text-teal-400">Time Slot Configuration (Attraction / Theater)</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="text-xs font-medium">Start Date</label>
-                                    <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                            
+                            {formData.type === 'ATTRACTION' && formData.attractionId ? (
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Custom Daily Slot Times (Split Sessions)</label>
+                                    <textarea
+                                        name="slotTimes"
+                                        value={slotTimesInput}
+                                        onChange={(e) => setSlotTimesInput(e.target.value)}
+                                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono"
+                                        placeholder="e.g. 10:00, 11:00, 13:30, 14:30"
+                                    />
+                                    <p className="text-xs text-muted-foreground text-teal-400/70">
+                                        Leave blank to use the attraction's default hours. Write comma or newline-separated times to specify split sessions (e.g. morning/afternoon start times).
+                                    </p>
                                 </div>
-                                <div>
-                                    <label className="text-xs font-medium">End Date</label>
-                                    <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-                                </div>
-                                <div>
-                                    <label className="text-xs font-medium">Start Time</label>
-                                    <Input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
-                                </div>
-                                <div>
-                                    <label className="text-xs font-medium">End Time</label>
-                                    <Input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} />
-                                </div>
-                            </div>
+                            ) : (
+                                <>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="text-xs font-medium">Start Date</label>
+                                            <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                                        </div>
+                                        <div>
+                                            <label className="text-xs font-medium">End Date</label>
+                                            <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                                        </div>
+                                        <div>
+                                            <label className="text-xs font-medium">Start Time</label>
+                                            <Input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
+                                        </div>
+                                        <div>
+                                            <label className="text-xs font-medium">End Time</label>
+                                            <Input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} />
+                                        </div>
+                                    </div>
 
-                            {/* Days Selection */}
-                            <div>
-                                <label className="text-xs font-medium mb-2 block">Operating Days</label>
-                                <div className="flex gap-2 flex-wrap">
-                                    {daysMap.map(day => (
-                                        <button
-                                            key={day.id}
-                                            type="button"
-                                            onClick={() => setSelectedDays(prev => ({ ...prev, [day.id]: !prev[day.id as 0 | 1 | 2 | 3 | 4 | 5 | 6] }))}
-                                            className={`px-3 py-1 rounded text-xs border transition-colors ${selectedDays[day.id as 0 | 1 | 2 | 3 | 4 | 5 | 6]
-                                                ? 'bg-teal-500/20 border-teal-500 text-teal-400'
-                                                : 'bg-background border-input text-muted-foreground'
-                                                }`}
-                                        >
-                                            {day.label}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
+                                    {/* Days Selection */}
+                                    <div>
+                                        <label className="text-xs font-medium mb-2 block">Operating Days</label>
+                                        <div className="flex gap-2 flex-wrap">
+                                            {daysMap.map(day => (
+                                                <button
+                                                    key={day.id}
+                                                    type="button"
+                                                    onClick={() => setSelectedDays(prev => ({ ...prev, [day.id]: !prev[day.id as 0 | 1 | 2 | 3 | 4 | 5 | 6] }))}
+                                                    className={`px-3 py-1 rounded text-xs border transition-colors ${selectedDays[day.id as 0 | 1 | 2 | 3 | 4 | 5 | 6]
+                                                        ? 'bg-teal-500/20 border-teal-500 text-teal-400'
+                                                        : 'bg-background border-input text-muted-foreground'
+                                                        }`}
+                                                >
+                                                    {day.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
 
-                            <div>
-                                <label className="text-xs font-medium">Interval (minutes)</label>
-                                <Input type="number" value={interval} onChange={e => setInterval(parseInt(e.target.value))} />
-                            </div>
-                            <Button type="button" onClick={generateSlots} variant="secondary" className="w-full">
-                                Generate Slots
-                            </Button>
-                            <div>
-                                <label className="text-xs font-medium">Generated Slots (JSON/Array preview)</label>
-                                <textarea
-                                    className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-xs font-mono"
-                                    value={generatedSlots}
-                                    onChange={e => setGeneratedSlots(e.target.value)}
-                                    placeholder="YYYY-MM-DD HH:MM per line..."
-                                />
-                                <p className="text-[10px] text-muted-foreground mt-1">
-                                    {generatedSlots ? `${generatedSlots.split('\n').filter(Boolean).length} slots generated` : "No slots generated"}
-                                </p>
-                            </div>
+                                    <div>
+                                        <label className="text-xs font-medium">Interval (minutes)</label>
+                                        <Input type="number" value={interval} onChange={e => setInterval(parseInt(e.target.value))} />
+                                    </div>
+                                    <Button type="button" onClick={generateSlots} variant="secondary" className="w-full">
+                                        Generate Slots
+                                    </Button>
+                                    <div>
+                                        <label className="text-xs font-medium">Generated Slots (JSON/Array preview)</label>
+                                        <textarea
+                                            className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-xs font-mono"
+                                            value={generatedSlots}
+                                            onChange={e => setGeneratedSlots(e.target.value)}
+                                            placeholder="YYYY-MM-DD HH:MM per line..."
+                                        />
+                                        <p className="text-[10px] text-muted-foreground mt-1">
+                                            {generatedSlots ? `${generatedSlots.split('\n').filter(Boolean).length} slots generated` : "No slots generated"}
+                                        </p>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     )
                 }

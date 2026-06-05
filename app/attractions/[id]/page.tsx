@@ -7,11 +7,16 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { VenueHeader } from "@/components/VenueHeader"
 import { ScheduleList } from "@/components/ScheduleList"
 import { DateFilter } from "@/components/DateFilter"
+import { ProductFilter } from "@/components/ProductFilter"
+import { ensureAttractionSlots } from "@/lib/slots"
 
 // Force dynamic
 export const dynamic = 'force-dynamic'
 
-export default async function AttractionPage({ params, searchParams }: { params: { id: string }, searchParams: { startDate?: string, endDate?: string } }) {
+export default async function AttractionPage({ params, searchParams }: { params: { id: string }, searchParams: { startDate?: string, endDate?: string, productId?: string } }) {
+    // Sync slots on load
+    await ensureAttractionSlots(params.id);
+
     const attraction = await prisma.attraction.findUnique({
         where: { id: params.id },
         include: {
@@ -74,6 +79,12 @@ export default async function AttractionPage({ params, searchParams }: { params:
         return p.availableSlots.length > 0;
     });
 
+    // Filter by selected product if specified in searchParams
+    let displayedProducts = filteredProducts;
+    if (searchParams.productId) {
+        displayedProducts = filteredProducts.filter(p => p.id === searchParams.productId);
+    }
+
     return (
         <div className="min-h-screen flex flex-col bg-background text-foreground font-sans selection:bg-primary selection:text-white relative">
             {/* Background Gradients */}
@@ -105,10 +116,13 @@ export default async function AttractionPage({ params, searchParams }: { params:
 
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white px-2">Available Tickets & Services</h2>
-                    <DateFilter />
-                    <ScheduleList products={filteredProducts} />
+                    <div className="flex flex-wrap gap-4 items-center">
+                        <DateFilter />
+                        <ProductFilter products={filteredProducts} />
+                    </div>
+                    <ScheduleList products={displayedProducts} />
 
-                    {filteredProducts.length === 0 && (
+                    {displayedProducts.length === 0 && (
                         <div className="text-center py-20 bg-white/5 border border-white/10 rounded-xl">
                             <p className="text-xl text-muted-foreground">No tickets currently available online.</p>
                             <p className="text-sm text-muted-foreground/60 mt-2">Please contact support or check back later.</p>

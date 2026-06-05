@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
@@ -14,6 +14,11 @@ export default function LoginPage() {
     const { dict } = useLanguage()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -42,6 +47,10 @@ export default function LoginPage() {
         } finally {
             setIsLoading(false)
         }
+    }
+
+    if (!mounted) {
+        return null
     }
 
     return (

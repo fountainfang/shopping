@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { ensureAttractionSlots } from "@/lib/slots";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -85,9 +86,20 @@ export async function POST(req: Request) {
                 googleMapLink: data.googleMapLink,
                 yandexMapLink: data.yandexMapLink,
                 availableSlots: data.availableSlots, // Saved as Json
+                slotTimes: data.slotTimes || null,
                 attractionId: data.attractionId || null,
             }
         });
+
+        // Auto-generate slots immediately if product has attraction and is attraction type
+        if (product.attractionId && product.type === 'ATTRACTION') {
+            await prisma.attraction.update({
+                where: { id: product.attractionId },
+                data: { slotsUpdatedAt: null }
+            });
+            await ensureAttractionSlots(product.attractionId);
+        }
+
         console.log("Admin Create Product: SUCCESS", product.id);
         return NextResponse.json(product);
     } catch (error) {

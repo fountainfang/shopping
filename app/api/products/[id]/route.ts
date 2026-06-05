@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { ensureAttractionSlots } from "@/lib/slots";
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
     const session = await getServerSession(authOptions);
@@ -18,10 +19,19 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         // Cleanup body: remove ID if present, ensure numeric types
         const { id: _, ...data } = body;
 
-        await prisma.product.update({
+        const product = await prisma.product.update({
             where: { id },
             data: data
         });
+
+        // Trigger slot generation immediately if product has attraction and is attraction type
+        if (product.attractionId && product.type === 'ATTRACTION') {
+            await prisma.attraction.update({
+                where: { id: product.attractionId },
+                data: { slotsUpdatedAt: null }
+            });
+            await ensureAttractionSlots(product.attractionId);
+        }
 
         return NextResponse.json({ success: true });
     } catch (error) {
