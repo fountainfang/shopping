@@ -43,6 +43,7 @@ enum ProductType {
   ATTRACTION
   THEATER
   CONCIERGE
+  AUTO_DELIVERY
 }
 
 model Product {
@@ -75,6 +76,13 @@ model Product {
 
   availableSlots  Json?       // For Attraction date/time configuration
   slotTimes       Json?       // Array of daily entry times, e.g. ["10:00", "11:00", "13:30", "14:30"]
+  conciergeFields Json?       // Dynamic form inputs for concierge products
+  markupRules     Json?       // Tiered pricing markup rules
+  
+  // Auto-delivery configuration
+  autoDeliveryType String?     // "FIXED" | "POOL" | "API"
+  cdkPool          Json?       // Array of CDK strings, e.g. ["cdk1", "cdk2"]
+  apiDeliveryUrl   String?     // External API URL for dynamic delivery
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

@@ -27,14 +27,12 @@ export async function POST(req: Request) {
         const userId = session.user.id;
 
         // Transaction: Check User Balance, Check Product Stock, Deduct, Create Order
-        await prisma.$transaction(async (tx) => {
+        const createdOrder = await prisma.$transaction(async (tx) => {
             // 1. Get User
             const user = await tx.user.findUniqueOrThrow({ where: { id: userId } });
 
             // 2. Get Product
             const product = await tx.product.findUniqueOrThrow({ where: { id: productId } });
-
-            // 3. Checks
 
             // 3. Checks
             let finalPrice = product.price;
@@ -65,31 +63,116 @@ export async function POST(req: Request) {
                 throw new Error("Insufficient balance");
             }
 
-            // 4. Update
+            // 4. Update balance
             await tx.user.update({
                 where: { id: userId },
                 data: { balance: { decrement: finalPrice } }
             });
 
+            // 5. Update stock & CDK pool if POOL mode
             if (product.type !== 'CONCIERGE') {
-                await tx.product.update({
-                    where: { id: productId },
-                    data: { stock: { decrement: 1 } }
-                });
+                if (product.type === 'AUTO_DELIVERY' && product.autoDeliveryType === 'POOL') {
+                    const pool = (product.cdkPool as string[]) || [];
+                    if (pool.length === 0) {
+                        throw new Error("Product out of stock");
+                    }
+                    const newPool = pool.slice(1);
+                    await tx.product.update({
+                        where: { id: productId },
+                        data: {
+                            cdkPool: newPool,
+                            stock: newPool.length
+                        }
+                    });
+                } else {
+                    await tx.product.update({
+                        where: { id: productId },
+                        data: { stock: { decrement: 1 } }
+                    });
+                }
             }
 
-            await tx.order.create({
+            // 6. Determine status and deliveryContent for the order
+            let status = "paid";
+            let deliveryContent: string | null = null;
+
+            if (product.type === 'AUTO_DELIVERY') {
+                if (product.autoDeliveryType === 'FIXED') {
+                    deliveryContent = product.content;
+                    status = "completed";
+                } else if (product.autoDeliveryType === 'POOL') {
+                    const pool = (product.cdkPool as string[]) || [];
+                    if (pool.length > 0) {
+                        deliveryContent = pool[0];
+                        status = "completed";
+                    }
+                }
+            }
+
+            return await tx.order.create({
                 data: {
                     userId,
                     productId,
                     price: finalPrice,
-                    status: "paid", // Instant delivery logic
+                    status,
+                    deliveryContent,
                     bookingDate: bookingDate ? new Date(bookingDate) : undefined,
                     targetLink: targetLink || undefined,
                     additionalInfo: additionalInfo || undefined
                 }
             });
         });
+
+        // Outside the transaction block, if API delivery is configured, call it
+        if (createdOrder && createdOrder.status === "paid") {
+            const product = await prisma.product.findUnique({
+                where: { id: createdOrder.productId },
+                select: { type: true, autoDeliveryType: true, apiDeliveryUrl: true }
+            });
+
+            if (product && product.type === "AUTO_DELIVERY" && product.autoDeliveryType === "API" && product.apiDeliveryUrl) {
+                try {
+                    const separator = product.apiDeliveryUrl.includes('?') ? '&' : '?';
+                    const targetUrl = `${product.apiDeliveryUrl}${separator}orderId=${createdOrder.id}&productId=${createdOrder.productId}`;
+                    
+                    console.log(`Auto-Delivery API request to: ${targetUrl}`);
+                    const response = await fetch(targetUrl, {
+                        method: "GET",
+                        headers: { "Accept": "application/json, text/plain, */*" }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API returned status ${response.status}`);
+                    }
+
+                    const contentType = response.headers.get("content-type") || "";
+                    let content = "";
+                    if (contentType.includes("application/json")) {
+                        const json = await response.json();
+                        content = json.code || json.cdk || json.content || json.data || JSON.stringify(json);
+                    } else {
+                        content = await response.text();
+                    }
+
+                    await prisma.order.update({
+                        where: { id: createdOrder.id },
+                        data: {
+                            status: "completed",
+                            deliveryContent: content.trim()
+                        }
+                    });
+                    console.log(`Auto-Delivery API success for order ${createdOrder.id}`);
+                } catch (apiError: any) {
+                    console.error("Auto-Delivery API failure:", apiError);
+                    await prisma.order.update({
+                        where: { id: createdOrder.id },
+                        data: {
+                            additionalInfo: `API auto-delivery failed: ${apiError.message || apiError}. Manual delivery required.`
+                        }
+                    });
+                }
+            }
+        }
 
         return NextResponse.json({ success: true });
 

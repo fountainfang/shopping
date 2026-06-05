@@ -46,7 +46,12 @@ export default function EditProductClient({ product, existingCities, attractions
         venue: product.venue || "",
         googleMapLink: product.googleMapLink || "",
         yandexMapLink: product.yandexMapLink || "",
-        attractionId: product.attractionId || ""
+        attractionId: product.attractionId || "",
+        conciergeFields: product.conciergeFields ? JSON.stringify(product.conciergeFields, null, 2) : "",
+        markupRules: product.markupRules ? JSON.stringify(product.markupRules, null, 2) : "",
+        autoDeliveryType: product.autoDeliveryType || "FIXED",
+        apiDeliveryUrl: product.apiDeliveryUrl || "",
+        cdkPoolInput: Array.isArray(product.cdkPool) ? product.cdkPool.join('\n') : ""
     })
 
     const handleCitySelect = (cityData: CityData) => {
@@ -139,7 +144,50 @@ export default function EditProductClient({ product, existingCities, attractions
             ...formData,
             type, // from separate state
             price: parseFloat(String(formData.price)),
-            stock: parseInt(String(formData.stock)),
+            stock: parseInt(String(formData.stock || "0")),
+        }
+
+        if (type === "AUTO_DELIVERY") {
+            submitData.autoDeliveryType = formData.autoDeliveryType;
+            if (formData.autoDeliveryType === "POOL") {
+                const pool = formData.cdkPoolInput
+                    .split("\n")
+                    .map((s: string) => s.trim())
+                    .filter(Boolean);
+                submitData.cdkPool = pool;
+                submitData.stock = pool.length;
+            } else if (formData.autoDeliveryType === "API") {
+                submitData.apiDeliveryUrl = formData.apiDeliveryUrl;
+                submitData.cdkPool = null;
+            } else if (formData.autoDeliveryType === "FIXED") {
+                submitData.content = formData.content;
+                submitData.cdkPool = null;
+                submitData.apiDeliveryUrl = null;
+            }
+        } else {
+            submitData.autoDeliveryType = null;
+            submitData.cdkPool = null;
+            submitData.apiDeliveryUrl = null;
+        }
+
+        delete submitData.cdkPoolInput;
+
+        if (type === "CONCIERGE") {
+            try {
+                submitData.conciergeFields = formData.conciergeFields ? JSON.parse(formData.conciergeFields) : null;
+            } catch (e) {
+                alert("Invalid JSON format in Dynamic Fields!");
+                setLoading(false);
+                return;
+            }
+
+            try {
+                submitData.markupRules = formData.markupRules ? JSON.parse(formData.markupRules) : null;
+            } catch (e) {
+                alert("Invalid JSON format in Markup Rules!");
+                setLoading(false);
+                return;
+            }
         }
 
         // Handle Available Slots for Attraction
@@ -203,6 +251,7 @@ export default function EditProductClient({ product, existingCities, attractions
                             <option value="ATTRACTION">Attraction Ticket (景点门票)</option>
                             <option value="THEATER">Theater Ticket (剧院门票)</option>
                             <option value="CONCIERGE">Purchasing Service (代买服务)</option>
+                            <option value="AUTO_DELIVERY">Auto Delivery (自动发货)</option>
                         </select>
 
                         {/* Attraction Selection */}
@@ -304,6 +353,102 @@ export default function EditProductClient({ product, existingCities, attractions
                     </div>
                 )}
 
+                {/* Concierge Custom Configurations */}
+                {type === 'CONCIERGE' && (
+                    <div className="p-4 border border-indigo-500/30 rounded-lg bg-indigo-500/5 space-y-4">
+                        <h3 className="font-semibold text-indigo-400">Concierge Configuration</h3>
+                        
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium block text-muted-foreground">Dynamic Fields (JSON)</label>
+                            <textarea
+                                name="conciergeFields"
+                                value={formData.conciergeFields}
+                                onChange={handleChange}
+                                className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-xs font-mono"
+                                placeholder={`e.g. [\n  { "name": "account", "label": "Account (Username)", "placeholder": "Enter username", "type": "text", "required": true }\n]`}
+                            />
+                            <p className="text-[10px] text-muted-foreground">Specify the fields the customer must fill in. Leave empty to only require a Target Link.</p>
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium block text-muted-foreground">Price Markup Rules (JSON)</label>
+                            <textarea
+                                name="markupRules"
+                                value={formData.markupRules}
+                                onChange={handleChange}
+                                className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-xs font-mono"
+                                placeholder={`e.g. [\n  { "min": 0, "max": 1000, "percent": 10, "fixed": 50 },\n  { "min": 1000, "max": 999999, "percent": 5, "fixed": 100 }\n]`}
+                            />
+                            <p className="text-[10px] text-muted-foreground">Tiered pricing markup on the Ruble amount before USD/USDT conversion.</p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Auto Delivery Custom Configurations */}
+                {type === 'AUTO_DELIVERY' && (
+                    <div className="p-4 border border-purple-500/30 rounded-lg bg-purple-500/5 space-y-4">
+                        <h3 className="font-semibold text-purple-400">Auto Delivery Configuration</h3>
+                        
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Delivery Mode</label>
+                            <select
+                                name="autoDeliveryType"
+                                value={formData.autoDeliveryType}
+                                onChange={handleChange}
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            >
+                                <option value="FIXED">FIXED (Deliver static virtual content)</option>
+                                <option value="POOL">POOL (Deliver unique CDK/credentials from pool)</option>
+                                <option value="API">API (Fetch CDK/credentials dynamically from URL)</option>
+                            </select>
+                        </div>
+
+                        {formData.autoDeliveryType === 'FIXED' && (
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Virtual Content (Fixed Delivery)</label>
+                                <textarea
+                                    name="content"
+                                    value={formData.content}
+                                    onChange={handleChange}
+                                    className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono"
+                                    placeholder="Enter download link, shared credentials, or delivery text..."
+                                    required
+                                />
+                                <p className="text-xs text-muted-foreground">This content will be shown/sent to the buyer immediately after payment.</p>
+                            </div>
+                        )}
+
+                        {formData.autoDeliveryType === 'POOL' && (
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">CDK Pool (One item per line)</label>
+                                <textarea
+                                    name="cdkPoolInput"
+                                    value={formData.cdkPoolInput}
+                                    onChange={handleChange}
+                                    className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono"
+                                    placeholder={`credential1\ncredential2\ncredential3`}
+                                    required
+                                />
+                                <p className="text-xs text-muted-foreground">Each order will consume one line. The remaining lines represent the stock. Stock will be set automatically based on line count.</p>
+                            </div>
+                        )}
+
+                        {formData.autoDeliveryType === 'API' && (
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">API Delivery URL</label>
+                                <Input
+                                    name="apiDeliveryUrl"
+                                    value={formData.apiDeliveryUrl}
+                                    onChange={handleChange}
+                                    placeholder="https://api.example.com/get-cdk?orderId="
+                                    required
+                                />
+                                <p className="text-xs text-muted-foreground">Upon payment, the system will send a GET request to this URL. The response body will be delivered as-is to the user.</p>
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 {(type === 'ATTRACTION' || type === 'THEATER') && (
                     <div className="space-y-4 border p-4 rounded-md bg-muted/20">
                         <h3 className="font-semibold text-sm">Booking Slots Configuration</h3>
@@ -384,12 +529,21 @@ export default function EditProductClient({ product, existingCities, attractions
                     {type !== 'CONCIERGE' && (
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Stock</label>
-                            <Input name="stock" value={formData.stock} onChange={handleChange} type="number" required />
+                            <Input
+                                name="stock"
+                                value={type === 'AUTO_DELIVERY' && formData.autoDeliveryType === 'POOL'
+                                    ? (formData.cdkPoolInput.split('\n').filter((s: string) => s.trim()).length)
+                                    : formData.stock}
+                                onChange={handleChange}
+                                type="number"
+                                disabled={type === 'AUTO_DELIVERY' && formData.autoDeliveryType === 'POOL'}
+                                required
+                            />
                         </div>
                     )}
                 </div>
 
-                {type !== 'CONCIERGE' && (
+                {type !== 'CONCIERGE' && type !== 'AUTO_DELIVERY' && (
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Virtual Content (Delivery)</label>
                         <Input name="content" value={formData.content} onChange={handleChange} placeholder="Secret code, link, or ticket ID..." />

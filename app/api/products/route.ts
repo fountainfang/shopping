@@ -88,6 +88,11 @@ export async function POST(req: Request) {
                 availableSlots: data.availableSlots, // Saved as Json
                 slotTimes: data.slotTimes || null,
                 attractionId: data.attractionId || null,
+                conciergeFields: data.conciergeFields || null,
+                markupRules: data.markupRules || null,
+                autoDeliveryType: data.autoDeliveryType || null,
+                cdkPool: data.cdkPool || null,
+                apiDeliveryUrl: data.apiDeliveryUrl || null,
             }
         });
 

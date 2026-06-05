@@ -47,6 +47,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
     const [calculationDetails, setCalculationDetails] = useState<any>(null)
     const [rmbDisplayPrice, setRmbDisplayPrice] = useState<number | null>(null)
     const [calculating, setCalculating] = useState(false)
+    const [dynamicFieldValues, setDynamicFieldValues] = useState<Record<string, string>>({})
 
     // Fetch price for standard products (Attraction/Theater)
     const { prices: standardPrices, isLoading: isLoadingPrice } = useWorkerPrice(
@@ -63,7 +64,20 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
         const timer = setTimeout(async () => {
             setCalculating(true)
             try {
-                const res = await fetch(`https://lolzteam.fountain-fang.workers.dev/?amount=${rubleAmount}`)
+                const numAmount = parseFloat(rubleAmount) || 0;
+                let markupPercent = 0;
+                let markupFixed = 0;
+
+                if (product.markupRules && Array.isArray(product.markupRules)) {
+                    const rule = product.markupRules.find((r: any) => numAmount >= r.min && numAmount <= r.max);
+                    if (rule) {
+                        markupPercent = rule.percent || 0;
+                        markupFixed = rule.fixed || 0;
+                    }
+                }
+                const finalRubleAmount = numAmount * (1 + markupPercent / 100) + markupFixed;
+
+                const res = await fetch(`https://lolzteam.fountain-fang.workers.dev/?amount=${finalRubleAmount}`)
                 const data = await res.json()
 
                 // Logic: (Taobao Price / Rate)
@@ -85,7 +99,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
         }, 800) // Debounce
 
         return () => clearTimeout(timer)
-    }, [rubleAmount, product.type])
+    }, [rubleAmount, product.type, product.markupRules])
 
     if (!product) return <div className="p-8 text-center text-muted-foreground">Product not found</div>
 
@@ -111,9 +125,42 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
             return
         }
 
-        if (product.type === 'CONCIERGE' && !targetLink) {
-            setError("Target Link is required")
-            return
+        let mainTargetLink = targetLink;
+        let serializedDynamicFields = "";
+
+        if (product.type === 'CONCIERGE') {
+            const hasDynamicFields = Array.isArray(product.conciergeFields) && product.conciergeFields.length > 0;
+
+            if (hasDynamicFields) {
+                // Validate required fields
+                for (const field of product.conciergeFields) {
+                    if (field.required && !dynamicFieldValues[field.name]) {
+                        setError(`"${field.label || field.name}" is required`);
+                        return;
+                    }
+                }
+
+                // Serialize values
+                serializedDynamicFields = product.conciergeFields.map((f: any) => {
+                    const val = dynamicFieldValues[f.name] || "";
+                    return `${f.label || f.name}: ${val}`;
+                }).join(" | ");
+
+                // Set mainTargetLink
+                const urlField = product.conciergeFields.find((f: any) => f.name === 'targetLink' || f.name === 'url' || f.type === 'url');
+                if (urlField) {
+                    mainTargetLink = dynamicFieldValues[urlField.name] || "";
+                } else {
+                    const firstField = product.conciergeFields[0];
+                    mainTargetLink = dynamicFieldValues[firstField.name] || "";
+                }
+            } else {
+                // Fallback to standard targetLink
+                if (!targetLink) {
+                    setError("Target Link is required");
+                    return;
+                }
+            }
         }
 
         if (product.type === 'ATTRACTION') {
@@ -133,11 +180,11 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                 body: JSON.stringify({
                     productId: product.id,
                     bookingDate: bookingDate ? new Date(bookingDate + (bookingTime ? 'T' + bookingTime : '')).toISOString() : null,
-                    targetLink,
+                    targetLink: mainTargetLink,
                     // Pass dynamic price for Concierge
                     price: product.type === 'CONCIERGE' ? effectivePrice : undefined,
                     additionalInfo: product.type === 'CONCIERGE'
-                        ? `Amount: ${rubleAmount} RUB | Rate: ${calculationDetails?.["人民币usdt汇率"]} | TB: ${calculationDetails?.["淘宝价格"]} | Cost: ${calculationDetails?.["成本"]}. ${additionalInfo}`
+                        ? `Amount: ${rubleAmount} RUB | Rate: ${calculationDetails?.["人民币usdt汇率"]} | TB: ${calculationDetails?.["淘宝价格"]} | Cost: ${calculationDetails?.["成本"]}. ${serializedDynamicFields ? serializedDynamicFields + " | " : ""}${additionalInfo}`
                         : product.type === 'ATTRACTION'
                             ? ` Surname: ${surname} | Given Name: ${givenName} | Phone: ${phoneNumber} | ${additionalInfo}`
                             : additionalInfo
@@ -338,19 +385,40 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
 
                         {product.type === 'CONCIERGE' && (
                             <div className="space-y-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
-                                        <LinkIcon className="w-4 h-4" />
-                                        Target Link (Item to buy)
-                                    </label>
-                                    <Input
-                                        placeholder="https://..."
-                                        required
-                                        value={targetLink}
-                                        onChange={e => setTargetLink(e.target.value)}
-                                        className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
-                                    />
-                                </div>
+                                {Array.isArray(product.conciergeFields) && product.conciergeFields.length > 0 ? (
+                                    product.conciergeFields.map((field: any, idx: number) => (
+                                        <div key={idx} className="space-y-2">
+                                            <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
+                                                {field.label || field.name}
+                                                {field.required && <span className="text-red-500">*</span>}
+                                            </label>
+                                            <Input
+                                                type={field.type || "text"}
+                                                placeholder={field.placeholder || ""}
+                                                required={field.required}
+                                                value={dynamicFieldValues[field.name] || ""}
+                                                onChange={e => setDynamicFieldValues(prev => ({ ...prev, [field.name]: e.target.value }))}
+                                                className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
+                                            />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
+                                            <LinkIcon className="w-4 h-4" />
+                                            Target Link (Item to buy)
+                                            <span className="text-red-500">*</span>
+                                        </label>
+                                        <Input
+                                            placeholder="https://..."
+                                            required
+                                            value={targetLink}
+                                            onChange={e => setTargetLink(e.target.value)}
+                                            className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
+                                        />
+                                    </div>
+                                )}
+
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
                                         ₽ Ruble Amount
@@ -363,11 +431,6 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                         onChange={e => setRubleAmount(e.target.value)}
                                         className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
                                     />
-                                    {calculationDetails && (
-                                        <div className="text-xs text-muted-foreground space-y-1 bg-white/5 p-2 rounded">
-                                            {/* Debug details removed per user request */}
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         )}
