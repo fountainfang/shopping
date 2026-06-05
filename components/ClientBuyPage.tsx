@@ -421,7 +421,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
-                                        ₽ Ruble Amount
+                                        Amount
                                     </label>
                                     <Input
                                         type="number"
