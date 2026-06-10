@@ -116,6 +116,19 @@ export type Dictionary = {
         givenName: string;
         phoneNumber: string;
         contactDetails: string;
+        targetLink: string;
+        targetLinkRequired: string;
+        amount: string;
+        additionalNotes: string;
+        notesPlaceholder: string;
+        back: string;
+        selectDate: string;
+        selectTimeSlot: string;
+        noSlots: string;
+        selectDateFirst: string;
+        eventDetails: string;
+        venue: string;
+        calculating: string;
     };
     // ... existing ...
     orders: {
@@ -283,7 +296,20 @@ export const dictionaries: Record<Language, Dictionary> = {
             surname: "Surname (Pinyin)",
             givenName: "Given Name (Pinyin)",
             phoneNumber: "Phone Number",
-            contactDetails: "Contact Details"
+            contactDetails: "Contact Details",
+            targetLink: "Target Link (Item to buy)",
+            targetLinkRequired: "Target Link is required",
+            amount: "Amount",
+            additionalNotes: "Additional Notes",
+            notesPlaceholder: "Seat preference, account details, etc...",
+            back: "Back",
+            selectDate: "Select Date",
+            selectTimeSlot: "Select Time Slot",
+            noSlots: "No slots available for this date.",
+            selectDateFirst: "Please select a date to see available slots.",
+            eventDetails: "Event Details",
+            venue: "Venue",
+            calculating: "Calculating..."
         },
         orders: {
             title: "My Orders",
@@ -463,7 +489,20 @@ export const dictionaries: Record<Language, Dictionary> = {
             surname: "姓 (拼音)",
             givenName: "名 (拼音)",
             phoneNumber: "手机号",
-            contactDetails: "联系人信息"
+            contactDetails: "联系人信息",
+            targetLink: "目标链接 (购买商品)",
+            targetLinkRequired: "请提供目标链接",
+            amount: "金额",
+            additionalNotes: "备注信息",
+            notesPlaceholder: "座位偏好、账号信息等...",
+            back: "返回",
+            selectDate: "选择日期",
+            selectTimeSlot: "选择时间段",
+            noSlots: "该日期无可用时段。",
+            selectDateFirst: "请选择日期以查看可用时段。",
+            eventDetails: "活动详情",
+            venue: "地点",
+            calculating: "计算中..."
         },
         orders: {
             title: "我的订单",
@@ -643,7 +682,20 @@ export const dictionaries: Record<Language, Dictionary> = {
             surname: "Фамилия (Pinyin)",
             givenName: "Имя (Pinyin)",
             phoneNumber: "Номер телефона",
-            contactDetails: "Контактные данные"
+            contactDetails: "Контактные данные",
+            targetLink: "Целевая ссылка (товар для покупки)",
+            targetLinkRequired: "Требуется целевая ссылка",
+            amount: "Сумма",
+            additionalNotes: "Дополнительные примечания",
+            notesPlaceholder: "Предпочтения по местам, данные аккаунта и т.д...",
+            back: "Назад",
+            selectDate: "Выберите дату",
+            selectTimeSlot: "Выберите время",
+            noSlots: "Нет доступных слотов на эту дату.",
+            selectDateFirst: "Выберите дату, чтобы увидеть доступные слоты.",
+            eventDetails: "Детали мероприятия",
+            venue: "Место проведения",
+            calculating: "Расчет..."
         },
         orders: {
             title: "Мои заказы",

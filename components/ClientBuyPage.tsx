@@ -157,7 +157,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
             } else {
                 // Fallback to standard targetLink
                 if (!targetLink) {
-                    setError("Target Link is required");
+                    setError(dict.buy.targetLinkRequired);
                     return;
                 }
             }
@@ -220,7 +220,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                     className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors p-0 hover:bg-transparent"
                 >
                     <ArrowLeft className="w-5 h-5" />
-                    <span>Back</span>
+                    <span>{dict.buy.back}</span>
                 </Button>
                 <div className="flex gap-4 items-center">
                     <LanguageSwitcher />
@@ -270,7 +270,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                         })()}
                                     </span>
                                     {product.type === 'CONCIERGE' && calculating && (
-                                        <span className="text-xs text-muted-foreground block animate-pulse">Calculating...</span>
+                                        <span className="text-xs text-muted-foreground block animate-pulse">{dict.buy.calculating}</span>
                                     )}
                                 </div>
                             </div>
@@ -292,7 +292,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
                                         <Calendar className="w-4 h-4" />
-                                        Select Date
+                                        {dict.buy.selectDate}
                                     </label>
                                     <Input
                                         type="date"
@@ -310,7 +310,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
 
                                 {product.availableSlots && Array.isArray(product.availableSlots) && bookingDate && (
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-muted-foreground">Select Time Slot</label>
+                                        <label className="text-sm font-medium text-muted-foreground">{dict.buy.selectTimeSlot}</label>
                                         <div className="grid grid-cols-3 gap-2">
                                             {product.availableSlots
                                                 .filter((slot: string) => slot.startsWith(bookingDate))
@@ -331,12 +331,12 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                                 })}
                                         </div>
                                         {product.availableSlots.filter((slot: string) => slot.startsWith(bookingDate)).length === 0 && (
-                                            <p className="text-sm text-muted-foreground italic">No slots available for this date.</p>
+                                            <p className="text-sm text-muted-foreground italic">{dict.buy.noSlots}</p>
                                         )}
                                     </div>
                                 )}
                                 {!bookingDate && (
-                                    <p className="text-xs text-muted-foreground/60">Please select a date to see available slots.</p>
+                                    <p className="text-xs text-muted-foreground/60">{dict.buy.selectDateFirst}</p>
                                 )}
 
                                 <div className="space-y-4 pt-4 border-t border-white/5">
@@ -406,7 +406,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
                                             <LinkIcon className="w-4 h-4" />
-                                            Target Link (Item to buy)
+                                            {dict.buy.targetLink}
                                             <span className="text-red-500">*</span>
                                         </label>
                                         <Input
@@ -421,7 +421,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
-                                        Amount
+                                        {dict.buy.amount}
                                     </label>
                                     <Input
                                         type="number"
@@ -441,7 +441,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                     <div className="bg-primary/10 p-4 rounded-xl border border-primary/20">
                                         <label className="text-sm font-medium flex items-center gap-2 mb-2 text-primary">
                                             <Calendar className="w-4 h-4" />
-                                            Event Details
+                                            {dict.buy.eventDetails}
                                         </label>
                                         <div className="text-lg font-bold text-white">
                                             {(() => {
@@ -452,7 +452,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                         </div>
                                         <div className="text-sm text-muted-foreground mt-2 flex gap-2 items-center">
                                             <Info className="w-4 h-4" />
-                                            <span>Venue: {product.venue || 'Main Hall'}</span>
+                                            <span>{dict.buy.venue}: {product.venue || 'Main Hall'}</span>
                                             {product.city && (
                                                 <>
                                                     <span className="w-1 h-1 rounded-full bg-muted-foreground/50" />
@@ -469,7 +469,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
                                             <Calendar className="w-4 h-4" />
-                                            Select Date
+                                            {dict.buy.selectDate}
                                         </label>
                                         <Input
                                             type="date"
@@ -481,7 +481,7 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
                                         />
                                         <div className="text-xs text-muted-foreground mt-1 flex gap-1">
                                             <Info className="w-3 h-3" />
-                                            <span>Venue: {product.venue || 'Main Hall'}</span>
+                                            <span>{dict.buy.venue}: {product.venue || 'Main Hall'}</span>
                                             {product.city && (
                                                 <>
                                                     <span className="w-1 h-1 rounded-full bg-muted-foreground/50" />
@@ -500,9 +500,9 @@ export default function ClientBuyPage({ product, session, userBalance }: { produ
 
                         {(product.type === 'CONCIERGE' || product.type === 'THEATER') && (
                             <div className="space-y-2">
-                                <label className="text-sm font-medium text-muted-foreground">Additional Notes</label>
+                                <label className="text-sm font-medium text-muted-foreground">{dict.buy.additionalNotes}</label>
                                 <Input
-                                    placeholder="Seat preference, account details, etc..."
+                                    placeholder={dict.buy.notesPlaceholder}
                                     value={additionalInfo}
                                     onChange={e => setAdditionalInfo(e.target.value)}
                                     className="bg-secondary/20 border-white/10 text-white focus:border-primary/50 focus:ring-primary/20"
