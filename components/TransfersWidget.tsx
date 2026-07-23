@@ -31,7 +31,7 @@ export default function TransfersWidget() {
     <div className="w-full flex justify-center">
       <div 
         ref={containerRef} 
-        className="w-full min-h-[300px] overflow-hidden rounded-2xl bg-white/5 border border-white/5 shadow-2xl" 
+        className="w-full min-h-[450px] overflow-visible rounded-2xl bg-white/5 border border-white/5 shadow-2xl p-2 sm:p-4" 
       />
     </div>
   )

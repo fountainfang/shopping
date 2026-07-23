@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Home, ShoppingBag, Wallet, Settings, ShieldCheck, Plane } from "lucide-react"
+import { Home, ShoppingBag, Wallet, Settings, ShieldCheck, Plane, Car } from "lucide-react"
 import { useLanguage } from "@/lib/i18n/LanguageContext"
 import { cn } from "@/lib/utils"
 
@@ -47,6 +47,10 @@ export function Sidebar({ user }: SidebarProps) {
                 <Link href="/flights" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
                     <Plane className="w-5 h-5" />
                     {dict.common.flights}
+                </Link>
+                <Link href="/transfers" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+                    <Car className="w-5 h-5" />
+                    {dict.common.transfers}
                 </Link>
                 {user?.role === 'admin' && (
                     <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted text-destructive hover:text-destructive transition-colors">

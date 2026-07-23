@@ -187,10 +187,20 @@ export default function ClientHome({ session, dynamicGroups, variant = "landing"
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent tracking-tight">
                         {dict.common.appName}
                     </h1>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 sm:gap-6 items-center">
+                        <Link href="/">
+                            <span className="text-sm font-semibold text-white border-b-2 border-primary-foreground pb-1 transition-colors cursor-pointer">
+                                {dict.common.home}
+                            </span>
+                        </Link>
                         <Link href="/flights">
                             <span className="text-sm font-semibold text-muted-foreground hover:text-white transition-colors cursor-pointer">
                                 {dict.common.flights}
+                            </span>
+                        </Link>
+                        <Link href="/transfers">
+                            <span className="text-sm font-semibold text-muted-foreground hover:text-white transition-colors cursor-pointer">
+                                {dict.common.transfers}
                             </span>
                         </Link>
                         <LanguageSwitcher />

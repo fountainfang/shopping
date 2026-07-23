@@ -4,7 +4,8 @@ import ClientFlightsPage from "@/components/ClientFlightsPage"
 
 export const dynamic = 'force-dynamic'
 
-export default async function FlightsPage() {
+export default async function FlightsPage({ searchParams }: { searchParams?: { tab?: string } }) {
     const session = await getServerSession(authOptions)
-    return <ClientFlightsPage session={session} />
+    const initialTab = searchParams?.tab === 'transfers' ? 'transfers' : 'flights'
+    return <ClientFlightsPage session={session} initialTab={initialTab} />
 }

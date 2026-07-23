@@ -3,6 +3,7 @@ export type Language = 'en' | 'zh' | 'ru';
 export type Dictionary = {
     common: {
         appName: string;
+        home: string;
         dashboard: string;
         adminPanel: string;
         login: string;
@@ -201,6 +202,7 @@ export const dictionaries: Record<Language, Dictionary> = {
     en: {
         common: {
             appName: "V-Ticket Shop",
+            home: "Home",
             dashboard: "Dashboard",
             adminPanel: "Admin Panel",
             login: "Login",
@@ -396,6 +398,7 @@ export const dictionaries: Record<Language, Dictionary> = {
     zh: {
         common: {
             appName: "V-Ticket 商城",
+            home: "首页",
             dashboard: "仪表盘",
             adminPanel: "管理后台",
             login: "登录",
@@ -591,6 +594,7 @@ export const dictionaries: Record<Language, Dictionary> = {
     ru: {
         common: {
             appName: "Магазин V-Ticket",
+            home: "Главная",
             dashboard: "Кабинет",
             adminPanel: "Админка",
             login: "Вход",
