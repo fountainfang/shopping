@@ -13,6 +13,8 @@ export type Dictionary = {
         shop: string;
         orders: string;
         loading: string;
+        flights: string;
+        transfers: string;
     };
     settings: {
         title: string;
@@ -208,7 +210,9 @@ export const dictionaries: Record<Language, Dictionary> = {
             wallet: "Wallet",
             shop: "Shop",
             orders: "My Orders",
-            loading: "Loading..."
+            loading: "Loading...",
+            flights: "Flights",
+            transfers: "Transfers"
         },
         home: {
             title: "Premium Virtual Goods",
@@ -401,7 +405,9 @@ export const dictionaries: Record<Language, Dictionary> = {
             wallet: "钱包",
             shop: "商店",
             orders: "我的订单",
-            loading: "加载中..."
+            loading: "加载中...",
+            flights: "机票",
+            transfers: "接送机"
         },
         home: {
             title: "高级虚拟商品",
@@ -594,7 +600,9 @@ export const dictionaries: Record<Language, Dictionary> = {
             wallet: "Кошелек",
             shop: "Магазин",
             orders: "Мои заказы",
-            loading: "Загрузка..."
+            loading: "Загрузка...",
+            flights: "Авиабилеты",
+            transfers: "Трансфер"
         },
         home: {
             title: "Премиальные виртуальные товары",

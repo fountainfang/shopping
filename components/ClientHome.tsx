@@ -188,6 +188,11 @@ export default function ClientHome({ session, dynamicGroups, variant = "landing"
                         {dict.common.appName}
                     </h1>
                     <div className="flex gap-4 items-center">
+                        <Link href="/flights">
+                            <span className="text-sm font-semibold text-muted-foreground hover:text-white transition-colors cursor-pointer">
+                                {dict.common.flights}
+                            </span>
+                        </Link>
                         <LanguageSwitcher />
                         {session ? (
                             <div className="flex gap-2 sm:gap-4">

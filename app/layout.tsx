@@ -26,6 +26,26 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link href={remixIconCdn} rel="stylesheet" />
+        <script
+          {...{
+            nowprocket: "true",
+            "data-noptimize": "1",
+            "data-cfasync": "false",
+            "data-wpfc-render": "false",
+            "seraph-accel-crit": "1",
+            "data-no-defer": "1",
+          }}
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                  var script = document.createElement("script");
+                  script.async = 1;
+                  script.src = 'https://tpembars.com/NTUxNzIz.js?t=551723';
+                  document.head.appendChild(script);
+              })();
+            `,
+          }}
+        />
       </head>
       <body className={`${inter.variable} antialiased font-sans`}>
         <LanguageProvider>
