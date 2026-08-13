@@ -23,8 +23,6 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-ENV PRISMA_CLI_BINARY_TARGETS="native,linux-musl-openssl-3.0.x"
-
 # Generate Prisma Client using explicit prisma schema
 RUN npx prisma generate --schema=prisma/schema.prisma
 
