@@ -8,20 +8,17 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - .env
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - DIRECT_URL=${DIRECT_URL}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-      - NEXTAUTH_URL=${NEXTAUTH_URL}
-      - MASTER_MNEMONIC=${MASTER_MNEMONIC}
-      - WALLET_SECRET=${WALLET_SECRET}
-      - BSC_RPC_URL=${BSC_RPC_URL}
+      - NODE_ENV=production
 
-  tunnel:
-    container_name: v-ticket-tunnel
-    image: cloudflare/cloudflared:latest
-    restart: unless-stopped
-    command: tunnel --url http://web:3000
-    depends_on:
-      - web
+  # 如果不需要 Cloudflare Tunnel，使用 host Nginx 代替，以下可以保留注释
+  # tunnel:
+  #   container_name: v-ticket-tunnel
+  #   image: cloudflare/cloudflared:latest
+  #   restart: unless-stopped
+  #   command: tunnel --url http://web:3000
+  #   depends_on:
+  #     - web
