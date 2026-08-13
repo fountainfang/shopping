@@ -1,9 +1,11 @@
 Dockerfile
 .dockerignore
 node_modules
+.npm-cache
 npm-debug.log
 README.md
 .next
 .git
+.vscode
 .env*
 ! .env.production
