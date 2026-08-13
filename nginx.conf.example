@@ -5,7 +5,7 @@
 
 server {
     listen 80;
-    server_name yourdomain.com www.yourdomain.com; # 替换为您的域名或VPS IP
+    server_name 185985.xyz www.185985.xyz; # 绑定域名与 IP 40.233.114.70
 
     # 强制 HTTP 重定向到 HTTPS (在使用 certbot 之后会自动配置)
     # return 301 https://$host$request_uri;
