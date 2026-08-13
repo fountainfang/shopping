@@ -11,6 +11,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma
 RUN npm ci
+RUN npx prisma generate --schema=prisma/schema.prisma
 
 # Rebuild the source code only when needed
 FROM base AS builder
