@@ -6,6 +6,7 @@ import { useLanguage } from "@/lib/i18n/LanguageContext"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import { motion } from "framer-motion"
 import { Landmark, Ticket, Tent, Anchor, TrainFront, Music2, Star, Sparkles } from "lucide-react"
+import { isOtherCategory } from "@/lib/products"
 
 // Updated Interface matching lib/products.ts
 interface VenueInfo { name: string, nameZh?: string, nameRu?: string }
@@ -83,6 +84,13 @@ function ServiceCard({ title, href, icon: Icon, image }: { title: string, href: 
 export default function ClientHome({ session, dynamicGroups, variant = "landing" }: DirectoryProps) {
     const { dict, language } = useLanguage()
 
+    const visibleGroups = dynamicGroups.filter(group => {
+        if (!session?.user && isOtherCategory(group)) {
+            return false
+        }
+        return true
+    })
+
     const Content = (
         <main className={`relative z-10 flex-grow space-y-20 ${variant === 'landing' ? 'container mx-auto px-4 md:px-8 py-16' : ''}`}>
 
@@ -108,13 +116,13 @@ export default function ClientHome({ session, dynamicGroups, variant = "landing"
             )}
 
             {/* Dynamic Cities */}
-            {dynamicGroups.length === 0 ? (
+            {visibleGroups.length === 0 ? (
                 <div className="text-center py-20 border border-dashed border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm">
                     <p className="text-xl text-muted-foreground">No destinations available yet.</p>
                     <p className="text-sm text-muted-foreground/60 mt-2">Check back soon for new tickets!</p>
                 </div>
             ) : (
-                dynamicGroups.map((group, idx) => {
+                visibleGroups.map((group, idx) => {
                     // Resolve City Name
                     const cityDisplayName = (language === 'zh' ? group.nameZh : language === 'ru' ? group.nameRu : group.name) || group.name
 

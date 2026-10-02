@@ -21,6 +21,26 @@ export type CityGroup = {
     attractions?: AttractionInfo[];
 }
 
+export function isOtherCategory(group: { id?: string; name?: string; nameZh?: string; nameRu?: string }): boolean {
+    const idLower = (group.id || "").toLowerCase().trim();
+    const nameLower = (group.name || "").toLowerCase().trim();
+    const nameZh = (group.nameZh || "").trim();
+    const nameRu = (group.nameRu || "").toLowerCase().trim();
+
+    return (
+        idLower === "other" ||
+        idLower === "others" ||
+        nameLower === "other" ||
+        nameLower === "others" ||
+        nameZh === "其他" ||
+        nameZh === "其它" ||
+        nameZh === "其他业务" ||
+        nameRu === "другое" ||
+        nameRu === "другие" ||
+        nameRu === "другие услуги"
+    );
+}
+
 export async function getGroupedAttractions(filterDate?: string): Promise<CityGroup[]> {
     // Sync slots for attractions with active booking configurations before querying
     try {

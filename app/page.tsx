@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import ClientHome from "@/components/ClientHome"
-import { getGroupedAttractions } from "@/lib/products"
+import { getGroupedAttractions, isOtherCategory } from "@/lib/products"
 
 // Force dynamic rendering validation
 export const dynamic = 'force-dynamic'
@@ -11,7 +11,12 @@ export default async function Home() {
 
   try {
     // Fetch grouped attractions
-    const serializedGroups = await getGroupedAttractions()
+    let serializedGroups = await getGroupedAttractions()
+
+    // Hide "Other" section for unregistered / unauthenticated users
+    if (!session?.user) {
+      serializedGroups = serializedGroups.filter(group => !isOtherCategory(group))
+    }
 
     return <ClientHome session={session} dynamicGroups={serializedGroups} />
 
